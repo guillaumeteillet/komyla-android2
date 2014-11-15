@@ -4,7 +4,7 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Mot de passe (optionel)</string>
+    <string name="prompt_password">Mot de passe</string>
     <string name="action_sign_in">Connexion</string>
     <string name="action_register">Créer un compte Lizz</string>
     <string name="action_sign_in_short">Connexion à Lizz</string>
