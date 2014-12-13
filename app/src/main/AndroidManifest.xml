@@ -42,6 +42,23 @@
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
+        <activity
+            android:name=".SettingsPayementLimit"
+            android:label="@string/title_activity_settings_payement_limit" >
+        </activity>
+        <activity
+            android:name=".SettingsCodePIN"
+            android:label="@string/title_activity_settings_code_pin" >
+        </activity>
+        <activity
+            android:name=".ScanQRCodeActivity"
+            android:label="@string/title_activity_scan_QR_CODE"
+            android:screenOrientation="landscape">
+        </activity>
+        <activity
+            android:name=".PayementActivity"
+            android:label="@string/title_activity_PayementActivity" >
+        </activity>
     </application>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->

@@ -3,22 +3,15 @@ package eip.com.lizz;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import com.facebook.Session;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 
-public class HomeLizzActivity extends ActionBarActivity {
+public class PayementActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +24,7 @@ public class HomeLizzActivity extends ActionBarActivity {
         if (isLogged)
         {
 
-            Button payer = (Button) findViewById(R.id.payer);
-            payer.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Intent intent = new Intent(getBaseContext(), ScanQRCodeActivity.class);
-                    startActivity(intent);
-                }
-            });
+
         }
         else
         {
@@ -45,8 +32,6 @@ public class HomeLizzActivity extends ActionBarActivity {
             loggedUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(loggedUser);
         }
-      //  Toast.makeText(getBaseContext(), ">>>"+isLogged, Toast.LENGTH_LONG).show();
-
     }
 
     @Override

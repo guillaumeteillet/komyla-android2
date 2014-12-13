@@ -3,16 +3,44 @@
 
     <string name="app_name">Lizz</string>
     <string name="app_id">377638892395189</string>
-    <string name="hello_world">Hello world!</string>
+
     <string name="action_params">Paramètres</string>
     <string name="action_settings">Déconnexion</string>
-    <string name="title_activity_home_lizz">HomeLizzActivity</string>
-    <string name="connectwithlizzaccount">Se connecter avec un compte Lizz</string>
-    <string name="createnewlizzaccount">Créer un nouveau compte Lizz</string>
+
     <string name="firstname">Prénom</string>
     <string name="name">Nom</string>
+
     <string name="url_api_create">http://private-72ff4-lizz.apiary-mock.com/user/create</string>
     <string name="url_api_login">http://private-anon-ca973bc2f-lizz.apiary-mock.com/user/</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="urllizzcode">http://lizz.fr/code/</string>
+
+    <string name="dialog_save">Enregistrer</string>
+    <string name="dialog_cancel">Annuler</string>
+    <string name="dialog_ok">Okay</string>
+    <string name="dialog_title_confirm">Confirmation</string>
+    <string name="dialog_confirm_hint_pin">Entrez votre code PIN Lizz pour enregistrer ce paramètre.</string>
+    <string name="dialog_confirm_hint_pin_change">Entrez votre ANCIEN code PIN Lizz pour enregistrer ce paramètre.</string>
+
+    <string name="connectwithlizzaccount">Se connecter avec un compte Lizz</string>
+    <string name="createnewlizzaccount">Créer un nouveau compte Lizz</string>
+
+    <string name="title_activity_settings">Paramètres</string>
+    <string name="title_activity_settings_payement_limit">Limite de paiement</string>
+    <string name="title_activity_home_lizz">Lizz</string>
+    <string name="title_activity_settings_code_pin">Code PIN Lizz</string>
+    <string name="title_activity_scan_QR_CODE">Scan de QRCode</string>
+    <string name="title_activity_PayementActivity">Paiement</string>
+
+    <string name="hint_paiement_limit">Vous pouvez enregistrer une limite de paiement.</string>
+    <string name="hint_paiement_limit_edittext">Montant en euros</string>
+    <string name="hint_code_pin">Vous pouvez entrer votre code PIN Lizz</string>
+    <string name="hint_code_pin_edittext">Code PIN Lizz</string>
+
+    <string name="error">Erreur</string>
+    <string name="errordefault">Une erreur inconnue est survenue</string>
+    <string name="errorQRCodeEmpty">Ce QRCode semble vide !</string>
+    <string name="errorQRCodeNotLizz">Ce QRCode n\'est pas un QR Code de caisse Lizz !</string>
+    <string name="wrongPassword">Le mot de passe que vous avez saisi est incorrect.</string>
+    <string name="dialog_scan_qr_code">Scan a Lizz QRCode</string>
 
 </resources>

@@ -1,7 +1,12 @@
 package eip.com.lizz;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +28,8 @@ public class SettingsActivity extends ActionBarActivity {
 
         // Defined Array values to show in ListView
         String[] values = new String[] { "Limite de paiement",
+                "Code PIN Lizz",
+                "Contrôle Parental",
         };
 
         // Define a new Adapter
@@ -53,7 +60,18 @@ public class SettingsActivity extends ActionBarActivity {
 
                 if (itemPosition == 0)
                 {
-                    Toast.makeText(getBaseContext(), "Limite de Paiement", Toast.LENGTH_LONG).show();
+                    Intent loggedUser = new Intent(getBaseContext(), SettingsPayementLimit.class);
+                    startActivity(loggedUser);
+
+                }
+                else if (itemPosition == 1)
+                {
+                    Intent loggedUser = new Intent(getBaseContext(), SettingsCodePIN.class);
+                    startActivity(loggedUser);
+                }
+                else if (itemPosition == 2)
+                {
+                    Toast.makeText(getBaseContext(), "Contrôle Parental", Toast.LENGTH_LONG).show();
                 }
 
             }
