@@ -59,6 +59,10 @@
             android:name=".PayementActivity"
             android:label="@string/title_activity_PayementActivity" >
         </activity>
+        <activity
+            android:name=".SettingsParentalControl"
+            android:label="@string/title_activity_settings_parental_control" >
+        </activity>
     </application>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->

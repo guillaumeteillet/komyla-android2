@@ -15,60 +15,116 @@ import android.widget.EditText;
  */
 public class SaveParams {
 
-    public static void askPassword(final Activity context, final String params, final String key, final boolean isForChangePIN)
+    public static void checkParentalControlStatus(final Activity context, final String params, final String key, final boolean isForChangePIN)
     {
-        AlertDialog.Builder alert = new AlertDialog.Builder(context);
 
-        alert.setTitle(context.getResources().getString(R.string.dialog_title_confirm));
-        if (isForChangePIN)
-            alert.setMessage(context.getResources().getString(R.string.dialog_confirm_hint_pin_change));
+        SharedPreferences sharedpreferences = context.getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+        final String parentalCode = sharedpreferences.getString("eip.com.lizz.parentalcontrolpassword", "");
+        final Boolean statusParentalControl = sharedpreferences.getBoolean("eip.com.lizz.parentalcontrolstatus", false);
+
+        if (statusParentalControl)
+        {
+            final EditText input = new EditText(context);
+            input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            input.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            final AlertDialog.Builder alert = AlertBox.alertInputOk(context, context.getResources().getString(R.string.dialog_title_confirm), context.getResources().getString(R.string.dialog_confirm_hint_pin), input);
+            alert.setPositiveButton(context.getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    if (input.getText().toString().equals(parentalCode))
+                    {
+                        checkIsForChangePinOrNot(isForChangePIN, context, key, params);
+                    }
+                    else
+                    {
+                        displayError(1, context, params, key, isForChangePIN);
+                    }
+                }
+            });
+            alert.show();
+        }
         else
-            alert.setMessage(context.getResources().getString(R.string.dialog_confirm_hint_pin));
-        final EditText input = new EditText(context);
-        input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        input.setTransformationMethod(PasswordTransformationMethod.getInstance());
-        alert.setView(input);
-        alert.setPositiveButton(context.getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
+        {
+            checkIsForChangePinOrNot(isForChangePIN, context, key, params);
+        }
 
-                SharedPreferences sharedpreferences = context.getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
-                String codePin = sharedpreferences.getString("eip.com.lizz.codepinlizz", "");
-                if (input.getText().toString().equals(codePin))
-                {
-                    saveParamsString(context, key, params);
-                }
-                else
-                {
-                    displayError(1, context, params, key, isForChangePIN);
-                }
-            }
-        });
-        alert.setNegativeButton(context.getResources().getString(R.string.dialog_cancel), null);
-        alert.show();
     }
 
-    private static void saveParamsString(Activity context, String key, String value) {
+    public static void checkIsForChangePinOrNot(final Boolean isForChangePIN, final Activity context, final String key, final String params)
+    {
+        if(isForChangePIN)
+        {
+
+            final EditText input = new EditText(context);
+            input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            input.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            final AlertDialog.Builder alert = AlertBox.alertInputOk(context, context.getResources().getString(R.string.dialog_title_confirm), context.getResources().getString(R.string.dialog_confirm_hint_pin_change), input);
+            alert.setPositiveButton(context.getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    SharedPreferences sharedpreferences = context.getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+                    String codePin = sharedpreferences.getString("eip.com.lizz.codepinlizz", "");
+                    if (input.getText().toString().equals(codePin))
+                    {
+                        saveParamsString(context, key, params);
+                    }
+                    else
+                    {
+                        displayError(1, context, params, key, isForChangePIN);
+                    }
+                }
+
+            });
+            alert.setNegativeButton(context.getResources().getString(R.string.dialog_cancel), null);
+            alert.show();
+        }
+        else
+            saveParamsString(context, key, params);
+    }
+
+    public static void saveParamsString(Activity context, String key, String value) {
         SharedPreferences sharedpreferences = context.getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
         sharedpreferences.edit().putString(key, value).apply();
         context.finish();
     }
 
+    public static void saveParamsBoolean(Activity context, String key, Boolean value) {
+        SharedPreferences sharedpreferences = context.getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+        sharedpreferences.edit().putBoolean(key, value).apply();
+        context.finish();
+    }
+
     public static void displayError(int i, final Activity context, final String params, final String key, final boolean isForChangePIN) {
 
-        if (i == 1)
+        switch (i)
         {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-            alertDialogBuilder.setTitle(context.getResources().getString(R.string.error));
-            alertDialogBuilder
-                    .setMessage(context.getResources().getString(R.string.wrongPassword))
-                    .setCancelable(false)
-                    .setPositiveButton(context.getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            askPassword(context, params, key, isForChangePIN);
-                        }
-                    });
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
+            case 1:
+                AlertDialog.Builder alertDialogBuilder = AlertBox.alert(context, context.getResources().getString(R.string.error),context.getResources().getString(R.string.wrongPassword));
+                alertDialogBuilder.setPositiveButton(context.getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                checkParentalControlStatus(context, params, key, isForChangePIN);
+                            }
+                        });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+                break;
+            case 2:
+                AlertBox.alertOk(context, context.getResources().getString(R.string.error), context.getResources().getString(R.string.emptyPasswordParental));
+                break;
+            case 3:
+                AlertBox.alertOk(context, context.getResources().getString(R.string.error), context.getResources().getString(R.string.wrongPasswordConfirm));
+                break;
+            case 4:
+                AlertBox.alertOk(context, context.getResources().getString(R.string.error), context.getResources().getString(R.string.wrongOldPassword));
+                break;
+            case 5:
+                AlertBox.alertOk(context, context.getResources().getString(R.string.error), context.getResources().getString(R.string.wrongPassword));
+                break;
+            case 6:
+                AlertBox.alertOk(context, context.getResources().getString(R.string.error), context.getResources().getString(R.string.emptyPasswordPIN));
+                break;
+            default:
+                AlertBox.alertOk(context, context.getResources().getString(R.string.error), context.getResources().getString(R.string.errordefault));
+                break;
+
         }
     }
 }

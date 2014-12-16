@@ -18,7 +18,9 @@
     <string name="dialog_cancel">Annuler</string>
     <string name="dialog_ok">Okay</string>
     <string name="dialog_title_confirm">Confirmation</string>
-    <string name="dialog_confirm_hint_pin">Entrez votre code PIN Lizz pour enregistrer ce paramètre.</string>
+    <string name="dialog_confirm_hint_pin">Entrez le code du contrôle parental pour enregistrer ce paramètre.</string>
+    <string name="dialog_confirm_mdp_parental">Entrez à nouveau le mot de passe parental pour enregistrer ce paramètre</string>
+    <string name="dialog_confirm_old_mdp_parental">Entrez votre ANCIEN mot de passe parental pour enregistrer ce paramètre</string>
     <string name="dialog_confirm_hint_pin_change">Entrez votre ANCIEN code PIN Lizz pour enregistrer ce paramètre.</string>
 
     <string name="connectwithlizzaccount">Se connecter avec un compte Lizz</string>
@@ -30,17 +32,24 @@
     <string name="title_activity_settings_code_pin">Code PIN Lizz</string>
     <string name="title_activity_scan_QR_CODE">Scan de QRCode</string>
     <string name="title_activity_PayementActivity">Paiement</string>
+    <string name="title_activity_settings_parental_control">Contrôle Parental</string>
 
     <string name="hint_paiement_limit">Vous pouvez enregistrer une limite de paiement.</string>
     <string name="hint_paiement_limit_edittext">Montant en euros</string>
     <string name="hint_code_pin">Vous pouvez entrer votre code PIN Lizz</string>
     <string name="hint_code_pin_edittext">Code PIN Lizz</string>
+    <string name="hint_code_parentalControl">Vous pouvez activer le contrôle parental pour empêcher votre enfant de modifier la limite de paiement.</string>
+    <string name="hint_code_parentalControl_mdp">Mot de passe parental :</string>
 
     <string name="error">Erreur</string>
     <string name="errordefault">Une erreur inconnue est survenue</string>
     <string name="errorQRCodeEmpty">Ce QRCode semble vide !</string>
     <string name="errorQRCodeNotLizz">Ce QRCode n\'est pas un QR Code de caisse Lizz !</string>
     <string name="wrongPassword">Le mot de passe que vous avez saisi est incorrect.</string>
+    <string name="emptyPasswordParental">Si vous activez le control parental, vous devez saisir le mot de passe !</string>
+    <string name="emptyPasswordPIN">Le code PIN ne peut pas être vide.</string>
+    <string name="wrongPasswordConfirm">Les mots des passes saisies ne sont pas identique.</string>
+    <string name="wrongOldPassword">Le nouveau mot de passe n\'a pas été enregistré car vous n\'avez pas saisi l\'ancien correctement</string>
     <string name="dialog_scan_qr_code">Scan a Lizz QRCode</string>
 
 </resources>
