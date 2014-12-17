@@ -199,6 +199,8 @@ public class SettingsParentalControl extends ActionBarActivity {
         {
             parentalControl.setVisibility(View.VISIBLE);
             mdp.setVisibility(View.VISIBLE);
+            mdp.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            mdp.setTransformationMethod(PasswordTransformationMethod.getInstance());
             mdp.setText(mdpBDD);
             parentalControlStatus = true;
         }

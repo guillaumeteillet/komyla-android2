@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +26,8 @@ public class SettingsCodePIN extends ActionBarActivity {
         String codePinSave = sharedpreferences.getString("eip.com.lizz.codepinlizz", "");
 
         codePinEditText.setText(codePinSave);
+        codePinEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        codePinEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
         final Button save = (Button) findViewById(R.id.save);
         save.setOnClickListener(new View.OnClickListener() {
