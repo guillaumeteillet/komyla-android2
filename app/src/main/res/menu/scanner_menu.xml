@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="eip.com.lizz.HomeLizzActivity" >
     <item android:id="@+id/action_flash"
-        android:title="@string/action_flash_onoff"
+        android:title="@string/action_flash_on"
         android:orderInCategory="100"
         app:showAsAction="never" />
     <item android:id="@+id/action_cant_scan"

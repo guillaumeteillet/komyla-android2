@@ -6,7 +6,8 @@
 
     <string name="action_params">Paramètres</string>
     <string name="action_signout">Déconnexion</string>
-    <string name="action_flash_onoff">Allumer/Eteindre Flash</string>
+    <string name="action_flash_on">Allumer Flash</string>
+    <string name="action_flash_off">Eteindre Flash</string>
     <string name="action_cant_scan">Scan impossible ?</string>
 
     <string name="firstname">Prénom</string>
