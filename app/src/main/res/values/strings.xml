@@ -3,20 +3,17 @@
 
     <string name="app_name">Lizz</string>
     <string name="app_id">377638892395189</string>
-
     <string name="action_params">Paramètres</string>
     <string name="action_signout">Déconnexion</string>
     <string name="action_flash_on">Allumer Flash</string>
     <string name="action_flash_off">Eteindre Flash</string>
     <string name="action_cant_scan">Scan impossible ?</string>
     <string name="action_scan">Scanner le QR Code</string>
-
     <string name="firstname">Prénom</string>
     <string name="name">Nom</string>
     <string name="url_api_create">http://private-72ff4-lizz.apiary-mock.com/user/create</string>
     <string name="url_api_login">http://private-anon-ca973bc2f-lizz.apiary-mock.com/user/</string>
     <string name="urllizzcode">http://lizz.fr/code/</string>
-
     <string name="dialog_save">Enregistrer</string>
     <string name="dialog_cancel">Annuler</string>
     <string name="dialog_ok">Okay</string>
@@ -28,10 +25,8 @@
     <string name="dialog_confirm_hint_pin_change">Entrez votre ANCIEN code PIN Lizz pour enregistrer ce paramètre.</string>
     <string name="dialog_info_flash_unavialable">Impossible de démarrer le flash.</string>
     <string name="dialog_scan_qr_code">Scan a Lizz QRCode</string>
-
     <string name="connectwithlizzaccount">Se connecter avec un compte Lizz</string>
     <string name="createnewlizzaccount">Créer un nouveau compte Lizz</string>
-
     <string name="title_activity_settings">Paramètres</string>
     <string name="title_activity_settings_payement_limit">Limite de paiement</string>
     <string name="title_activity_home_lizz">Lizz</string>
@@ -41,7 +36,6 @@
     <string name="title_activity_settings_parental_control">Contrôle Parental</string>
     <string name="title_activity_payement_with_unique_code">Saisissez le code unique Lizz</string>
     <string name="title_activity_settings_scanner">Scanner</string>
-
     <string name="hint_paiement_limit">Vous pouvez enregistrer une limite de paiement.</string>
     <string name="hint_paiement_limit_edittext">Montant en euros</string>
     <string name="hint_code_pin">Vous pouvez entrer votre code PIN Lizz</string>
@@ -50,7 +44,6 @@
     <string name="hint_code_parentalControl_mdp">Mot de passe parental :</string>
     <string name="hint_scanner">Si la caméra de votre smartphone est endommagé, vous pouvez désactivé le Scanner de QRCode et utiliser uniquement la saisie de l\'identifiant unique Lizz. Voulez-vous activer le scanner ?</string>
     <string name="hint_payement_with_unique_code">Vous n\'arrivez pas à scanner le QR Code de la caisse ? Vous pouvez saisir ici le code unique de la caisse qui est inscrit en dessous du QRCode :</string>
-
     <string name="error">Erreur</string>
     <string name="errordefault">Une erreur inconnue est survenue</string>
     <string name="errorQRCodeEmpty">Ce QRCode semble vide !</string>
@@ -61,5 +54,8 @@
     <string name="wrongPasswordConfirm">Les mots des passes saisies ne sont pas identique.</string>
     <string name="wrongOldPassword">Le nouveau mot de passe n\'a pas été enregistré car vous n\'avez pas saisi l\'ancien correctement</string>
     <string name="no_unique_code">Une erreur est survenue : Le code unique Lizz n\'a pas été détécté.</string>
+    <string name="title_activity_add_edit_payment_method">AddEditPaymentMethodActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

@@ -21,6 +21,9 @@
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
@@ -93,6 +96,14 @@
         <activity
             android:name=".SettingsScanner"
             android:label="@string/title_activity_settings_scanner" >
+        </activity>
+        <activity
+            android:name="io.card.payment.CardIOActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity android:name="io.card.payment.DataEntryActivity" />
+        <activity
+            android:name=".AddEditPaymentMethodActivity"
+            android:label="@string/title_activity_add_edit_payment_method" >
         </activity>
     </application>
 
