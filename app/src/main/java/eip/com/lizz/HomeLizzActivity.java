@@ -15,13 +15,16 @@ import android.widget.Toast;
 
 public class HomeLizzActivity extends ActionBarActivity {
 
+    boolean scannerStatus;
+    boolean isLogged;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_lizz);
 
        SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
-        boolean isLogged = sharedpreferences.getBoolean("eip.com.lizz.isLogged", false);
+        isLogged = sharedpreferences.getBoolean("eip.com.lizz.isLogged", false);
         sharedpreferences.edit().putBoolean("eip.com.lizz.flash", false).apply();
 
         if (isLogged)
@@ -29,8 +32,18 @@ public class HomeLizzActivity extends ActionBarActivity {
             Button payer = (Button) findViewById(R.id.payer);
             payer.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Intent intent = new Intent(getBaseContext(), ScanQRCodeActivity.class);
-                    startActivity(intent);
+                    SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+                    scannerStatus = sharedpreferences.getBoolean("eip.com.lizz.scannerstatus", true);
+                    if (scannerStatus)
+                    {
+                        Intent intent = new Intent(getBaseContext(), ScanQRCodeActivity.class);
+                        startActivity(intent);
+                    }
+                    else
+                    {
+                        Intent intent = new Intent(getBaseContext(), PayementWithUniqueCodeActivity.class);
+                        startActivity(intent);
+                    }
                 }
             });
         }

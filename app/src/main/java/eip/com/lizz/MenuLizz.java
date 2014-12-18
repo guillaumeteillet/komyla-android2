@@ -44,12 +44,18 @@ public class MenuLizz {
             return onOrOffFlash(item, context);
         }
         if (id == R.id.action_cant_scan) {
-            return signout(context);
+            return cant_scan(context);
         }
         return false;
     }
 
-
+    public static boolean unique_code_menu(MenuItem item, Activity context) {
+        int id = item.getItemId();
+        if (id == R.id.action_scan) {
+            return scan(context);
+        }
+        return false;
+    }
 
 
     // Options des menus
@@ -86,6 +92,19 @@ public class MenuLizz {
             context.finish();
             Intent loggedUser = new Intent(context, ScanQRCodeActivity.class);
             context.startActivity(loggedUser);
+        return true;
+    }
+
+    private static boolean cant_scan(Activity context) {
+        Intent cantscan = new Intent(context, PayementWithUniqueCodeActivity.class);
+        context.startActivity(cantscan);
+        return true;
+    }
+
+    private static boolean scan(Activity context) {
+        Intent scan = new Intent(context, ScanQRCodeActivity.class);
+        context.startActivity(scan);
+        context.finish();
         return true;
     }
 }

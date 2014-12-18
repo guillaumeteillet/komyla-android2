@@ -145,8 +145,10 @@ public class ScanQRCodeActivity extends Activity
                             if (contents.length() >= 20) {
                                 String urlLizzOrNot = contents.substring(0, 20);
                                 if (urlLizzOrNot.equals(getResources().getString(R.string.urllizzcode))) {
-                                    Intent loggedUser = new Intent(getBaseContext(), PayementActivity.class);
-                                    startActivity(loggedUser);
+                                    String unique_code = contents.replace(getResources().getString(R.string.urllizzcode), "");
+                                    Intent payement = new Intent(getBaseContext(), PayementActivity.class);
+                                    payement.putExtra("unique_code", unique_code);
+                                    startActivity(payement);
                                     finish();
                                 } else {
                                     errorQRCode();

@@ -29,6 +29,7 @@ public class SettingsActivity extends ActionBarActivity {
         String[] values = new String[] { "Limite de paiement",
                 "Code PIN Lizz",
                 "Contrôle Parental",
+                "Scanner",
         };
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -58,6 +59,9 @@ public class SettingsActivity extends ActionBarActivity {
                         break;
                     case 2:
                         loggedUser = new Intent(getBaseContext(), SettingsParentalControl.class);
+                        startActivity(loggedUser);
+                    case 3:
+                        loggedUser = new Intent(getBaseContext(), SettingsScanner.class);
                         startActivity(loggedUser);
                 }
 
