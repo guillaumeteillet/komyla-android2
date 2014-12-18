@@ -1,81 +1,230 @@
 package eip.com.lizz;
 
-import android.app.AlertDialog;
+import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.os.Handler;
+import android.util.Log;
+
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.Button;
+
+import android.hardware.Camera;
+import android.hardware.Camera.PreviewCallback;
+import android.hardware.Camera.AutoFocusCallback;
+import android.hardware.Camera.Parameters;
+import android.hardware.Camera.Size;
+
+import android.widget.TextView;
+import android.graphics.ImageFormat;
 import android.widget.Toast;
 
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
+/* Import ZBar Class files */
+import net.sourceforge.zbar.ImageScanner;
+import net.sourceforge.zbar.Image;
+import net.sourceforge.zbar.Symbol;
+import net.sourceforge.zbar.SymbolSet;
+import net.sourceforge.zbar.Config;
 
+public class ScanQRCodeActivity extends Activity
+{
+    private Camera mCamera;
+    private CameraPreview mPreview;
+    private Handler autoFocusHandler;
 
-public class ScanQRCodeActivity extends ActionBarActivity {
+    TextView scanText;
+    Button scanButton;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_lizz);
+    private Toast msg;
 
-            IntentIntegrator integrator = new IntentIntegrator(this);
-            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-            integrator.setPrompt(getResources().getString(R.string.dialog_scan_qr_code));
-            integrator.setResultDisplayDuration(0);
-            integrator.setScanningRectangle(700,700);
-            integrator.setCameraId(0);
-            integrator.initiateScan();
+    ImageScanner scanner;
 
+    private boolean barcodeScanned = false;
+    private boolean previewing = true;
+
+    static {
+        System.loadLibrary("iconv");
     }
 
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        if (result != null) {
-            String contents = result.getContents();
-            if (contents != null) {
-                if (contents.length() >= 20) {
-                    String urlLizzOrNot = contents.substring(0, 20);
-                    if (urlLizzOrNot.equals(getResources().getString(R.string.urllizzcode))) {
-                        Intent loggedUser = new Intent(getBaseContext(), PayementActivity.class);
-                        startActivity(loggedUser);
-                        finish();
-                    } else {
-                        errorQRCode();
-                    }
-                }
-                else
-                {
-                    errorQRCode();
-                }
-            } else {
-               finish();
-            }
+        setContentView(R.layout.activity_scan);
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        autoFocusHandler = new Handler();
+        mCamera = getCameraInstance();
+
+        scanner = new ImageScanner();
+        scanner.setConfig(0, Config.X_DENSITY, 3);
+        scanner.setConfig(0, Config.Y_DENSITY, 3);
+
+        mPreview = new CameraPreview(this, mCamera, previewCb, autoFocusCB);
+        FrameLayout preview = (FrameLayout)findViewById(R.id.cameraPreview);
+        preview.addView(mPreview);
+    }
+
+    public void onPause() {
+        super.onPause();
+        releaseCamera();
+    }
+
+    public void onStop() {
+        super.onStop();
+        releaseCamera();
+    }
+
+    /** A safe way to get an instance of the Camera object. */
+    public static Camera getCameraInstance(){
+        Camera c = null;
+        try {
+            c = Camera.open();
+        } catch (Exception e){
+        }
+        return c;
+    }
+
+    private void releaseCamera() {
+        if (mCamera != null) {
+            previewing = false;
+            mCamera.setPreviewCallback(null);
+            mPreview.getHolder().removeCallback(mPreview);
+            mCamera.release();
+            mCamera = null;
+            scanner = null;
+            mPreview = null;
         }
     }
 
+    private Runnable doAutoFocus = new Runnable() {
+        public void run() {
+            /*if (previewing)
+                mCamera.autoFocus(autoFocusCB);*/
+        }
+    };
+
+    PreviewCallback previewCb = new PreviewCallback() {
+        public void onPreviewFrame(byte[] data, Camera camera) {
+            Camera.Parameters parameters = camera.getParameters();
+            SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+            Boolean flash = sharedpreferences.getBoolean("eip.com.lizz.flash", false);
+            if (flash) {
+                parameters.setFlashMode(Parameters.FLASH_MODE_TORCH);
+            }
+            else {
+                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+            }
+            mCamera.setParameters(parameters);
+            Size size = parameters.getPreviewSize();
+
+            Image barcode = new Image(size.width, size.height, "Y800");
+            barcode.setData(data);
+
+            int result = scanner.scanImage(barcode);
+
+            if (result != 0) {
+                previewing = false;
+                mCamera.setPreviewCallback(null);
+                mCamera.stopPreview();
+
+                SymbolSet syms = scanner.getResults();
+                for (Symbol sym : syms) {
+                        String contents = sym.getData();
+                        if (contents != null) {
+                            if (contents.length() >= 20) {
+                                String urlLizzOrNot = contents.substring(0, 20);
+                                if (urlLizzOrNot.equals(getResources().getString(R.string.urllizzcode))) {
+                                    Intent loggedUser = new Intent(getBaseContext(), PayementActivity.class);
+                                    startActivity(loggedUser);
+                                    finish();
+                                } else {
+                                    errorQRCode();
+                                }
+                            }
+                            else
+                            {
+                                errorQRCode();
+                            }
+                        } else {
+                            finish();
+                        }
+                    barcodeScanned = true;
+                }
+            }
+        }
+    };
+
     private void errorQRCode()
     {
-        Toast.makeText(getBaseContext(), getResources().getString(R.string.errorQRCodeNotLizz), Toast.LENGTH_LONG).show();
-        Intent loggedUser = new Intent(getBaseContext(), ScanQRCodeActivity.class);
-        startActivity(loggedUser);
-        finish();
+
+        mCamera.setPreviewCallback(previewCb);
+        mCamera.startPreview();
+        previewing = true;
+
+        if(null == msg)
+        {
+            msg = Toast.makeText(getBaseContext(), getResources().getString(R.string.errorQRCodeNotLizz), Toast.LENGTH_SHORT);
+            msg.setGravity(Gravity.CENTER, msg.getXOffset() / 2, msg.getYOffset() / 2);
+            msg.show();
+
+            new Handler().postDelayed(new Runnable()
+            {
+                public void run()
+                {
+                    msg = null;
+
+                }
+            }, 2000);
+
+        }
+        //mCamera.autoFocus(autoFocusCB);
+    }
+
+    AutoFocusCallback autoFocusCB = new AutoFocusCallback() {
+        public void onAutoFocus(boolean success, Camera camera) {
+           // autoFocusHandler.postDelayed(doAutoFocus, 1000);
+        }
+    };
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        if (mCamera == null)
+        {
+            finish();
+        }
+    }
+
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        boolean available = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
+
+        if (!available)
+            menu.removeItem(R.id.action_flash);
+
+        return true;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.scanner_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return MenuLizz.main_menu(item, getBaseContext());
+        return MenuLizz.scan_menu(item, ScanQRCodeActivity.this);
     }
 }

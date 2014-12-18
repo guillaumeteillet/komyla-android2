@@ -22,6 +22,7 @@ public class HomeLizzActivity extends ActionBarActivity {
 
        SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
         boolean isLogged = sharedpreferences.getBoolean("eip.com.lizz.isLogged", false);
+        sharedpreferences.edit().putBoolean("eip.com.lizz.flash", false).apply();
 
         if (isLogged)
         {
@@ -50,5 +51,12 @@ public class HomeLizzActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
             return MenuLizz.main_menu(item, getBaseContext());
+    }
+
+    public void onResume()
+    {
+        super.onResume();
+        SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+        sharedpreferences.edit().putBoolean("eip.com.lizz.flash", false).apply();
     }
 }

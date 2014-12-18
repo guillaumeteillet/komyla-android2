@@ -5,7 +5,9 @@
     <string name="app_id">377638892395189</string>
 
     <string name="action_params">Paramètres</string>
-    <string name="action_settings">Déconnexion</string>
+    <string name="action_signout">Déconnexion</string>
+    <string name="action_flash_onoff">Allumer/Eteindre Flash</string>
+    <string name="action_cant_scan">Scan impossible ?</string>
 
     <string name="firstname">Prénom</string>
     <string name="name">Nom</string>
@@ -18,10 +20,12 @@
     <string name="dialog_cancel">Annuler</string>
     <string name="dialog_ok">Okay</string>
     <string name="dialog_title_confirm">Confirmation</string>
+    <string name="dialog_title_info">Information</string>
     <string name="dialog_confirm_hint_pin">Entrez le code du contrôle parental pour enregistrer ce paramètre.</string>
     <string name="dialog_confirm_mdp_parental">Entrez à nouveau le mot de passe parental pour enregistrer ce paramètre</string>
     <string name="dialog_confirm_old_mdp_parental">Entrez votre ANCIEN mot de passe parental pour enregistrer ce paramètre</string>
     <string name="dialog_confirm_hint_pin_change">Entrez votre ANCIEN code PIN Lizz pour enregistrer ce paramètre.</string>
+    <string name="dialog_info_flash_unavialable">Impossible de démarrer le flash.</string>
 
     <string name="connectwithlizzaccount">Se connecter avec un compte Lizz</string>
     <string name="createnewlizzaccount">Créer un nouveau compte Lizz</string>
@@ -30,7 +34,7 @@
     <string name="title_activity_settings_payement_limit">Limite de paiement</string>
     <string name="title_activity_home_lizz">Lizz</string>
     <string name="title_activity_settings_code_pin">Code PIN Lizz</string>
-    <string name="title_activity_scan_QR_CODE">Scan de QRCode</string>
+    <string name="title_activity_scan_QR_CODE">Scannez un QRCode Lizz</string>
     <string name="title_activity_PayementActivity">Paiement</string>
     <string name="title_activity_settings_parental_control">Contrôle Parental</string>
 
