@@ -26,7 +26,7 @@ public class HomeLizzActivity extends ActionBarActivity {
 
        SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
         isLogged = sharedpreferences.getBoolean("eip.com.lizz.isLogged", false);
-        sharedpreferences.edit().putBoolean("eip.com.lizz.flash", false).apply();
+        sharedpreferences.edit().putBoolean("eip.com.lizz.flash", false).apply(); // flash off 
 
         if (isLogged)
         {
