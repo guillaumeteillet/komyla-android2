@@ -1,12 +1,15 @@
 package eip.com.lizz;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import io.card.payment.CardIOActivity;
 import io.card.payment.CreditCard;
@@ -20,6 +23,14 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_payment_method);
+
+
+        // Mathieu : Si l'appareil photo n'existe pas, rendre le scan de carte bancaire impossible.
+        final boolean apn = CameraPreview.checkCameraHardware(getBaseContext());
+        final Button scan = (Button) findViewById(R.id.button);
+        if (!apn)
+            scan.setVisibility(View.GONE);
+
     }
 
     public void onScanPress(View v) {

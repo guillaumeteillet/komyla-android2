@@ -27,6 +27,7 @@ public class SettingsScanner  extends ActionBarActivity {
     Switch scanner;
     ToggleButton scannerOld;
     Boolean scannerStatus;
+    TextView error_camera2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,47 +35,61 @@ public class SettingsScanner  extends ActionBarActivity {
 
         SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
         scannerStatus = sharedpreferences.getBoolean("eip.com.lizz.scannerstatus", true);
+        final boolean apn = CameraPreview.checkCameraHardware(getBaseContext());
 
         if (Build.VERSION.SDK_INT >= 14) {
             setContentView(R.layout.activity_settings_scanner);
             scanner = (Switch) findViewById(R.id.onOrOff);
-            scanner.setChecked(scannerStatus);
-            scanner.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            if (!apn) {
+                scanner.setChecked(false);
+                scanner.setEnabled(false);
+                error_camera2 = (TextView) findViewById(R.id.error_camera);
+                error_camera2.setText(getResources().getString(R.string.error_camera_txt));
+            }
+            else
+            {
+                scanner.setChecked(scannerStatus);
+                scanner.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView,
-                                             boolean isChecked) {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView,
+                                                 boolean isChecked) {
 
-                    if(isChecked){
-                        scannerStatus = true;
+                        if (isChecked) {
+                            scannerStatus = true;
+                        } else {
+                            scannerStatus = false;
+                        }
                     }
-                    else
-                    {
-                        scannerStatus = false;
-                    }
-                }
-            });
+                });
+            }
         }
         else
         {
             setContentView(R.layout.activity_settings_scanner_old);
             scannerOld = (ToggleButton) findViewById(R.id.onOrOff);
-            scannerOld.setChecked(scannerStatus);
-            scannerOld.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            if (!apn) {
+                scannerOld.setChecked(false);
+                scannerOld.setEnabled(false);
+                error_camera2 = (TextView) findViewById(R.id.error_camera);
+                error_camera2.setText(getResources().getString(R.string.error_camera_txt));
+            }
+            else {
+                scannerOld.setChecked(scannerStatus);
+                scannerOld.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView,
-                                             boolean isChecked) {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView,
+                                                 boolean isChecked) {
 
-                    if(isChecked){
-                        scannerStatus = true;
+                        if (isChecked) {
+                            scannerStatus = true;
+                        } else {
+                            scannerStatus = false;
+                        }
                     }
-                    else
-                    {
-                        scannerStatus = false;
-                    }
-                }
-            });
+                });
+            }
         }
 
         final Button save = (Button) findViewById(R.id.save);

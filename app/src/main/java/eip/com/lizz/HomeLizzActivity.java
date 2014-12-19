@@ -3,6 +3,7 @@ package eip.com.lizz;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,7 +35,8 @@ public class HomeLizzActivity extends ActionBarActivity {
                 public void onClick(View v) {
                     SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
                     scannerStatus = sharedpreferences.getBoolean("eip.com.lizz.scannerstatus", true);
-                    if (scannerStatus)
+                    boolean apn = CameraPreview.checkCameraHardware(getBaseContext());
+                    if (scannerStatus && apn)
                     {
                         Intent intent = new Intent(getBaseContext(), ScanQRCodeActivity.class);
                         startActivity(intent);

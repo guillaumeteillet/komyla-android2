@@ -227,15 +227,17 @@ public class ScanQRCodeActivity extends Activity
 
         if (!available)
             menu.removeItem(R.id.action_flash);
-
-        SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
-        Boolean flashlight = sharedpreferences.getBoolean("eip.com.lizz.flash", false);
-
-        MenuItem flash = menu.findItem(R.id.action_flash);
-        if (flashlight)
-            flash.setTitle(R.string.action_flash_off);
         else
-            flash.setTitle(R.string.action_flash_on);
+        {
+            SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+            Boolean flashlight = sharedpreferences.getBoolean("eip.com.lizz.flash", false);
+
+            MenuItem flash = menu.findItem(R.id.action_flash);
+            if (flashlight)
+                flash.setTitle(R.string.action_flash_off);
+            else
+                flash.setTitle(R.string.action_flash_on);
+        }
 
         return true;
     }

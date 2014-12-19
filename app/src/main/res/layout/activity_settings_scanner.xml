@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:gravity="center_horizontal"
-            android:text="@string/hint_scanner" />
+            android:text="@string/hint_code_parentalControl" />
 
         <Switch
             android:layout_width="wrap_content"
@@ -43,6 +43,16 @@
             android:id="@+id/onOrOff"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text=""
+            android:id="@+id/error_camera"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal" />
+
 
     </LinearLayout>
 

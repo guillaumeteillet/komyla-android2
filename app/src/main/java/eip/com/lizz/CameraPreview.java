@@ -3,6 +3,7 @@ package eip.com.lizz;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -98,6 +99,16 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             mCamera.autoFocus(autoFocusCallback);
         } catch (Exception e){
             Log.d("DBG", "Error starting camera preview: " + e.getMessage());
+        }
+    }
+
+    public static boolean checkCameraHardware(Context context) {
+        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+            // this device has a camera
+            return true;
+        } else {
+            // no camera on this device
+            return false;
         }
     }
 }
