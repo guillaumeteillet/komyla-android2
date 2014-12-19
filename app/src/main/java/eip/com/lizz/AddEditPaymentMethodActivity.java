@@ -36,7 +36,7 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        String card_number = null, card_number_hide = null, card_number2 = null, cvv = null;
+        String card_number = "", card_number_hide = "", card_number2 = "", cvv = "";
         int expiryMonth = 0, expityYear = 0;
 
         if (requestCode == MY_SCAN_REQUEST_CODE) {

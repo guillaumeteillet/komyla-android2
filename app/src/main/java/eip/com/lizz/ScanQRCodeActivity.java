@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -145,6 +146,17 @@ public class ScanQRCodeActivity extends Activity
                             if (contents.length() >= 20) {
                                 String urlLizzOrNot = contents.substring(0, 20);
                                 if (urlLizzOrNot.equals(getResources().getString(R.string.urllizzcode))) {
+                                    MediaPlayer mp = MediaPlayer.create(ScanQRCodeActivity.this, R.raw.beep);
+                                    mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+                                        @Override
+                                        public void onCompletion(MediaPlayer mp) {
+                                            // TODO Auto-generated method stub
+                                            mp.release();
+                                        }
+
+                                    });
+                                    mp.start();
                                     String unique_code = contents.replace(getResources().getString(R.string.urllizzcode), "");
                                     Intent payement = new Intent(getBaseContext(), PayementActivity.class);
                                     payement.putExtra("unique_code", unique_code);
