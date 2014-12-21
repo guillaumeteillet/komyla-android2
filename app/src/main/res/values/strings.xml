@@ -16,6 +16,8 @@
 
     <string name="url_api_create">http://private-72ff4-lizz.apiary-mock.com/user/create</string>
     <string name="url_api_login">http://private-anon-ca973bc2f-lizz.apiary-mock.com/user/</string>
+    <string name="url_api_final">http://163.5.84.225:8000/</string>
+    <string name="url_api_final_v1">http://163.5.84.225:8000/api/v1/</string>
     <string name="urllizzcode">http://lizz.fr/code/</string>
 
     <string name="dialog_save">Enregistrer</string>
@@ -65,4 +67,12 @@
     <string name="no_unique_code">Une erreur est survenue : Le code unique Lizz n\'a pas été détécté.</string>
     <string name="error_camera_txt">Aucune appareil photo n\'a été détécté sur votre téléphone : Le scanner est inutilisable.</string>
 
+    <string name="error_server_ok_but_fail">Le serveur d\'authentification Lizz est joignable mais la création de votre compte a échoué. Veuillez réessayer ultérieurement. </string>
+    <string name="code000">Vérifiez votre connexion internet ! Le serveur d\'authentification Lizz est injoignable. Code d\'erreur Lizz : 000. Code HTTP : 118</string>
+    <string name="code001">Code d\'erreur Lizz : 001. Code HTTP : 403</string>
+    <string name="code002">Description : Le serveur n\'a pas reçu le prénom. Code d\'erreur Lizz : 002. Code HTTP : 400</string>
+    <string name="code003">Description : Le serveur n\'a pas reçu le nom. Code d\'erreur Lizz : 003. Code HTTP : 400</string>
+    <string name="code004">Description : Le serveur n\'a pas reçu l\'email. Code d\'erreur Lizz : 004. Code HTTP : 400</string>
+    <string name="code005">Description : Le serveur n\'a pas reçu le mot de passe. Code d\'erreur Lizz : 005. Code HTTP : 400</string>
+    <string name="code006">Description : Erreur interne au serveur, veuillez réessayer. Code d\'erreur Lizz : 006. Code HTTP : 500</string>
 </resources>

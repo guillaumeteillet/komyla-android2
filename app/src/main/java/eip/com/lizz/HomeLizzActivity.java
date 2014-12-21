@@ -3,15 +3,12 @@ package eip.com.lizz;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 
 public class HomeLizzActivity extends ActionBarActivity {
@@ -26,7 +23,7 @@ public class HomeLizzActivity extends ActionBarActivity {
 
        SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
         isLogged = sharedpreferences.getBoolean("eip.com.lizz.isLogged", false);
-        sharedpreferences.edit().putBoolean("eip.com.lizz.flash", false).apply(); // flash off 
+        sharedpreferences.edit().putBoolean("eip.com.lizz.flash", false).apply(); // flash off
 
         if (isLogged)
         {
