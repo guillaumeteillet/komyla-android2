@@ -37,6 +37,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,26 +49,11 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
-/**
- * A login screen that offers login via email/password.
+    private APIloginUser mAuthTask2 = null;
+    private APIgetCsrf mAuthTask = null;
 
- */
-public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private UserLoginTask mAuthTask = null;
-
-    // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
@@ -78,7 +64,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
@@ -98,7 +83,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                mAuthTask = null;
+                mAuthTask2 = null;
+                if (API.isOnline(LoginActivity.this))
+                    attemptLogin();
+                else
+                    AlertBox.alertOk(LoginActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code000));
             }
         });
 
@@ -108,37 +98,26 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
 
     private void populateAutoComplete() {
         if (VERSION.SDK_INT >= 14) {
-            // Use ContactsContract.Profile (API 14+)
             getLoaderManager().initLoader(0, null, this);
         } else if (VERSION.SDK_INT >= 8) {
-            // Use AccountManager (API 8+)
             new SetupEmailAutoCompleteTask().execute(null, null);
         }
     }
 
-
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
     public void attemptLogin() {
         if (mAuthTask != null) {
             return;
         }
 
-        // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
-        // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        final String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
@@ -147,49 +126,53 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
-        }
-        else if (TextUtils.isEmpty(password)) {
+        } else if (TextUtils.isEmpty(password)) {
             mPasswordView.setError(getString(R.string.error_field_required));
             focusView = mPasswordView;
             cancel = true;
         }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
             InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-
-            // check if no view has focus:
             View view = this.getCurrentFocus();
             if (view != null) {
                 inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            mAuthTask = new APIgetCsrf(LoginActivity.this);
+            mAuthTask.setOnTaskFinishedEvent(new APIgetCsrf.OnTaskExecutionFinished() {
+                @Override
+                public void OnTaskFihishedEvent(String tokenCSFR, List<Cookie> cookies) {
+                    mAuthTask2 = new APIloginUser(mEmailView.getText().toString(), mPasswordView.getText().toString(), tokenCSFR, LoginActivity.this, cookies);
+                    mAuthTask2.setOnTaskFinishedEvent(new APIloginUser.OnTaskExecutionFinished() {
+                        @Override
+                        public void OnTaskFihishedEvent(JSONObject jObj) {
+
+                            showProgress(false);
+                            APIloginUser.checkErrorsAndLaunch(jObj, LoginActivity.this, getBaseContext());
+                        }
+
+                    });
+                    mAuthTask2.execute();
+                }
+
+            });
+            mAuthTask.execute();
+
         }
     }
+
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
         if (email.contains("@") && email.contains("."))
             return true;
         else
             return false;
     }
 
-    /**
-     * Shows the progress UI and hides the login form.
-     */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
@@ -211,8 +194,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
                 }
             });
         } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
@@ -221,17 +202,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(this,
-                // Retrieve data rows for the device user's 'profile' contact.
                 Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
                         ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
-
-                // Select only email addresses.
                 ContactsContract.Contacts.Data.MIMETYPE +
                         " = ?", new String[]{ContactsContract.CommonDataKinds.Email
-                                                                     .CONTENT_ITEM_TYPE},
-
-                // Show primary email addresses first. Note that there won't be
-                // a primary email address if the user hasn't specified one.
+                .CONTENT_ITEM_TYPE},
                 ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
     }
 
@@ -262,17 +237,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         int IS_PRIMARY = 1;
     }
 
-    /**
-     * Use an AsyncTask to fetch the user's email addresses on a background thread, and update
-     * the email text field with results on the main UI thread.
-     */
     class SetupEmailAutoCompleteTask extends AsyncTask<Void, Void, List<String>> {
 
         @Override
         protected List<String> doInBackground(Void... voids) {
             ArrayList<String> emailAddressCollection = new ArrayList<String>();
 
-            // Get all emails from the user's contacts and copy them to a list.
             ContentResolver cr = getContentResolver();
             Cursor emailCur = cr.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, null,
                     null, null, null);
@@ -286,14 +256,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             return emailAddressCollection;
         }
 
-	    @Override
-	    protected void onPostExecute(List<String> emailAddressCollection) {
-	       addEmailsToAutoComplete(emailAddressCollection);
-	    }
+        @Override
+        protected void onPostExecute(List<String> emailAddressCollection) {
+            addEmailsToAutoComplete(emailAddressCollection);
+        }
     }
 
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(LoginActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
@@ -301,109 +270,4 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         mEmailView.setAdapter(adapter);
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-        private String url;
-        private String email_encode;
-
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-
-            email_encode = mEmail.replace("@", "%40");
-            url = getResources().getString(R.string.url_api_login)+email_encode;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            Log.d("APPEL API", ">>"+url);
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpGet httpget = new HttpGet(url);
-            HttpResponse response;
-            try {
-                response = httpclient.execute(httpget);
-                HttpEntity entity = response.getEntity();
-
-                if (entity != null) {
-                    InputStream instream = entity.getContent();
-                    String result = convertStreamToString(instream);
-
-                    JSONObject jObj = new JSONObject(result);
-
-                    /* TODO :
-
-                        Quand Romuald aurait terminé l'authentification API :
-
-                        - Gestion d'erreur d'authentifiation
-                        - Changer l'URL de l'API
-                        - Gestion des "Sessions"
-
-                    */
-
-                    SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
-                    sharedpreferences.edit().putBoolean("eip.com.lizz.isLogged", true).apply();
-
-                    Intent loggedUser = new Intent(getBaseContext(), HomeLizzActivity.class);
-                    loggedUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);// On supprime les vues précédentes, l'utilisateur est connecté.
-                    loggedUser.putExtra("user_info",jObj.toString());
-                    startActivity(loggedUser);
-
-                    instream.close();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return true;
-        }
-
-        private String convertStreamToString(InputStream is) throws Exception {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            StringBuilder sb = new StringBuilder();
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                sb.append(line);
-            }
-            is.close();
-            return sb.toString();
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
 }
-
-
-

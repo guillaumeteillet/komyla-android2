@@ -28,6 +28,7 @@
     <string name="dialog_confirm_hint_pin">Entrez le code du contrôle parental pour enregistrer ce paramètre.</string>
     <string name="dialog_confirm_mdp_parental">Entrez à nouveau le mot de passe parental pour enregistrer ce paramètre</string>
     <string name="dialog_confirm_old_mdp_parental">Entrez votre ANCIEN mot de passe parental pour enregistrer ce paramètre</string>
+    <string name="dialog_confirm_mdp">Confirmer votre mot de passe</string>
     <string name="dialog_confirm_hint_pin_change">Entrez votre ANCIEN code PIN Lizz pour enregistrer ce paramètre.</string>
     <string name="dialog_info_flash_unavialable">Impossible de démarrer le flash.</string>
     <string name="dialog_scan_qr_code">Scan a Lizz QRCode</string>
@@ -68,6 +69,7 @@
     <string name="error_camera_txt">Aucune appareil photo n\'a été détécté sur votre téléphone : Le scanner est inutilisable.</string>
 
     <string name="error_server_ok_but_fail">Le serveur d\'authentification Lizz est joignable mais la création de votre compte a échoué. Veuillez réessayer ultérieurement. </string>
+    <string name="error_server_ok_but_fail_login">Le serveur d\'authentification Lizz est joignable mais la connexion a échouée. Veuillez réessayer ultérieurement. </string>
     <string name="code000">Vérifiez votre connexion internet ! Le serveur d\'authentification Lizz est injoignable. Code d\'erreur Lizz : 000. Code HTTP : 118</string>
     <string name="code001">Code d\'erreur Lizz : 001. Code HTTP : 403</string>
     <string name="code002">Description : Le serveur n\'a pas reçu le prénom. Code d\'erreur Lizz : 002. Code HTTP : 400</string>
@@ -75,4 +77,8 @@
     <string name="code004">Description : Le serveur n\'a pas reçu l\'email. Code d\'erreur Lizz : 004. Code HTTP : 400</string>
     <string name="code005">Description : Le serveur n\'a pas reçu le mot de passe. Code d\'erreur Lizz : 005. Code HTTP : 400</string>
     <string name="code006">Description : Erreur interne au serveur, veuillez réessayer. Code d\'erreur Lizz : 006. Code HTTP : 500</string>
+    <string name="code051">Code d\'erreur Lizz : 051. Code HTTP : 403</string>
+    <string name="code052">Description : Aucun compte n\'existe avec cette adresse email. Code d\'erreur Lizz : 052. Code HTTP : 400</string>
+    <string name="code053">Description : Le mot de passe de ce compte est erroné. Code d\'erreur Lizz : 053. Code HTTP : 400</string>
+    <string name="code056">Description : Erreur interne au serveur, veuillez réessayer. Code d\'erreur Lizz : 056. Code HTTP : 500</string>
 </resources>

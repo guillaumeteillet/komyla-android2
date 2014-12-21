@@ -94,7 +94,7 @@
                     android:layout_height="50dp"
                     android:hint="@string/prompt_password"
                     android:imeActionId="@+id/login"
-                    android:imeOptions="actionSend"
+                    android:imeOptions="actionDone"
                     android:focusable="true"
                     android:inputType="textPassword"
                     android:layout_marginTop="10dp"

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -33,5 +35,26 @@ public class API {
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
+
+    public static JSONObject prepareJson(int responseCode, InputStream inputStream, JSONObject jObj, int responseCodeElse) throws Exception {
+        String result = "";
+        if(inputStream != null)
+        {
+            result = API.convertStreamToString(inputStream);
+            if (!result.equals("") && !result.equals("CSRF mismatch"))
+            {
+                jObj = new JSONObject(result);
+            }
+            else
+                jObj = new JSONObject();
+            jObj.put("responseCode",responseCode);
+        }
+        else
+        {
+            jObj = new JSONObject();
+            jObj.put("responseCode", responseCodeElse);
+        }
+        return jObj;
+    }
 
 }

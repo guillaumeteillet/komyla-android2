@@ -1,6 +1,9 @@
 package eip.com.lizz;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -21,12 +24,10 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- * Created by guillaume on 20/12/14.
+ * Created by guillaume on 21/12/14.
  */
-public class APIcreateUser extends AsyncTask<Void, Void, JSONObject> {
+public class APIloginUser extends AsyncTask<Void, Void, JSONObject> {
 
-    private final String mFirstname;
-    private final String mSurname;
     private final String mEmail;
     private final String mPassword;
     private final String mtokenCSFR;
@@ -48,9 +49,7 @@ public class APIcreateUser extends AsyncTask<Void, Void, JSONObject> {
         }
     }
 
-    APIcreateUser(String firstname, String surname, String email, String password, String tokenCSFR, Activity context, List<Cookie> cookies) {
-        mFirstname = firstname;
-        mSurname = surname;
+    APIloginUser(String email, String password, String tokenCSFR, Activity context, List<Cookie> cookies) {
         mEmail = email;
         mPassword = password;
         contextHere = context;
@@ -61,7 +60,7 @@ public class APIcreateUser extends AsyncTask<Void, Void, JSONObject> {
     @Override
     protected JSONObject doInBackground(Void... params) {
         JSONObject jObj = null;
-        String url_api = contextHere.getResources().getString(R.string.url_api_final_v1)+"user/create";
+        String url_api = contextHere.getResources().getString(R.string.url_api_final_v1)+"session/create";
         DefaultHttpClient httpClient = new DefaultHttpClient();
         httpClient.getParams().setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.BROWSER_COMPATIBILITY);
         httpClient.setCookieStore(new BasicCookieStore());
@@ -74,11 +73,8 @@ public class APIcreateUser extends AsyncTask<Void, Void, JSONObject> {
             JSONObject data = new JSONObject();
             try {
                 data.put("_csrf", mtokenCSFR);
-                data.put("firstname", mFirstname);
-                data.put("surname", mSurname);
                 data.put("email", mEmail);
                 data.put("password", mPassword);
-                data.put("passwordConfirmation", mPassword);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -118,5 +114,41 @@ public class APIcreateUser extends AsyncTask<Void, Void, JSONObject> {
     @Override
     protected void onPostExecute(final JSONObject jObj) {
         this._task_finished_event.OnTaskFihishedEvent(jObj);
+    }
+
+    public static void checkErrorsAndLaunch(JSONObject jObj, Activity activity, Context context) {
+        try {
+            if (jObj.get("responseCode").toString().equals("200"))
+            {
+                activity.finish();
+                SharedPreferences sharedpreferences = activity.getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+                sharedpreferences.edit().putBoolean("eip.com.lizz.isLogged", true).apply();
+
+                Intent loggedUser = new Intent(context, HomeLizzActivity.class);
+                loggedUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);// On supprime les vues précédentes, l'utilisateur est connecté.
+                loggedUser.putExtra("user_info",jObj.toString());
+                context.startActivity(loggedUser);
+            }
+            else if(jObj.get("responseCode").toString().equals("403"))
+            {
+                AlertBox.alertOk(activity, context.getResources().getString(R.string.error), context.getResources().getString(R.string.error_server_ok_but_fail_login)+context.getResources().getString(R.string.code051));
+            }
+            else if (jObj.get("responseCode").toString().equals("400"))
+            {
+                String error = jObj.getString("message");
+                if (error.equals("Unknown user"))
+                    AlertBox.alertOk(activity, context.getResources().getString(R.string.error),  context.getResources().getString(R.string.error_server_ok_but_fail_login)+context.getResources().getString(R.string.code052));
+                else if (error.equals("Invalid password"))
+                    AlertBox.alertOk(activity, context.getResources().getString(R.string.error),  context.getResources().getString(R.string.error_server_ok_but_fail_login)+context.getResources().getString(R.string.code053));
+                else if (error.equals("Invalid password"))
+                    AlertBox.alertOk(activity, context.getResources().getString(R.string.error),  context.getResources().getString(R.string.error_server_ok_but_fail_login)+context.getResources().getString(R.string.code053));
+            }
+            else if (jObj.get("responseCode").toString().equals("500"))
+            {
+                AlertBox.alertOk(activity, context.getResources().getString(R.string.error), context.getResources().getString(R.string.error_server_ok_but_fail_login)+context.getResources().getString(R.string.code056));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
