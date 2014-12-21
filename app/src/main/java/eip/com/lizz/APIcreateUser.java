@@ -9,6 +9,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.params.ClientPNames;
 import org.apache.http.client.params.CookiePolicy;
+import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCookieStore;
@@ -106,7 +107,13 @@ public class APIcreateUser extends AsyncTask<Void, Void, JSONObject> {
                     jObj = API.prepareJson(responseCode, inputStream, jObj, 500);
                     break;
             }
-        } catch (ClientProtocolException e) {
+        } catch (HttpHostConnectException r) {
+            try {
+                jObj = API.prepareJson(408, null, jObj, 408);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }catch (ClientProtocolException e) {
         } catch (IOException e) {
         } catch (Exception e) {
             e.printStackTrace();

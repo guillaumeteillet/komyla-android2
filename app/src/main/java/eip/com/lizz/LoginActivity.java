@@ -145,17 +145,24 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             mAuthTask.setOnTaskFinishedEvent(new APIgetCsrf.OnTaskExecutionFinished() {
                 @Override
                 public void OnTaskFihishedEvent(String tokenCSFR, List<Cookie> cookies) {
-                    mAuthTask2 = new APIloginUser(mEmailView.getText().toString(), mPasswordView.getText().toString(), tokenCSFR, LoginActivity.this, cookies);
-                    mAuthTask2.setOnTaskFinishedEvent(new APIloginUser.OnTaskExecutionFinished() {
-                        @Override
-                        public void OnTaskFihishedEvent(JSONObject jObj) {
+                    if (tokenCSFR.equals("000x000"))
+                    {
+                        showProgress(false);
+                        AlertBox.alertOk(LoginActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code000));
+                    }
+                    else {
+                        mAuthTask2 = new APIloginUser(mEmailView.getText().toString(), mPasswordView.getText().toString(), tokenCSFR, LoginActivity.this, cookies);
+                        mAuthTask2.setOnTaskFinishedEvent(new APIloginUser.OnTaskExecutionFinished() {
+                            @Override
+                            public void OnTaskFihishedEvent(JSONObject jObj) {
 
-                            showProgress(false);
-                            APIloginUser.checkErrorsAndLaunch(jObj, LoginActivity.this, getBaseContext());
-                        }
+                                showProgress(false);
+                                APIloginUser.checkErrorsAndLaunch(jObj, LoginActivity.this, getBaseContext());
+                            }
 
-                    });
-                    mAuthTask2.execute();
+                        });
+                        mAuthTask2.execute();
+                    }
                 }
 
             });

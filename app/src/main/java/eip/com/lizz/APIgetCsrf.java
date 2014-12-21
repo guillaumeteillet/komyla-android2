@@ -10,6 +10,7 @@ import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.protocol.ClientContext;
+import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -77,7 +78,15 @@ public class APIgetCsrf extends AsyncTask<Void, Void, JSONObject> {
 
                 instream.close();
             }
-        } catch (JSONException e) {
+        } catch (HttpHostConnectException r) {
+            try {
+                jObj = new JSONObject();
+                jObj.put("_csrf", "000x000");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        catch (JSONException e) {
             e.printStackTrace();
         } catch (ClientProtocolException e) {
             e.printStackTrace();

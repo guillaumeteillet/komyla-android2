@@ -181,57 +181,68 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
                 @Override
                 public void OnTaskFihishedEvent(final String tokenCSFR, final List<Cookie> cookies)
                 {
-                    mAuthTask2 = new APIcreateUser(firstname, surname, email, password, tokenCSFR, RegisterActivity.this, cookies);
-                    mAuthTask2.setOnTaskFinishedEvent(new APIcreateUser.OnTaskExecutionFinished() {
-                        @Override
-                        public void OnTaskFihishedEvent(JSONObject jObj) {
-                            showProgress(false);
-                            try {
-                                if (jObj.get("responseCode").toString().equals("200"))
-                                {
-                                    finish();
-                                    mAuthTask3 = new APIloginUser(mEmailView.getText().toString(), mPasswordView.getText().toString(), tokenCSFR, RegisterActivity.this, cookies);
-                                    mAuthTask3.setOnTaskFinishedEvent(new APIloginUser.OnTaskExecutionFinished() {
-                                        @Override
-                                        public void OnTaskFihishedEvent(JSONObject jObj) {
+                    if (tokenCSFR.equals("000x000"))
+                    {
+                        AlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code000));
+                    }
+                    else
+                    {
+                        mAuthTask2 = new APIcreateUser(firstname, surname, email, password, tokenCSFR, RegisterActivity.this, cookies);
+                        mAuthTask2.setOnTaskFinishedEvent(new APIcreateUser.OnTaskExecutionFinished() {
+                            @Override
+                            public void OnTaskFihishedEvent(JSONObject jObj) {
+                                showProgress(false);
+                                try {
+                                    if (jObj.get("responseCode").toString().equals("200"))
+                                    {
+                                        finish();
+                                        mAuthTask3 = new APIloginUser(mEmailView.getText().toString(), mPasswordView.getText().toString(), tokenCSFR, RegisterActivity.this, cookies);
+                                        mAuthTask3.setOnTaskFinishedEvent(new APIloginUser.OnTaskExecutionFinished() {
+                                            @Override
+                                            public void OnTaskFihishedEvent(JSONObject jObj) {
 
-                                            showProgress(false);
-                                            APIloginUser.checkErrorsAndLaunch(jObj, RegisterActivity.this, getBaseContext());
-                                        }
-                                    });
-                                    mAuthTask3.execute();
+                                                showProgress(false);
+                                                APIloginUser.checkErrorsAndLaunch(jObj, RegisterActivity.this, getBaseContext());
+                                            }
+                                        });
+                                        mAuthTask3.execute();
+                                    }
+                                    else if (jObj.get("responseCode").toString().equals("400"))
+                                    {
+                                        JSONObject array = jObj.getJSONObject("invalidAttributes");
+                                        boolean firstnameIsMissing = array.has("firstname");
+                                        boolean surnameIsMissing = array.has("surname");
+                                        boolean emailIsMissing = array.has("email");
+                                        boolean passwordIsMissing = array.has("password");
+                                        if (firstnameIsMissing)
+                                            AlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error),  getResources().getString(R.string.error_server_ok_but_fail)+getResources().getString(R.string.code002));
+                                        else if (surnameIsMissing)
+                                            AlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail)+getResources().getString(R.string.code003));
+                                        else if (emailIsMissing)
+                                            AlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail)+getResources().getString(R.string.code004));
+                                        else if (passwordIsMissing)
+                                            AlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail)+getResources().getString(R.string.code005));
+                                    }
+                                    else if(jObj.get("responseCode").toString().equals("403"))
+                                    {
+                                        AlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail)+getResources().getString(R.string.code001));
+                                    }
+                                    else if(jObj.get("responseCode").toString().equals("408"))
+                                    {
+                                        AlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code000));
+                                    }
+                                    else if (jObj.get("responseCode").toString().equals("500"))
+                                    {
+                                        AlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail)+getResources().getString(R.string.code006));
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
-                                else if(jObj.get("responseCode").toString().equals("403"))
-                                {
-                                    AlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail)+getResources().getString(R.string.code001));
-                                }
-                                else if (jObj.get("responseCode").toString().equals("400"))
-                                {
-                                    JSONObject array = jObj.getJSONObject("invalidAttributes");
-                                    boolean firstnameIsMissing = array.has("firstname");
-                                    boolean surnameIsMissing = array.has("surname");
-                                    boolean emailIsMissing = array.has("email");
-                                    boolean passwordIsMissing = array.has("password");
-                                    if (firstnameIsMissing)
-                                        AlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error),  getResources().getString(R.string.error_server_ok_but_fail)+getResources().getString(R.string.code002));
-                                    else if (surnameIsMissing)
-                                        AlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail)+getResources().getString(R.string.code003));
-                                    else if (emailIsMissing)
-                                        AlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail)+getResources().getString(R.string.code004));
-                                    else if (passwordIsMissing)
-                                        AlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail)+getResources().getString(R.string.code005));
-                                }
-                                else if (jObj.get("responseCode").toString().equals("500"))
-                                {
-                                    AlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail)+getResources().getString(R.string.code006));
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
                             }
-                        }
 
-                    });
-                    mAuthTask2.execute();
+                        });
+                        mAuthTask2.execute();
+                    }
                 }
 
             });

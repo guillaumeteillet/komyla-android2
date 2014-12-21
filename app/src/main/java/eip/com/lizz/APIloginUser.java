@@ -103,6 +103,11 @@ public class APIloginUser extends AsyncTask<Void, Void, JSONObject> {
                     break;
             }
         } catch (ClientProtocolException e) {
+            try {
+               jObj = API.prepareJson(408, null, jObj, 408);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
         } catch (IOException e) {
         } catch (Exception e) {
             e.printStackTrace();
