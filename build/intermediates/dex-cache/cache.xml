@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/guillaume/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/20.0.0/support-annotations-20.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="9d9013e9ff35fc3756411e62873c363c70c638fa">
+        <dex dex="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/pre-dexed/debug/support-annotations-20.0.0-abbe90803b06fcf82f1e7f14210811df07079a3d.jar" />
+    </item>
+    <item
+        jar="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/exploded-aar/com.facebook.android/facebook/3.20.0/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="f05213ffac9366f3eace7386521d03332343b071">
+        <dex dex="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/pre-dexed/debug/classes-b057dff59094533dd99d5823083e2aceb4aad008.jar" />
+    </item>
+    <item
+        jar="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/exploded-aar/com.android.support/support-v4/20.0.0/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="8694693636ab36910c8100ce527c258ff3ebece0">
+        <dex dex="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/pre-dexed/debug/classes-9fe314763038ef625811db7af48a6539220032a6.jar" />
+    </item>
+    <item
+        jar="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/libs/card.io.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="6871955c5f3c7b8488036dd8308225d57b7dabee">
+        <dex dex="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/pre-dexed/debug/card.io-0d9ca43d98105fcff2c8dd110fe242e89f3a5335.jar" />
+    </item>
+    <item
+        jar="/Users/guillaume/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-android/1.1.2/91c20388c9a45f62b5ed8fe0502bb76ff6251fc7/bolts-android-1.1.2.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="91c20388c9a45f62b5ed8fe0502bb76ff6251fc7">
+        <dex dex="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/pre-dexed/debug/bolts-android-1.1.2-d5f2cdcce48699c4954197994554bd724574efc1.jar" />
+    </item>
+    <item
+        jar="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="f21927d22fe31889ecce94dd697a2e75b137e0ef">
+        <dex dex="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/pre-dexed/debug/classes-6aa2abc368e809460aba0b942ed590943d1bd0b2.jar" />
+    </item>
+    <item
+        jar="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.1.11/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="0f700f6802ba1a1f1fa7ac26d5db0666a89d75a6">
+        <dex dex="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/pre-dexed/debug/classes-d825ba541b304826a42a54099e387766e1819b92.jar" />
+    </item>
+    <item
+        jar="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/exploded-aar/com.android.support/support-v4/20.0.0/libs/internal_impl-20.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="e40b3078e3fbd353c9f44da8df25a8fc0078209d">
+        <dex dex="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/pre-dexed/debug/internal_impl-20.0.0-01e9f666abfbf8d3deb683d06e5f22140c5ed6b9.jar" />
+    </item>
+    <item
+        jar="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/libs/zbar.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="0a7b88ba1496a0b4af76069ad40dacd3897149e0">
+        <dex dex="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/pre-dexed/debug/zbar-400db3990ea0b5a50fd01abb1037c93efa6d90b0.jar" />
+    </item>
+
+</items>
