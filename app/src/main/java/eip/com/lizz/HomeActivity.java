@@ -75,6 +75,22 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 .addScope(Plus.SCOPE_PLUS_LOGIN)
                 .build();
 
+        Button lizzConnect = (Button) findViewById(R.id.btnConnectLizz);
+        lizzConnect.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button lizzNewAccount = (Button) findViewById(R.id.btnNewAccountLizz);
+        lizzNewAccount.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
         SignInButton gplus = (SignInButton) findViewById(R.id.plus_sign_in_button);
         if (!supportsGooglePlayServices()) {
             gplus.setVisibility(View.GONE);
@@ -91,24 +107,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             });
 
         }
-
-
-
-        Button lizzConnect = (Button) findViewById(R.id.btnConnectLizz);
-        lizzConnect.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        Button lizzNewAccount = (Button) findViewById(R.id.btnNewAccountLizz);
-        lizzNewAccount.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, RegisterActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     /* A helper method to resolve the current ConnectionResult error. */
