@@ -49,7 +49,7 @@ public class HomeLizzActivity extends ActionBarActivity {
             Button AddPaymentMethod = (Button) findViewById(R.id.add);
             AddPaymentMethod.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                        Intent intent = new Intent(getBaseContext(), AddEditPaymentMethodActivity.class);
+                        Intent intent = new Intent(getBaseContext(), PaymentMethodsActivity.class);
                         startActivity(intent);
                 }
             });

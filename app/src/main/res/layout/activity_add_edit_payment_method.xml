@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -15,4 +15,177 @@
         android:onClick="onScanPress"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
-</RelativeLayout>
+
+
+
+</RelativeLayout>-->
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    tools:context="roblin_m.cardlistsample.AddEditPaymentMethodActivity"
+
+    android:id="@+id/rootview"
+        >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:focusable="true"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="Numéro de carte"
+            android:id="@+id/textviewCardNumber"
+            android:gravity="center"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_toEndOf="@+id/textviewCardNumber"
+            android:layout_marginStart="20dp"
+            android:id="@+id/edittextCardNumber"
+            android:maxLength="16"
+            android:inputType="number"
+            android:focusable="true"
+            android:imeOptions="actionNext"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="Date d'expiration"
+            android:id="@+id/textviewExpirationDate"
+            android:gravity="center"
+            android:layout_below="@+id/textviewCardNumber"
+            android:layout_marginTop="10dp"
+            />
+
+        <EditText
+            android:layout_width="50dp"
+            android:layout_height="35dp"
+            android:layout_toEndOf="@+id/textviewExpirationDate"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/edittextCardNumber"
+            android:hint="MM"
+            android:textSize="15dp"
+            android:id="@+id/edittextExpirationDateMonth"
+            android:maxLength="2"
+            android:inputType="number"
+            android:focusable="true"
+            android:imeOptions="actionNext"
+            />
+
+        <EditText
+            android:layout_width="50dp"
+            android:layout_height="35dp"
+            android:layout_toEndOf="@+id/textviewExpirationDate"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/edittextCardNumber"
+            android:hint="AA"
+            android:textSize="15dp"
+            android:id="@+id/edittextExpirationDateYear"
+            android:maxLength="2"
+            android:inputType="number"
+            android:layout_toRightOf="@+id/edittextExpirationDateMonth"
+            android:focusable="true"
+            android:imeOptions="actionNext"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="Cryptogramme"
+            android:id="@+id/textviewCryptogram"
+            android:gravity="center"
+            android:layout_below="@+id/textviewExpirationDate"
+            android:layout_marginTop="10dp"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:id="@+id/edittextCryptogram"
+            android:layout_toEndOf="@+id/textviewExpirationDate"
+            android:layout_marginStart="20dp"
+            android:layout_below="@id/edittextExpirationDateMonth"
+            android:layout_marginTop="10dp"
+            android:maxLength="3"
+            android:inputType="number"
+            android:focusable="true"
+            android:imeOptions="actionNext"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="Nom du détenteur"
+            android:id="@+id/textviewOwnerName"
+            android:gravity="center"
+            android:layout_below="@+id/textviewCryptogram"
+            android:layout_marginTop="10dp"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:id="@+id/edittextOwnerName"
+            android:layout_toEndOf="@+id/textviewExpirationDate"
+            android:layout_marginStart="20dp"
+            android:layout_below="@id/edittextCryptogram"
+            android:layout_marginTop="10dp"
+            android:focusable="true"
+            android:imeOptions="actionNext"
+            android:singleLine="true"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="Nom d'affichage"
+            android:id="@+id/textviewDisplayName"
+            android:gravity="center"
+            android:layout_below="@+id/textviewOwnerName"
+            android:layout_marginTop="10dp"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:id="@+id/edittextDisplayName"
+            android:layout_toEndOf="@+id/textviewExpirationDate"
+            android:layout_marginStart="20dp"
+            android:layout_below="@id/edittextOwnerName"
+            android:layout_marginTop="10dp"
+            android:singleLine="true"
+            android:focusable="true"
+            android:imeOptions="actionDone"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonSaveCard"
+            android:layout_below="@+id/textviewDisplayName"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:text="Enregistrer"
+            />
+
+    </RelativeLayout>
+</ScrollView>
+

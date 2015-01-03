@@ -103,7 +103,15 @@
         <activity android:name="io.card.payment.DataEntryActivity" />
         <activity
             android:name=".AddEditPaymentMethodActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/title_activity_add_edit_payment_method" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PayementActivity" />
+        </activity>
+        <activity
+            android:name=".PaymentMethodsActivity"
+            android:label="@string/title_activity_payment_method" >
         </activity>
     </application>
 
