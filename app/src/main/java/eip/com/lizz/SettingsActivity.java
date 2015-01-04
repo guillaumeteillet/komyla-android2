@@ -60,9 +60,11 @@ public class SettingsActivity extends ActionBarActivity {
                     case 2:
                         loggedUser = new Intent(getBaseContext(), SettingsParentalControl.class);
                         startActivity(loggedUser);
+                        break;
                     case 3:
                         loggedUser = new Intent(getBaseContext(), SettingsScanner.class);
                         startActivity(loggedUser);
+                        break;
                 }
 
             }

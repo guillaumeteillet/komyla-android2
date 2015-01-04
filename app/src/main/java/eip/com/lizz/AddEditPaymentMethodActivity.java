@@ -1,5 +1,7 @@
 package eip.com.lizz;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -9,11 +11,36 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+
+import io.card.payment.CardIOActivity;
+import io.card.payment.CreditCard;
 
 import java.util.Calendar;
 
+//TODO: Mathieu
+/*
+
+1) Mettre le nouveau logo "APN" a coté du champ numéro de la carte pour scanner la carte.
+2) Mettre la verification du numéro de la carte dans une fonction "onTextUpdate" ou qqch comme ça pour éviter le bug de
+la validation erroné quand on misclic avant le scan.
+3) Désactiver le scan si pas d'APN dispo
+4) Supprimer la couleur verte quand c'est valide.
+ */
 
 public class AddEditPaymentMethodActivity extends ActionBarActivity {
+
+    private static final int MY_SCAN_REQUEST_CODE = 1;
+
 
     // XML Attributes
     private EditText edittextCardNumber = null;
@@ -23,6 +50,7 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
     private EditText edittextOwnerName = null;
     private EditText edittextDisplayName = null;
     private Button saveCard = null;
+    private Button scanCard = null;
 
     String cardNumberStr;
 
@@ -36,6 +64,12 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
         configureEdittextExpirationDate();
 
         saveCard.setEnabled(false);
+        // Mathieu : Si l'appareil photo n'existe pas, rendre le scan de carte bancaire impossible.
+        PackageManager pm = getBaseContext().getPackageManager();
+
+        if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+            scanCard.setVisibility(View.GONE);
+        }
     }
 
     private void configureEdittextExpirationDate() {
@@ -168,6 +202,64 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
         edittextOwnerName = (EditText)findViewById(R.id.edittextOwnerName);
         edittextDisplayName = (EditText)findViewById(R.id.edittextDisplayName);
         saveCard = (Button)findViewById(R.id.buttonSaveCard);
+        scanCard = (Button)findViewById(R.id.buttonScanCard);
+    }
+
+    public void onScanPress(View v) {
+        Intent scanIntent = new Intent(this, CardIOActivity.class);
+
+        scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_EXPIRY, true);
+        scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_CVV, true);
+        scanIntent.putExtra(CardIOActivity.EXTRA_USE_CARDIO_LOGO, true);
+        scanIntent.putExtra(CardIOActivity.EXTRA_SUPPRESS_MANUAL_ENTRY, true);
+
+        startActivityForResult(scanIntent, MY_SCAN_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        String card_number = "", card_number_hide = "", card_number2 = "", cvv = "", expiryYear = "0";
+        int expiryMonth = 0;
+
+        if (requestCode == MY_SCAN_REQUEST_CODE) {
+            String resultDisplayStr;
+            if (data != null && data.hasExtra(CardIOActivity.EXTRA_SCAN_RESULT)) {
+                CreditCard scanResult = data.getParcelableExtra(CardIOActivity.EXTRA_SCAN_RESULT);
+
+                card_number = scanResult.getFormattedCardNumber();
+                card_number_hide = scanResult.getRedactedCardNumber();
+                card_number2 = scanResult.cardNumber;
+                expiryMonth = scanResult.expiryMonth;
+                expiryYear = ""+scanResult.expiryYear;
+                cvv = scanResult.cvv;
+                edittextCardNumber.setText(card_number2);
+                if (expiryMonth >= 1 && expiryMonth <= 9)
+                    edittextExpirationDateMonth.setText("0"+expiryMonth);
+                else
+                    edittextExpirationDateMonth.setText(expiryMonth);
+                expiryYear = expiryYear.replace("20", "");
+                edittextExpirationDateYear.setText(expiryYear);
+                edittextCryptogram.setText(cvv);
+                edittextOwnerName.requestFocus();
+            }
+            else {
+                // Scan was canceled
+            }
+
+            /* DEBUG POUR MATHIEU
+             *
+              * A supprimer avant la mise en prod :D
+              *
+              * */
+           /* Log.d("TEST", card_number); //1234 1234 1234 1234
+            Log.d("TEST", card_number_hide);// •••• •••• •••• 1234
+            Log.d("TEST", card_number2); //1234123412341234
+            Log.d("TEST", ""+expiryMonth); // 4
+            Log.d("TEST", ""+expiryYear); // 2014
+            Log.d("TEST", cvv); // 123*/
+        }
     }
 
     @Override
@@ -181,100 +273,3 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
         return MenuLizz.main_menu(item, getBaseContext());
     }
 }
-
-
-/*import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-
-import io.card.payment.CardIOActivity;
-import io.card.payment.CreditCard;
-
-
-public class AddEditPaymentMethodActivity extends ActionBarActivity {
-
-    private static final int MY_SCAN_REQUEST_CODE = 1;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_edit_payment_method);
-
-
-        // Mathieu : Si l'appareil photo n'existe pas, rendre le scan de carte bancaire impossible.
-        final boolean apn = CameraPreview.checkCameraHardware(getBaseContext());
-        final Button scan = (Button) findViewById(R.id.button);
-        if (!apn)
-            scan.setVisibility(View.GONE);
-
-    }
-
-    public void onScanPress(View v) {
-        Intent scanIntent = new Intent(this, CardIOActivity.class);
-
-        scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_EXPIRY, true);
-        scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_CVV, true);
-        scanIntent.putExtra(CardIOActivity.EXTRA_SUPPRESS_MANUAL_ENTRY, true);
-
-        startActivityForResult(scanIntent, MY_SCAN_REQUEST_CODE);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        String card_number = "", card_number_hide = "", card_number2 = "", cvv = "";
-        int expiryMonth = 0, expityYear = 0;
-
-        if (requestCode == MY_SCAN_REQUEST_CODE) {
-            String resultDisplayStr;
-            if (data != null && data.hasExtra(CardIOActivity.EXTRA_SCAN_RESULT)) {
-                CreditCard scanResult = data.getParcelableExtra(CardIOActivity.EXTRA_SCAN_RESULT);
-
-                card_number = scanResult.getFormattedCardNumber();
-                card_number_hide = scanResult.getRedactedCardNumber();
-                card_number2 = scanResult.cardNumber;
-                expiryMonth = scanResult.expiryMonth;
-                expityYear = scanResult.expiryYear;
-                cvv = scanResult.cvv;
-            }
-            else {
-                 // Scan was canceled
-            }*/
-
-            /* DEBUG POUR MATHIEU
-             *
-              * A supprimer avant la mise en prod :D
-              *
-              * */
-
-            /*Log.d("TEST", card_number); //1234 1234 1234 1234
-            Log.d("TEST", card_number_hide);// •••• •••• •••• 1234
-            Log.d("TEST", card_number2); //1234123412341234
-            Log.d("TEST", ""+expiryMonth); // 4
-            Log.d("TEST", ""+expityYear); // 2014
-            Log.d("TEST", cvv); // 123
-        }
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return MenuLizz.main_menu(item, getBaseContext());
-    }
-}*/
-
-
