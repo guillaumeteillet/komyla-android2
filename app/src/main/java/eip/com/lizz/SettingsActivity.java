@@ -30,6 +30,7 @@ public class SettingsActivity extends ActionBarActivity {
                 "Code PIN Lizz",
                 "Contrôle Parental",
                 "Scanner",
+                "Votre Relevé d'Identité Bancaire",
         };
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -63,6 +64,10 @@ public class SettingsActivity extends ActionBarActivity {
                         break;
                     case 3:
                         loggedUser = new Intent(getBaseContext(), SettingsScanner.class);
+                        startActivity(loggedUser);
+                        break;
+                    case 4:
+                        loggedUser = new Intent(getBaseContext(), SettingsRIB.class);
                         startActivity(loggedUser);
                         break;
                 }

@@ -121,6 +121,12 @@ public class SaveParams {
             case 6:
                 AlertBox.alertOk(context, context.getResources().getString(R.string.error), context.getResources().getString(R.string.emptyPasswordPIN));
                 break;
+            case 7:
+                AlertBox.alertOk(context, context.getResources().getString(R.string.error), context.getResources().getString(R.string.wrongRIB));
+                break;
+            case 8:
+                AlertBox.alertOk(context, context.getResources().getString(R.string.error), context.getResources().getString(R.string.IBANisNotFrench));
+                break;
             default:
                 AlertBox.alertOk(context, context.getResources().getString(R.string.error), context.getResources().getString(R.string.errordefault));
                 break;

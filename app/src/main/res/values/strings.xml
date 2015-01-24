@@ -3,7 +3,7 @@
 
     <string name="app_name">Lizz</string>
     <string name="app_id">377638892395189</string>
-    <string name="debugOrProd">PROD</string><!-- DEBUG OR PROD -->
+    <string name="debugOrProd">DEBUG</string><!-- DEBUG OR PROD -->
 
     <string name="action_params">Paramètres</string>
     <string name="action_signout">Déconnexion</string>
@@ -48,8 +48,9 @@
     <string name="title_activity_settings_parental_control">Contrôle Parental</string>
     <string name="title_activity_payement_with_unique_code">Saisissez le code unique Lizz</string>
     <string name="title_activity_settings_scanner">Scanner</string>
-    <string name="title_activity_add_edit_payment_method">Ajouter un moyen de paiement</string>
+    <string name="title_activity_add_edit_card">Ajouter une carte bancaire</string>
     <string name="title_activity_payment_method">Moyens de paiement</string>
+    <string name="title_activity_settings_rib">Relevé d\'Identité Bancaire</string>
     <string name="title_activity_payment_history">PaymentHistoryActivity</string>
 
     <string name="hint_paiement_limit">Vous pouvez enregistrer une limite de paiement.</string>
@@ -60,6 +61,9 @@
     <string name="hint_code_parentalControl_mdp">Mot de passe parental :</string>
     <string name="hint_scanner">Si la caméra de votre smartphone est endommagé, vous pouvez désactivé le Scanner de QRCode et utiliser uniquement la saisie de l\'identifiant unique Lizz. Voulez-vous activer le scanner ?</string>
     <string name="hint_payement_with_unique_code">Vous n\'arrivez pas à scanner le QR Code de la caisse ? Vous pouvez saisir ici le code unique de la caisse qui est inscrit en dessous du QRCode :</string>
+    <string name="hint_iban">Entrez le numéro de compte sur lequel vous souhaitez recevoir votre argent.</string>
+    <string name="hint_iban2">IBAN</string>
+    <string name="hint_iban_edittext">FR0000000000000000000000000</string>
 
     <string name="error">Erreur</string>
     <string name="errordefault">Une erreur inconnue est survenue</string>
@@ -74,6 +78,8 @@
     <string name="error_camera_txt">Aucune appareil photo n\'a été détécté sur votre téléphone : Le scanner est inutilisable.</string>
     <string name="error_server_ok_but_fail">Le serveur d\'authentification Lizz est joignable mais la création de votre compte a échoué. Veuillez réessayer ultérieurement. </string>
     <string name="error_server_ok_but_fail_login">Le serveur d\'authentification Lizz est joignable mais la connexion a échouée. Veuillez réessayer ultérieurement. </string>
+    <string name="wrongRIB">L\'iban que vous nous avez indiqué ne semble pas valide. Vérifiez votre saisie et réessayer.\n\nSi le problème persiste, contactez notre support.</string>
+    <string name="IBANisNotFrench">Veuillez indiquer un compte en banque Français.</string>
 
     <string name="code000">Vérifiez votre connexion internet ! Le serveur d\'authentification Lizz est injoignable. Code d\'erreur Lizz : 000. Code HTTP : 118</string>
     <string name="code001">Code d\'erreur Lizz : 001. Code HTTP : 403</string>
@@ -90,5 +96,6 @@
 
     <string name="email_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-0123456789@._</string>
     <string name="name_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\'- </string>
+    <string name="alphaNumeric_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
 
 </resources>
