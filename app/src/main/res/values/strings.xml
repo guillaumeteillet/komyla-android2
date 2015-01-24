@@ -3,19 +3,26 @@
 
     <string name="app_name">Lizz</string>
     <string name="app_id">377638892395189</string>
+    <string name="debugOrProd">PROD</string><!-- DEBUG OR PROD -->
+
     <string name="action_params">Paramètres</string>
     <string name="action_signout">Déconnexion</string>
     <string name="action_flash_on">Allumer Flash</string>
     <string name="action_flash_off">Eteindre Flash</string>
     <string name="action_cant_scan">Scan impossible ?</string>
     <string name="action_scan">Scanner le QR Code</string>
+    <string name="action_add_item">Ajouter un moyen de paiement</string>
+
     <string name="firstname">Prénom</string>
     <string name="name">Nom</string>
+    <string name="phone">Numéro de téléphone</string>
+
     <string name="url_api_create">http://private-72ff4-lizz.apiary-mock.com/user/create</string>
     <string name="url_api_login">http://private-anon-ca973bc2f-lizz.apiary-mock.com/user/</string>
     <string name="url_api_final">http://163.5.84.225:8000/</string>
     <string name="url_api_final_v1">http://163.5.84.225:8000/api/v1/</string>
     <string name="urllizzcode">http://lizz.fr/code/</string>
+
     <string name="dialog_save">Enregistrer</string>
     <string name="dialog_cancel">Annuler</string>
     <string name="dialog_ok">Okay</string>
@@ -28,8 +35,10 @@
     <string name="dialog_confirm_hint_pin_change">Entrez votre ANCIEN code PIN Lizz pour enregistrer ce paramètre.</string>
     <string name="dialog_info_flash_unavialable">Impossible de démarrer le flash.</string>
     <string name="dialog_scan_qr_code">Scan a Lizz QRCode</string>
+
     <string name="connectwithlizzaccount">Se connecter avec un compte Lizz</string>
     <string name="createnewlizzaccount">Créer un nouveau compte Lizz</string>
+
     <string name="title_activity_settings">Paramètres</string>
     <string name="title_activity_settings_payement_limit">Limite de paiement</string>
     <string name="title_activity_home_lizz">Lizz</string>
@@ -39,7 +48,10 @@
     <string name="title_activity_settings_parental_control">Contrôle Parental</string>
     <string name="title_activity_payement_with_unique_code">Saisissez le code unique Lizz</string>
     <string name="title_activity_settings_scanner">Scanner</string>
-    <string name="title_activity_add_edit_payment_method">TITRE MATHIEU</string>
+    <string name="title_activity_add_edit_card">Ajouter une carte bancaire</string>
+    <string name="title_activity_payment_method">Moyens de paiement</string>
+    <string name="title_activity_payment_history">PaymentHistoryActivity</string>
+
     <string name="hint_paiement_limit">Vous pouvez enregistrer une limite de paiement.</string>
     <string name="hint_paiement_limit_edittext">Montant en euros</string>
     <string name="hint_code_pin">Vous pouvez entrer votre code PIN Lizz</string>
@@ -48,6 +60,7 @@
     <string name="hint_code_parentalControl_mdp">Mot de passe parental :</string>
     <string name="hint_scanner">Si la caméra de votre smartphone est endommagé, vous pouvez désactivé le Scanner de QRCode et utiliser uniquement la saisie de l\'identifiant unique Lizz. Voulez-vous activer le scanner ?</string>
     <string name="hint_payement_with_unique_code">Vous n\'arrivez pas à scanner le QR Code de la caisse ? Vous pouvez saisir ici le code unique de la caisse qui est inscrit en dessous du QRCode :</string>
+
     <string name="error">Erreur</string>
     <string name="errordefault">Une erreur inconnue est survenue</string>
     <string name="errorQRCodeEmpty">Ce QRCode semble vide !</string>
@@ -61,6 +74,7 @@
     <string name="error_camera_txt">Aucune appareil photo n\'a été détécté sur votre téléphone : Le scanner est inutilisable.</string>
     <string name="error_server_ok_but_fail">Le serveur d\'authentification Lizz est joignable mais la création de votre compte a échoué. Veuillez réessayer ultérieurement. </string>
     <string name="error_server_ok_but_fail_login">Le serveur d\'authentification Lizz est joignable mais la connexion a échouée. Veuillez réessayer ultérieurement. </string>
+
     <string name="code000">Vérifiez votre connexion internet ! Le serveur d\'authentification Lizz est injoignable. Code d\'erreur Lizz : 000. Code HTTP : 118</string>
     <string name="code001">Code d\'erreur Lizz : 001. Code HTTP : 403</string>
     <string name="code002">Description : Le serveur n\'a pas reçu le prénom. Code d\'erreur Lizz : 002. Code HTTP : 400</string>
@@ -68,14 +82,13 @@
     <string name="code004">Description : Le serveur n\'a pas reçu l\'email. Code d\'erreur Lizz : 004. Code HTTP : 400</string>
     <string name="code005">Description : Le serveur n\'a pas reçu le mot de passe. Code d\'erreur Lizz : 005. Code HTTP : 400</string>
     <string name="code006">Description : Erreur interne au serveur, veuillez réessayer. Code d\'erreur Lizz : 006. Code HTTP : 500</string>
+    <string name="code007">Vous ne pouvez pas créer de compte Lizz sans carte SIM. Insérez votre carte SIM et réessayer. Code d\'erreur Lizz : 007</string>
     <string name="code051">Code d\'erreur Lizz : 051. Code HTTP : 403</string>
     <string name="code052">Description : Aucun compte n\'existe avec cette adresse email. Code d\'erreur Lizz : 052. Code HTTP : 400</string>
     <string name="code053">Description : Le mot de passe de ce compte est erroné. Code d\'erreur Lizz : 053. Code HTTP : 400</string>
     <string name="code056">Description : Erreur interne au serveur, veuillez réessayer. Code d\'erreur Lizz : 056. Code HTTP : 500</string>
-    <string name="title_activity_payment_method">PaymentMethodsActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="action_add_item">Ajouter un moyen de paiement</string>
-    <string name="title_activity_payment_history">PaymentHistoryActivity</string>
+
+    <string name="email_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-0123456789@._</string>
+    <string name="name_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\'- </string>
 
 </resources>

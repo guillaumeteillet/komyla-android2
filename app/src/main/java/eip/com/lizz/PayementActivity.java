@@ -1,5 +1,6 @@
 package eip.com.lizz;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,6 +9,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 
@@ -16,35 +19,33 @@ public class PayementActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_lizz);
+        setContentView(R.layout.activity_payement);
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            if (bundle.getString("unique_code") != null) {
-                String unique_code = bundle.getString("unique_code");
+        SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+        boolean isLogged = sharedpreferences.getBoolean("eip.com.lizz.isLogged", false);
 
-                Log.d("UniqueCode", ">>" + unique_code);
+        if (isLogged) {
 
-                SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
-                boolean isLogged = sharedpreferences.getBoolean("eip.com.lizz.isLogged", false);
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+                if (bundle.getString("unique_code") != null) {
+                    String unique_code = bundle.getString("unique_code");
 
-                if (isLogged) {
-
+                    Log.d("UniqueCode", ">>" + unique_code);
 
                 } else {
-                    Intent loggedUser = new Intent(getBaseContext(), HomeActivity.class);
-                    loggedUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(loggedUser);
+                    Toast.makeText(getBaseContext(), getResources().getString(R.string.no_unique_code), Toast.LENGTH_LONG).show();
+                    finish();
                 }
-
-            } else {
+            }
+            else {
                 Toast.makeText(getBaseContext(), getResources().getString(R.string.no_unique_code), Toast.LENGTH_LONG).show();
                 finish();
             }
-        }
-        else {
-            Toast.makeText(getBaseContext(), getResources().getString(R.string.no_unique_code), Toast.LENGTH_LONG).show();
-            finish();
+        } else {
+            Intent loggedUser = new Intent(getBaseContext(), HomeActivity.class);
+            loggedUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(loggedUser);
         }
     }
 

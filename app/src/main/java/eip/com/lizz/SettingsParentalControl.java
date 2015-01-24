@@ -102,7 +102,7 @@ public class SettingsParentalControl extends ActionBarActivity {
                     else {
 
                         final EditText input = new EditText(SettingsParentalControl.this);
-                        input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
                         input.setTransformationMethod(PasswordTransformationMethod.getInstance());
                         final AlertDialog.Builder alert = AlertBox.alertInputOk(SettingsParentalControl.this, getResources().getString(R.string.dialog_title_confirm), getResources().getString(R.string.dialog_confirm_mdp_parental), input);
                         alert.setPositiveButton(getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
@@ -117,7 +117,7 @@ public class SettingsParentalControl extends ActionBarActivity {
                                     else
                                     {
                                         final EditText input2 = new EditText(SettingsParentalControl.this);
-                                        input2.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                                        input2.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
                                         input2.setTransformationMethod(PasswordTransformationMethod.getInstance());
                                         final AlertDialog.Builder alert = AlertBox.alertInputOk(SettingsParentalControl.this, getResources().getString(R.string.dialog_title_confirm), getResources().getString(R.string.dialog_confirm_old_mdp_parental), input2);
                                         alert.setPositiveButton(getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
@@ -155,7 +155,7 @@ public class SettingsParentalControl extends ActionBarActivity {
                    if (!passwordInBDD.equals(""))
                    {
                        final EditText input3 = new EditText(SettingsParentalControl.this);
-                       input3.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                       input3.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
                        input3.setTransformationMethod(PasswordTransformationMethod.getInstance());
                        final AlertDialog.Builder alert = AlertBox.alertInputOk(SettingsParentalControl.this, getResources().getString(R.string.dialog_title_confirm), getResources().getString(R.string.dialog_confirm_old_mdp_parental), input3);
                        alert.setPositiveButton(getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
@@ -199,7 +199,7 @@ public class SettingsParentalControl extends ActionBarActivity {
         {
             parentalControl.setVisibility(View.VISIBLE);
             mdp.setVisibility(View.VISIBLE);
-            mdp.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            mdp.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
             mdp.setTransformationMethod(PasswordTransformationMethod.getInstance());
             mdp.setText(mdpBDD);
             parentalControlStatus = true;

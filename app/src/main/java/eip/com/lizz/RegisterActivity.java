@@ -18,6 +18,7 @@ import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
@@ -46,9 +47,11 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
     private AutoCompleteTextView mEmailView;
     private EditText mSurnameView;
     private EditText mFirstnameView;
+    private EditText mPhoneNumber;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private String phoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +64,16 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
         mAuthTask = null;
         mAuthTask2 = null;
 
+        TelephonyManager tMgr = (TelephonyManager)getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
+        phoneNumber = tMgr.getLine1Number();
         mFirstnameView = (EditText) findViewById(R.id.firstname);
         mSurnameView = (EditText) findViewById(R.id.name);
+        mPhoneNumber = (EditText) findViewById(R.id.phone);
+        if (getResources().getString(R.string.debugOrProd).equals("DEBUG"))
+            phoneNumber = "0";
+
+        if (phoneNumber != null)
+            mPhoneNumber.setText(phoneNumber);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {

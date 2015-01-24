@@ -56,7 +56,7 @@
                     android:gravity="center_horizontal|center_vertical"
                     android:maxLines="1"
                     android:background="#FFFFFF"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'- "
+                    android:digits="@string/name_digits"
                     android:singleLine="true"/>
 
                 <EditText
@@ -68,10 +68,27 @@
                     android:focusable="true"
                     android:layout_marginTop="10dp"
                     android:gravity="center_horizontal|center_vertical"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'- "
+                    android:digits="@string/name_digits"
                     android:maxLines="1"
                     android:background="#FFFFFF"
                     android:singleLine="true"/>
+
+                <EditText
+                    android:id="@+id/phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:imeOptions="actionNext"
+                    android:hint="@string/phone"
+                    android:layout_marginTop="10dp"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:maxLines="1"
+                    android:background="#FFFFFF"
+                    android:singleLine="true"
+                    android:inputType="phone" />
 
                 <AutoCompleteTextView
                     android:id="@+id/email"
@@ -82,7 +99,7 @@
                     android:gravity="center_horizontal|center_vertical"
                     android:maxLines="1"
                     android:imeOptions="actionNext"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-0123456789@._"
+                    android:digits="@string/email_digits"
                     android:focusable="true"
                     android:layout_marginTop="10dp"
                     android:background="#FFFFFF"
