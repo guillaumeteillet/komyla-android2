@@ -3,6 +3,7 @@
 
     <string name="app_name">Lizz</string>
     <string name="app_id">377638892395189</string>
+    <string name="debugOrProd">PROD</string><!-- DEBUG OR PROD -->
 
     <string name="action_params">Paramètres</string>
     <string name="action_signout">Déconnexion</string>
@@ -14,6 +15,7 @@
 
     <string name="firstname">Prénom</string>
     <string name="name">Nom</string>
+    <string name="phone">Numéro de téléphone</string>
 
     <string name="url_api_create">http://private-72ff4-lizz.apiary-mock.com/user/create</string>
     <string name="url_api_login">http://private-anon-ca973bc2f-lizz.apiary-mock.com/user/</string>
@@ -79,6 +81,7 @@
     <string name="code004">Description : Le serveur n\'a pas reçu l\'email. Code d\'erreur Lizz : 004. Code HTTP : 400</string>
     <string name="code005">Description : Le serveur n\'a pas reçu le mot de passe. Code d\'erreur Lizz : 005. Code HTTP : 400</string>
     <string name="code006">Description : Erreur interne au serveur, veuillez réessayer. Code d\'erreur Lizz : 006. Code HTTP : 500</string>
+    <string name="code007">Vous ne pouvez pas créer de compte Lizz sans carte SIM. Insérez votre carte SIM et réessayer. Code d\'erreur Lizz : 007</string>
     <string name="code051">Code d\'erreur Lizz : 051. Code HTTP : 403</string>
     <string name="code052">Description : Aucun compte n\'existe avec cette adresse email. Code d\'erreur Lizz : 052. Code HTTP : 400</string>
     <string name="code053">Description : Le mot de passe de ce compte est erroné. Code d\'erreur Lizz : 053. Code HTTP : 400</string>

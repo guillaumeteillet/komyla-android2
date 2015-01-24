@@ -1,7 +1,11 @@
 package eip.com.lizz;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -105,6 +109,21 @@ public class APIgetCsrf extends AsyncTask<Void, Void, JSONObject> {
             try {
                 token_csrf = jObj.get("_csrf").toString();
                 List<Cookie> cookies = cookieStore.getCookies();
+
+                Cookies.saveSharedPreferencesCookies(cookies, contextHere);
+                /*
+                if (cookies.isEmpty()) {
+                    System.out.println("None");
+                } else {
+                    for (int i = 0; i < cookies.size(); i++) {
+                        System.out.println("ORIGIN :- " + cookies.get(i).toString());
+                    }
+                }
+
+                */
+                SharedPreferences sharedpreferences = contextHere.getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+                sharedpreferences.edit().putString("eip.com.lizz._csrf", token_csrf).apply();
+
                 this._task_finished_event.OnTaskFihishedEvent(token_csrf, cookies);
             } catch (JSONException e) {
                 e.printStackTrace();

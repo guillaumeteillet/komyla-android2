@@ -1,22 +1,29 @@
 package eip.com.lizz;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.hardware.Camera;
+import android.os.Handler;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
-import android.widget.Toast;
 
-import net.sourceforge.zbar.Config;
-import net.sourceforge.zbar.ImageScanner;
+import org.apache.http.client.CookieStore;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.client.BasicCookieStore;
+import org.json.JSONObject;
+
+import java.util.List;
 
 /**
  * Created by guillaume on 16/12/14.
  */
 public class MenuLizz {
+
+    private static APIlogout mAuthTask;
+    static CookieStore cookieStore;
+    static ProgressDialog dialog;
+    static Handler handler = null;
 
     public static boolean main_menu(MenuItem item, Context context)
     {
@@ -68,13 +75,21 @@ public class MenuLizz {
         return true;
     }
 
-    private static boolean signout(Context context)
+    private static boolean signout(final Context context)
     {
+        String token;
         SharedPreferences sharedpreferences = context.getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+        token = sharedpreferences.getString("eip.com.lizz._csrf", "");
         sharedpreferences.edit().putBoolean("eip.com.lizz.isLogged", false).apply();
-        Intent loggedUser = new Intent(context, HomeActivity.class);
-        loggedUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(loggedUser);
+        mAuthTask = new APIlogout(token, context);
+        mAuthTask.setOnTaskFinishedEvent(new APIlogout.OnTaskExecutionFinished() {
+            @Override
+            public void OnTaskFihishedEvent(JSONObject jObj) {
+                APIlogout.checkErrorsAndLaunch(jObj, context);
+            }
+
+        });
+        mAuthTask.execute();
         return true;
     }
 
