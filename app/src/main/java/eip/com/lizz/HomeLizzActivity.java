@@ -53,6 +53,15 @@ public class HomeLizzActivity extends ActionBarActivity {
                         startActivity(intent);
                 }
             });
+
+            Button ViewTickets = (Button)findViewById(R.id.tickets);
+            ViewTickets.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getBaseContext(), PaymentHistoryActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
         else
         {

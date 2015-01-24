@@ -1,8 +1,8 @@
 package eip.com.lizz;
 
 import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,9 +19,9 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
     private EditText edittextCardNumber = null;
     private EditText edittextExpirationDateMonth = null;
     private EditText edittextExpirationDateYear = null;
-    private EditText edittextCryptogram = null;
+    /*private EditText edittextCryptogram = null;
     private EditText edittextOwnerName = null;
-    private EditText edittextDisplayName = null;
+    private EditText edittextDisplayName = null;*/
     private Button saveCard = null;
 
     String cardNumberStr;
@@ -82,8 +82,8 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
             }
 
             if (isExpirationDateIsValide(monthInput, yearInput)) {
-                edittextExpirationDateMonth.setTextColor(Color.GREEN);
-                edittextExpirationDateYear.setTextColor(Color.GREEN);
+                edittextExpirationDateMonth.setTextColor(Color.BLACK);
+                edittextExpirationDateYear.setTextColor(Color.BLACK);
                 edittextExpirationDateYear.setError(null);
             }
             else {
@@ -111,6 +111,7 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
     }
 
     private void configureEdittextCardNumber() {
+
         edittextCardNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -118,7 +119,7 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
                     cardNumberStr = edittextCardNumber.getText().toString();
                     if (edittextCardNumber.getText().length() != 0 && isCardNumberIsValide() == 0) {
                         Log.v("verifiyCardNumber", "La carte est valide");
-                        edittextCardNumber.setTextColor(Color.GREEN);
+                        edittextCardNumber.setTextColor(Color.BLACK);
                         edittextCardNumber.setError(null);
                     }
                     else {
@@ -164,9 +165,9 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
         edittextCardNumber = (EditText)findViewById(R.id.edittextCardNumber);
         edittextExpirationDateMonth = (EditText)findViewById(R.id.edittextExpirationDateMonth);
         edittextExpirationDateYear = (EditText)findViewById(R.id.edittextExpirationDateYear);
-        edittextCryptogram = (EditText)findViewById(R.id.edittextCryptogram);
-        edittextOwnerName = (EditText)findViewById(R.id.edittextOwnerName);
-        edittextDisplayName = (EditText)findViewById(R.id.edittextDisplayName);
+//        edittextCryptogram = (EditText)findViewById(R.id.edittextCryptogram);
+//        edittextOwnerName = (EditText)findViewById(R.id.edittextOwnerName);
+//        edittextDisplayName = (EditText)findViewById(R.id.edittextDisplayName);
         saveCard = (Button)findViewById(R.id.buttonSaveCard);
     }
 
