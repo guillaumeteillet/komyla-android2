@@ -24,7 +24,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:text="Numéro de carte"
+            android:text="@string/labelCardName"
             android:id="@+id/textviewCardNumber"
             android:gravity="center"
             />
@@ -46,7 +46,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:text="Date d'expiration"
+            android:text="@string/labelExpirationDate"
             android:id="@+id/textviewExpirationDate"
             android:gravity="center"
             android:layout_below="@+id/textviewCardNumber"
@@ -62,7 +62,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
             android:layout_below="@id/edittextCardNumber"
-            android:hint="MM"
+            android:hint="@string/hint_expiration_month"
             android:textSize="15dp"
             android:id="@+id/edittextExpirationDateMonth"
             android:maxLength="2"
@@ -79,7 +79,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:layout_below="@id/edittextCardNumber"
-            android:hint="AA"
+            android:hint="@string/hint_expiration_year"
             android:textSize="15dp"
             android:id="@+id/edittextExpirationDateYear"
             android:maxLength="2"
@@ -92,7 +92,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:text="Cryptogramme"
+            android:text="@string/labelCryptogram"
             android:id="@+id/textviewCryptogram"
             android:gravity="center"
             android:layout_below="@+id/textviewExpirationDate"
@@ -118,7 +118,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:text="Nom du détenteur"
+            android:text="@string/labelCardOwnerName"
             android:id="@+id/textviewOwnerName"
             android:gravity="center"
             android:layout_below="@+id/textviewCryptogram"
@@ -144,7 +144,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:text="Nom d'affichage"
+            android:text="@string/labelAccountDisplayName"
             android:id="@+id/textviewDisplayName"
             android:gravity="center"
             android:layout_below="@+id/textviewOwnerName"
@@ -173,7 +173,7 @@
             android:layout_below="@+id/textviewDisplayName"
             android:layout_marginTop="20dp"
             android:layout_centerHorizontal="true"
-            android:text="Enregistrer"
+            android:text="@string/buttonSaveCardData"
             />
 
         <Button

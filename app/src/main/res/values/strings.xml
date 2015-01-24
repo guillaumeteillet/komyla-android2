@@ -16,6 +16,13 @@
     <string name="firstname">Prénom</string>
     <string name="name">Nom</string>
     <string name="phone">Numéro de téléphone</string>
+    <string name="labelCardName">Numéro de carte</string>
+    <string name="labelExpirationDate">Date d\'expiration</string>
+    <string name="labelCryptogram">Cryptogramme</string>
+    <string name="labelCardOwnerName">Nom du détenteur</string>
+    <string name="labelAccountDisplayName">Nom d\'affichage</string>
+
+    <string name="buttonSaveCardData">Enregistrer</string>
 
     <string name="url_api_create">http://private-72ff4-lizz.apiary-mock.com/user/create</string>
     <string name="url_api_login">http://private-anon-ca973bc2f-lizz.apiary-mock.com/user/</string>
@@ -64,6 +71,8 @@
     <string name="hint_iban">Entrez le numéro de compte sur lequel vous souhaitez recevoir votre argent.</string>
     <string name="hint_iban2">IBAN</string>
     <string name="hint_iban_edittext">FR0000000000000000000000000</string>
+    <string name="hint_expiration_month">MM</string>
+    <string name="hint_expiration_year">AA</string>
 
     <string name="error">Erreur</string>
     <string name="errordefault">Une erreur inconnue est survenue</string>
