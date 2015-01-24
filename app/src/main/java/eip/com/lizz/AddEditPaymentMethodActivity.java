@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import java.util.Calendar;
 
@@ -19,18 +20,14 @@ import io.card.payment.CreditCard;
 
 //TODO: Mathieu
 /*
-
-1) Mettre le nouveau logo "APN" a coté du champ numéro de la carte pour scanner la carte.
 2) Mettre la verification du numéro de la carte dans une fonction "onTextUpdate" ou qqch comme ça pour éviter le bug de
 la validation erroné quand on misclic avant le scan.
 3) Désactiver le scan si pas d'APN dispo
-4) Supprimer la couleur verte quand c'est valide.
- */
+*/
 
 public class AddEditPaymentMethodActivity extends ActionBarActivity {
 
     private static final int MY_SCAN_REQUEST_CODE = 1;
-
 
     // XML Attributes
     private EditText edittextCardNumber = null;
@@ -40,7 +37,7 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
     private EditText edittextOwnerName = null;
     private EditText edittextDisplayName = null;
     private Button saveCard = null;
-    private Button scanCard = null;
+    private ImageButton scanCard = null;
 
     String cardNumberStr;
 
@@ -193,7 +190,7 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
         edittextOwnerName = (EditText)findViewById(R.id.edittextOwnerName);
         edittextDisplayName = (EditText)findViewById(R.id.edittextDisplayName);
         saveCard = (Button)findViewById(R.id.buttonSaveCard);
-        scanCard = (Button)findViewById(R.id.buttonScanCard);
+        scanCard = (ImageButton)findViewById(R.id.buttonScanCard);
     }
 
     public void onScanPress(View v) {

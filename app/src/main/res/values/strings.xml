@@ -73,6 +73,7 @@
     <string name="hint_iban_edittext">FR0000000000000000000000000</string>
     <string name="hint_expiration_month">MM</string>
     <string name="hint_expiration_year">AA</string>
+    <string name="hint_cryptogram">000</string>
 
     <string name="error">Erreur</string>
     <string name="errordefault">Une erreur inconnue est survenue</string>
