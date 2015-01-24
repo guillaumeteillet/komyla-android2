@@ -11,21 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+
+import java.util.Calendar;
 
 import io.card.payment.CardIOActivity;
 import io.card.payment.CreditCard;
-
-import java.util.Calendar;
 
 //TODO: Mathieu
 /*
@@ -46,9 +36,9 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
     private EditText edittextCardNumber = null;
     private EditText edittextExpirationDateMonth = null;
     private EditText edittextExpirationDateYear = null;
-    /*private EditText edittextCryptogram = null;
+    private EditText edittextCryptogram = null;
     private EditText edittextOwnerName = null;
-    private EditText edittextDisplayName = null;*/
+    private EditText edittextDisplayName = null;
     private Button saveCard = null;
     private Button scanCard = null;
 
@@ -199,9 +189,9 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
         edittextCardNumber = (EditText)findViewById(R.id.edittextCardNumber);
         edittextExpirationDateMonth = (EditText)findViewById(R.id.edittextExpirationDateMonth);
         edittextExpirationDateYear = (EditText)findViewById(R.id.edittextExpirationDateYear);
-//        edittextCryptogram = (EditText)findViewById(R.id.edittextCryptogram);
-//        edittextOwnerName = (EditText)findViewById(R.id.edittextOwnerName);
-//        edittextDisplayName = (EditText)findViewById(R.id.edittextDisplayName);
+        edittextCryptogram = (EditText)findViewById(R.id.edittextCryptogram);
+        edittextOwnerName = (EditText)findViewById(R.id.edittextOwnerName);
+        edittextDisplayName = (EditText)findViewById(R.id.edittextDisplayName);
         saveCard = (Button)findViewById(R.id.buttonSaveCard);
         scanCard = (Button)findViewById(R.id.buttonScanCard);
     }

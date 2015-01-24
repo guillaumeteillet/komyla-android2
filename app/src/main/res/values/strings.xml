@@ -48,7 +48,7 @@
     <string name="title_activity_settings_parental_control">Contrôle Parental</string>
     <string name="title_activity_payement_with_unique_code">Saisissez le code unique Lizz</string>
     <string name="title_activity_settings_scanner">Scanner</string>
-    <string name="title_activity_add_edit_card">Ajouter une carte bancaire</string>
+    <string name="title_activity_add_edit_payment_method">Ajouter un moyen de paiement</string>
     <string name="title_activity_payment_method">Moyens de paiement</string>
     <string name="title_activity_payment_history">PaymentHistoryActivity</string>
 
