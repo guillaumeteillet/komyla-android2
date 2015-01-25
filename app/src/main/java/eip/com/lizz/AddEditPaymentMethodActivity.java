@@ -81,36 +81,49 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
 
     private void checkExpirationDate() {
         if (edittextExpirationDateMonth.getText().length() != 0 && edittextExpirationDateYear.getText().length() != 0) {
-            int monthInput = 0;
-            int yearInput = 0;
 
-            // Récupération du mois
-            if (edittextExpirationDateMonth.getText().charAt(0) == '0') {
-                monthInput += Character.getNumericValue(edittextExpirationDateMonth.getText().charAt(1));
-            }
-            else if (edittextExpirationDateMonth.getText().charAt(0) == '1') {
-                monthInput += Character.getNumericValue(edittextExpirationDateMonth.getText().charAt(0));
-                monthInput *= 10;
-                monthInput += Character.getNumericValue(edittextExpirationDateMonth.getText().charAt(1));
-            }
+            Log.d("WTF", "Mois -> " + edittextExpirationDateMonth.getText().length());
+            Log.d("WTF", "Année -> " + edittextExpirationDateYear.getText().length());
 
-            // Récupération de l'année
-            if (edittextExpirationDateYear.getText().length() == 2) {
-                yearInput += Character.getNumericValue(edittextExpirationDateYear.getText().charAt(0));
-                yearInput *= 10;
-                yearInput += Character.getNumericValue(edittextExpirationDateYear.getText().charAt(1));
-                yearInput += 2000;
-            }
-
-            if (isExpirationDateIsValide(monthInput, yearInput)) {
-                edittextExpirationDateMonth.setTextColor(Color.BLACK);
-                edittextExpirationDateYear.setTextColor(Color.BLACK);
-                edittextExpirationDateYear.setError(null);
-            }
-            else {
+            if (edittextExpirationDateMonth.getText().length() != 2 || edittextExpirationDateYear.getText().length() != 2)
+            {
                 edittextExpirationDateMonth.setTextColor(Color.RED);
                 edittextExpirationDateYear.setTextColor(Color.RED);
-                edittextExpirationDateYear.setError("La date d'expiration ne peut pas être antérieur à la date actuelle");
+                edittextExpirationDateYear.setError("Veuillez respecter le format suivant MM / AA");
+            }
+            else
+            {
+                int monthInput = 0;
+                int yearInput = 0;
+
+                // Récupération du mois
+                if (edittextExpirationDateMonth.getText().charAt(0) == '0') {
+                    monthInput += Character.getNumericValue(edittextExpirationDateMonth.getText().charAt(1));
+                }
+                else if (edittextExpirationDateMonth.getText().charAt(0) == '1') {
+                    monthInput += Character.getNumericValue(edittextExpirationDateMonth.getText().charAt(0));
+                    monthInput *= 10;
+                    monthInput += Character.getNumericValue(edittextExpirationDateMonth.getText().charAt(1));
+                }
+
+                // Récupération de l'année
+                if (edittextExpirationDateYear.getText().length() == 2) {
+                    yearInput += Character.getNumericValue(edittextExpirationDateYear.getText().charAt(0));
+                    yearInput *= 10;
+                    yearInput += Character.getNumericValue(edittextExpirationDateYear.getText().charAt(1));
+                    yearInput += 2000;
+                }
+
+                if (isExpirationDateIsValide(monthInput, yearInput)) {
+                    edittextExpirationDateMonth.setTextColor(Color.BLACK);
+                    edittextExpirationDateYear.setTextColor(Color.BLACK);
+                    edittextExpirationDateYear.setError(null);
+                }
+                else {
+                    edittextExpirationDateMonth.setTextColor(Color.RED);
+                    edittextExpirationDateYear.setTextColor(Color.RED);
+                    edittextExpirationDateYear.setError("La date d'expiration ne peut pas être antérieur à la date actuelle");
+                }
             }
         }
         // Mettre un 0 au besoin
