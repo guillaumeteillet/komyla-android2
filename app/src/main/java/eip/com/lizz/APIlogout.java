@@ -2,6 +2,7 @@ package eip.com.lizz;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.webkit.CookieManager;
@@ -122,19 +123,18 @@ public class APIlogout extends AsyncTask<Void, Void, JSONObject> {
            {
                if (jObj.get("responseCode").toString().equals("200"))
                {
-                   Log.d("ALLLOOOOOOO", ">>> WORLSE");
+                   SharedPreferences sharedpreferences = context.getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+                   sharedpreferences.edit().putString("eip.com.lizz.firstname", "").apply();
+                   sharedpreferences.edit().putString("eip.com.lizz.surname", "").apply();
+                   sharedpreferences.edit().putString("eip.com.lizz.email", "").apply();
+                   sharedpreferences.edit().putString("eip.com.lizz.phone", "").apply();
                    Intent loggedUser = new Intent(context, HomeActivity.class);
                    loggedUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                    context.startActivity(loggedUser);
                }
-               else
-               {
-                   Log.d("ALLLOOOOOOO", ">>> ON A BIEN DELETE LE COOKIE");
-               }
            }
             else
            {
-               Log.d("ALLLOOOOOOO", ">>> ON A BIEN DELETE LE COOKIE 22222");
                Intent loggedUser = new Intent(context, HomeActivity.class);
                loggedUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                context.startActivity(loggedUser);

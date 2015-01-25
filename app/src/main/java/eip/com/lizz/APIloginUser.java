@@ -122,16 +122,24 @@ public class APIloginUser extends AsyncTask<Void, Void, JSONObject> {
     }
 
     public static void checkErrorsAndLaunch(JSONObject jObj, Activity activity, Context context) {
+        String firstname, surname, email, phone;
         try {
             if (jObj.get("responseCode").toString().equals("200"))
             {
-                activity.finish();
-                SharedPreferences sharedpreferences = activity.getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+                firstname = jObj.getString("firstname");
+                surname = jObj.getString("surname");
+                email = jObj.getString("email");
+                phone = "0;"; //obj.getString("phone"); // TODO : Récupérer les numéros de téléphone from l'API.
+                SharedPreferences sharedpreferences = context.getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+                sharedpreferences.edit().putString("eip.com.lizz.firstname", firstname).apply();
+                sharedpreferences.edit().putString("eip.com.lizz.surname", surname).apply();
+                sharedpreferences.edit().putString("eip.com.lizz.email", email).apply();
+                sharedpreferences.edit().putString("eip.com.lizz.phone", phone).apply();
                 sharedpreferences.edit().putBoolean("eip.com.lizz.isLogged", true).apply();
+                activity.finish();
 
                 Intent loggedUser = new Intent(context, HomeLizzActivity.class);
                 loggedUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);// On supprime les vues précédentes, l'utilisateur est connecté.
-                loggedUser.putExtra("user_info",jObj.toString());
                 context.startActivity(loggedUser);
             }
             else if(jObj.get("responseCode").toString().equals("403"))
