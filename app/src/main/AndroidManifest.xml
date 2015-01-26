@@ -42,8 +42,8 @@
 
         <activity
             android:name=".HomeActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
         </activity>
         <activity android:name="com.facebook.LoginActivity" />
         <activity
@@ -54,8 +54,8 @@
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_register"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
@@ -74,6 +74,16 @@
         <activity
             android:name=".SettingsPayementLimit"
             android:label="@string/title_activity_settings_payement_limit" >
+        </activity>
+        <activity
+            android:name=".SettingsProfil"
+            android:label="@string/title_activity_settings_profil"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+        <activity
+            android:name=".SettingsCoordonnees"
+            android:label="@string/title_activity_settings_coordonnees"
+            android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
             android:name=".SettingsCodePIN"

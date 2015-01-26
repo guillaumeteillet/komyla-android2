@@ -1,27 +1,17 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:layout_width="fill_parent" android:layout_height="fill_parent">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:gravity="bottom">
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
 
-    <Button
-        android:id="@+id/cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/dialog_cancel">
-    </Button>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
 
-    <Button
-        android:id="@+id/save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" android:text="@string/dialog_save">
-    </Button>
-</LinearLayout>
+        tools:context="roblin_m.cardlistsample.AddEditPaymentMethodActivity"
+
+        android:id="@+id/rootview"
+        >
 
 <LinearLayout android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -47,5 +37,27 @@ android:layout_width="fill_parent" android:layout_height="fill_parent">
         android:hint="@string/hint_code_pin_edittext"/>
 
 </LinearLayout>
+    </ScrollView>
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="bottom">
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/dialog_cancel">
+        </Button>
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="@string/dialog_save">
+        </Button>
+    </LinearLayout>
 </FrameLayout>

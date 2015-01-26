@@ -68,7 +68,7 @@ public class SaveParams {
                     }
                     else
                     {
-                        displayError(1, context, params, key, isForChangePIN);
+                        displayError(9, context, params, key, isForChangePIN);
                     }
                 }
 
@@ -126,6 +126,9 @@ public class SaveParams {
                 break;
             case 8:
                 AlertBox.alertOk(context, context.getResources().getString(R.string.error), context.getResources().getString(R.string.IBANisNotFrench));
+                break;
+            case 9 :
+                AlertBox.alertOk(context, context.getResources().getString(R.string.error), context.getResources().getString(R.string.error_pin));
                 break;
             default:
                 AlertBox.alertOk(context, context.getResources().getString(R.string.error), context.getResources().getString(R.string.errordefault));

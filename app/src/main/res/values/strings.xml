@@ -21,6 +21,15 @@
     <string name="labelCryptogram">Cryptogramme</string>
     <string name="labelCardOwnerName">Nom du détenteur</string>
     <string name="labelAccountDisplayName">Nom d\'affichage</string>
+    <string name="labelyourname">Votre nom :</string>
+    <string name="labelyourcomplement">Complément :</string>
+    <string name="labelyouradress">Adresse :</string>
+    <string name="labelyourcp">Code Postal :</string>
+    <string name="labelyourcity">Ville :</string>
+    <string name="labelyourcountry">Pays :</string>
+    <string name="labelyouremail">Email :</string>
+    <string name="labelyourphonenumber">Vos numéros de téléphone :</string>
+    <string name="labelyourphonesecurity">Pour la sécurité de votre compte Lizz, merci de supprimer les numéros de téléphone obsolètes.</string>
 
     <string name="buttonSaveCardData">Enregistrer</string>
 
@@ -35,7 +44,7 @@
     <string name="dialog_ok">Okay</string>
     <string name="dialog_title_confirm">Confirmation</string>
     <string name="dialog_title_info">Information</string>
-    <string name="dialog_confirm_hint_pin">Entrez le code du contrôle parental pour enregistrer ce paramètre.</string>
+    <string name="dialog_confirm_hint_pin">Entrez le code PIN pour enregistrer ce paramètre.</string>
     <string name="dialog_confirm_mdp_parental">Entrez à nouveau le mot de passe parental pour enregistrer ce paramètre</string>
     <string name="dialog_confirm_old_mdp_parental">Entrez votre ANCIEN mot de passe parental pour enregistrer ce paramètre</string>
     <string name="dialog_confirm_mdp">Confirmer votre mot de passe</string>
@@ -45,12 +54,14 @@
     <string name="dialog_new_phone_number">Nouveau numéro de téléphone</string>
     <string name="dialog_new_phone_number_txt1">Nous avons détecté un nouveau numéro de téléphone (</string>
     <string name="dialog_new_phone_number_txt2">). Souhaitez-vous que nous mettions à jour votre profil ?</string>
+    <string name="dialog_numberAdd">Numéro ajouté</string>
+    <string name="dialog_numberAddTxt">Le numéro de votre carte SIM actuelle a été ajouté à votre compte.</string>
 
     <string name="connectwithlizzaccount">Se connecter avec un compte Lizz</string>
     <string name="createnewlizzaccount">Créer un nouveau compte Lizz</string>
 
     <string name="title_activity_settings">Paramètres</string>
-    <string name="title_activity_settings_payement_limit">Limite de paiement</string>
+    <string name="title_activity_settings_payement_limit">Alerte de dépense</string>
     <string name="title_activity_home_lizz">Lizz</string>
     <string name="title_activity_settings_code_pin">Code PIN Lizz</string>
     <string name="title_activity_scan_QR_CODE">Scannez un QRCode Lizz</string>
@@ -62,8 +73,10 @@
     <string name="title_activity_payment_method">Moyens de paiement</string>
     <string name="title_activity_settings_rib">Relevé d\'Identité Bancaire</string>
     <string name="title_activity_payment_history">PaymentHistoryActivity</string>
+    <string name="title_activity_settings_profil">Vos informations personnelles</string>
+    <string name="title_activity_settings_coordonnees">Vos Coordonnées</string>
 
-    <string name="hint_paiement_limit">Vous pouvez enregistrer une limite de paiement.</string>
+    <string name="hint_paiement_limit">Vous pouvez enregistrer une alerte de dépense mensuelle. L\'application vous avertira lorsque vous approcherez de votre seuil d\'alerte.</string>
     <string name="hint_paiement_limit_edittext">Montant en euros</string>
     <string name="hint_code_pin">Vous pouvez entrer votre code PIN Lizz</string>
     <string name="hint_code_pin_edittext">Code PIN Lizz</string>
@@ -93,6 +106,10 @@
     <string name="error_server_ok_but_fail_login">Le serveur d\'authentification Lizz est joignable mais la connexion a échouée. Veuillez réessayer ultérieurement. </string>
     <string name="wrongRIB">L\'iban que vous nous avez indiqué ne semble pas valide. Vérifiez votre saisie et réessayer.\n\nSi le problème persiste, contactez notre support.</string>
     <string name="IBANisNotFrench">Veuillez indiquer un compte en banque Français.</string>
+    <string name="error_address_short">L\'adresse est trop courte.</string>
+    <string name="error_cp_short">Le code postal est trop court.</string>
+    <string name="error_city_short">La ville est trop courte</string>
+    <string name="error_pin">Le code PIN que vous avez saisi est incorrect.</string>
 
     <string name="code000">Vérifiez votre connexion internet ! Le serveur d\'authentification Lizz est injoignable. Code d\'erreur Lizz : 000. Code HTTP : 118</string>
     <string name="code001">Code d\'erreur Lizz : 001. Code HTTP : 403</string>
@@ -110,5 +127,6 @@
     <string name="email_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-0123456789@._</string>
     <string name="name_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\'- </string>
     <string name="alphaNumeric_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
+    <string name="address_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ÄÃÅĀÀÂÆÁĖĘĒÊÉÈËŸŪÜÚÙÛĪÍĮÌÏÎŌÕÓÒÖŒÔČÇĆ\'-()":äãåāàâæáėęēêéèëÿūüúùûīíįìïîōõóòöœ</string>
 
 </resources>

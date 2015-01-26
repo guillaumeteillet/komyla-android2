@@ -43,7 +43,8 @@ public class HomeLizzActivity extends ActionBarActivity {
 
         if (isLogged)
         {
-            checkSIMNumber();
+            if (getResources().getString(R.string.debugOrProd).equals("PROD"))
+                checkSIMNumber();
 
             Button payer = (Button) findViewById(R.id.payer);
             payer.setOnClickListener(new View.OnClickListener() {
@@ -100,11 +101,8 @@ public class HomeLizzActivity extends ActionBarActivity {
             int i = 0;
             final SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
             phone = sharedpreferences.getString("eip.com.lizz.phone", "");
-            Log.d("PHONE", phone);
             String[] phones = phone.split(";");
-            Log.d("NB Case tableau",  ">>"+phones.length+"---"+loop+"---"+tMgr.getLine1Number()+"-0:"+phones[0]);
             while((i <= (phones.length - 1)) && loop == true) {
-                Log.d("WHILE",  ">>"+i+"---"+phones.length);
                 if (tMgr.getLine1Number().equals(phones[i])) {
                     isNew = false;
                     loop = false;
@@ -121,6 +119,9 @@ public class HomeLizzActivity extends ActionBarActivity {
                         String phone_before;
                         phone_before = sharedpreferences.getString("eip.com.lizz.phone", "");
                         sharedpreferences.edit().putString("eip.com.lizz.phone", phone_before+tMgr.getLine1Number()+";").apply();
+                        Intent intent = new Intent(getBaseContext(), SettingsCoordonnees.class);
+                        intent.putExtra("numberAdd", true);
+                        startActivity(intent);
                     }
                 });
                 alert.setNegativeButton(getResources().getString(R.string.dialog_cancel), null);

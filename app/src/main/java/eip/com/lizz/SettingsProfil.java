@@ -1,39 +1,45 @@
 package eip.com.lizz;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import org.iban4j.IbanFormatException;
+import org.iban4j.IbanUtil;
+import org.iban4j.InvalidCheckDigitException;
+import org.iban4j.UnsupportedCountryException;
 
-public class SettingsActivity extends ActionBarActivity {
+public class SettingsProfil  extends ActionBarActivity {
 
     ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);// Get ListView object from xml
+
+        setContentView(R.layout.activity_settings_profil);
+
         listView = (ListView) findViewById(R.id.list);
 
         String[] values = new String[] {
-                "Vos informations personnelles",
-                "Alerte de dépense",
-                "Code PIN Lizz",
-                "Contrôle Parental",
-                "Scanner",
+                "Vos Coordonnées",
+                "Vos moyens de paiement",
+                "Votre Relevé d'Identité Bancaire",
         };
-
+        final SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+        sharedpreferences.edit().putString("eip.com.lizz.phoneTMP", "").apply();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, values);
         listView.setAdapter(adapter);
@@ -43,32 +49,23 @@ public class SettingsActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
-                int itemPosition     = position;
-                String  itemValue    = (String) listView.getItemAtPosition(position);
+                int itemPosition = position;
+                String itemValue = (String) listView.getItemAtPosition(position);
 
                 Intent loggedUser;
 
 
-                switch (itemPosition)
-                {
+                switch (itemPosition) {
                     case 0:
-                        loggedUser = new Intent(getBaseContext(), SettingsProfil.class);
+                        loggedUser = new Intent(getBaseContext(), SettingsCoordonnees.class);
                         startActivity(loggedUser);
                         break;
                     case 1:
-                        loggedUser = new Intent(getBaseContext(), SettingsPayementLimit.class);
+                        loggedUser = new Intent(getBaseContext(), PaymentMethodsActivity.class);
                         startActivity(loggedUser);
                         break;
                     case 2:
-                        loggedUser = new Intent(getBaseContext(), SettingsCodePIN.class);
-                        startActivity(loggedUser);
-                        break;
-                    case 3:
-                        loggedUser = new Intent(getBaseContext(), SettingsParentalControl.class);
-                        startActivity(loggedUser);
-                        break;
-                    case 4:
-                        loggedUser = new Intent(getBaseContext(), SettingsScanner.class);
+                        loggedUser = new Intent(getBaseContext(), SettingsRIB.class);
                         startActivity(loggedUser);
                         break;
                 }
@@ -77,7 +74,6 @@ public class SettingsActivity extends ActionBarActivity {
 
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -88,5 +84,12 @@ public class SettingsActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return MenuLizz.settings_menu(item, getBaseContext());
+    }
+
+    public void onResume()
+    {
+        super.onResume();
+        final SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+        sharedpreferences.edit().putString("eip.com.lizz.phoneTMP", "").apply();
     }
 }
