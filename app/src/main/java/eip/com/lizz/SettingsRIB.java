@@ -66,30 +66,7 @@ public class SettingsRIB  extends ActionBarActivity {
                         IbanUtil.validate(rib.getText().toString());
                         if (rib.getText().toString().length() == 27 && rib.getText().toString().substring(0, 2).equals("FR")) // On verifie que c'est un IBAN FR.
                         {
-                            final SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
-                            final String pinCode = sharedpreferences.getString("eip.com.lizz.codepinlizz", "");
-
-                            final EditText input = new EditText(getBaseContext());
-                            input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                            input.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                            input.setTextColor(Color.BLACK);
-                            final AlertDialog.Builder alert = AlertBox.alertInputOk(SettingsRIB.this, getResources().getString(R.string.dialog_title_confirm), getResources().getString(R.string.dialog_confirm_hint_pin), input);
-                            alert.setPositiveButton(getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    if (input.getText().toString().equals(pinCode))
-                                    {
-                                        SaveParams.saveParamsString(SettingsRIB.this, "eip.com.lizz.rib", rib.getText().toString());
-                                        InputMethodManager imm = (InputMethodManager)getSystemService(
-                                                Context.INPUT_METHOD_SERVICE);
-                                        imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
-                                    }
-                                    else
-                                    {
-                                        SaveParams.displayError(9, SettingsRIB.this, null, null, false);
-                                    }
-                                }
-                            });
-                            alert.show();
+                            SaveParams.checkIsForChangePinOrNot(false, SettingsRIB.this, "eip.com.lizz.rib", rib.getText().toString());
                         }
                         else
                         {

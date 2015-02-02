@@ -26,6 +26,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.facebook.Settings;
+
 import org.iban4j.IbanFormatException;
 import org.iban4j.IbanUtil;
 import org.iban4j.InvalidCheckDigitException;
@@ -171,6 +173,7 @@ public class SettingsCoordonnees  extends ActionBarActivity {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             if (input.getText().toString().equals(pinCode))
                             {
+                                sharedpreferences.edit().putInt("eip.com.lizz.tentativePin", 0).apply();
                                 sharedpreferences.edit().putString("eip.com.lizz.address", address.getText().toString()).apply();
                                 sharedpreferences.edit().putString("eip.com.lizz.complement", complement.getText().toString()).apply();
                                 sharedpreferences.edit().putString("eip.com.lizz.postalcode", cp.getText().toString()).apply();
@@ -189,7 +192,7 @@ public class SettingsCoordonnees  extends ActionBarActivity {
                             }
                             else
                             {
-                                SaveParams.displayError(9, SettingsCoordonnees.this, null, null, false);
+                                SaveParams.tentativeCheck(SettingsCoordonnees.this, sharedpreferences);
                             }
                         }
                     });

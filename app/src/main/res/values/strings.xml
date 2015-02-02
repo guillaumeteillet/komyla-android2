@@ -45,6 +45,7 @@
     <string name="dialog_title_confirm">Confirmation</string>
     <string name="dialog_title_info">Information</string>
     <string name="dialog_confirm_hint_pin">Entrez le code PIN pour enregistrer ce paramètre.</string>
+    <string name="dialog_confirm_hint_newpin">Entrez le NOUVEAU code PIN pour enregistrer ce paramètre.</string>
     <string name="dialog_confirm_mdp_parental">Entrez à nouveau le mot de passe parental pour enregistrer ce paramètre</string>
     <string name="dialog_confirm_old_mdp_parental">Entrez votre ANCIEN mot de passe parental pour enregistrer ce paramètre</string>
     <string name="dialog_confirm_mdp">Confirmer votre mot de passe</string>
@@ -92,6 +93,9 @@
     <string name="hint_cryptogram">000</string>
 
     <string name="error">Erreur</string>
+    <string name="error_tentatives">Tentatives restantes</string>
+    <string name="error_nb_tentatives">Le code PIN que vous avez saisie est erroné. Il vous reste </string>
+    <string name="tentatives"> tentative(s)</string>
     <string name="errordefault">Une erreur inconnue est survenue</string>
     <string name="errorQRCodeEmpty">Ce QRCode semble vide !</string>
     <string name="errorQRCodeNotLizz">Ce QRCode n\'est pas un QR Code de caisse Lizz !</string>
@@ -110,6 +114,7 @@
     <string name="error_cp_short">Le code postal est trop court.</string>
     <string name="error_city_short">La ville est trop courte</string>
     <string name="error_pin">Le code PIN que vous avez saisi est incorrect.</string>
+    <string name="error_new_pincode">Les codes PIN saisies ne sont pas identique.</string>
 
     <string name="code000">Vérifiez votre connexion internet ! Le serveur d\'authentification Lizz est injoignable. Code d\'erreur Lizz : 000. Code HTTP : 118</string>
     <string name="code001">Code d\'erreur Lizz : 001. Code HTTP : 403</string>
