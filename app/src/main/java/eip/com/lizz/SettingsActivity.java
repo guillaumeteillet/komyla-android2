@@ -30,7 +30,6 @@ public class SettingsActivity extends ActionBarActivity {
                 "Vos informations personnelles",
                 "Alerte de dépense",
                 "Code PIN Lizz",
-                "Contrôle Parental",
                 "Scanner",
         };
 
@@ -64,10 +63,6 @@ public class SettingsActivity extends ActionBarActivity {
                         startActivity(loggedUser);
                         break;
                     case 3:
-                        loggedUser = new Intent(getBaseContext(), SettingsParentalControl.class);
-                        startActivity(loggedUser);
-                        break;
-                    case 4:
                         loggedUser = new Intent(getBaseContext(), SettingsScanner.class);
                         startActivity(loggedUser);
                         break;

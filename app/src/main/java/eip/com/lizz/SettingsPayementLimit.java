@@ -56,9 +56,6 @@ public class SettingsPayementLimit extends ActionBarActivity {
                 });
                 alert.show();
 
-
-
-                //SaveParams.checkParentalControlStatus(SettingsPayementLimit.this, payementLimit.getText().toString(), "eip.com.lizz.payementLimit", false);
             }
         });
 

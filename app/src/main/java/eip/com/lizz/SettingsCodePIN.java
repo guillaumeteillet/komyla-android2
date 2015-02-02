@@ -36,7 +36,6 @@ public class SettingsCodePIN extends ActionBarActivity {
                     SaveParams.displayError(6, SettingsCodePIN.this, null, null, false);
                 else
                     SaveParams.checkIsForChangePinOrNot(true, SettingsCodePIN.this, "eip.com.lizz.codepinlizz", codePinEditText.getText().toString());
-                    //SaveParams.checkParentalControlStatus(SettingsCodePIN.this, codePinEditText.getText().toString(), "eip.com.lizz.codepinlizz", true);
             }
         });
 
