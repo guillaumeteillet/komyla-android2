@@ -160,6 +160,7 @@ public class ScanQRCodeActivity extends Activity
                                     String unique_code = contents.replace(getResources().getString(R.string.urllizzcode), "");
                                     Intent payement = new Intent(getBaseContext(), PayementActivity.class);
                                     payement.putExtra("unique_code", unique_code);
+                                    payement.putExtra("sms_active", true);
                                     startActivity(payement);
                                     finish();
                                 } else {

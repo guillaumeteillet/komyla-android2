@@ -48,6 +48,7 @@ public class PayementWithUniqueCodeActivity extends ActionBarActivity {
                 String unique_code = uniqueCode.getText().toString();
                 Intent payement = new Intent(getBaseContext(), PayementActivity.class);
                 payement.putExtra("unique_code", unique_code);
+                payement.putExtra("sms_active", false);
                 startActivity(payement);
                 finish();
             }
