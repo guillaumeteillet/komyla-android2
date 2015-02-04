@@ -30,6 +30,9 @@
     <string name="url_api_final_v1">http://163.5.84.225:8000/api/v1/</string>
     <string name="urllizzcode">http://lizz.fr/code/</string>
 
+    <string name="url_api_get_paymentMethods">user/getPaymentCards</string>
+    <string name="url_api_add_creditCard">paymentcard/create</string>
+
     <string name="dialog_save">Enregistrer</string>
     <string name="dialog_cancel">Annuler</string>
     <string name="dialog_ok">Okay</string>
