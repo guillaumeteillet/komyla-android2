@@ -65,6 +65,15 @@ public class HomeLizzActivity extends ActionBarActivity {
                 }
             });
 
+            Button payerpap = (Button) findViewById(R.id.payerpap);
+            payerpap.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(getBaseContext(), PayementPTPActivity.class);
+                    startActivity(intent);
+                }
+            });
+
+
             Button AddPaymentMethod = (Button) findViewById(R.id.add);
             AddPaymentMethod.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {

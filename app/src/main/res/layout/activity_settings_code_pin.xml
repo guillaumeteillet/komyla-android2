@@ -30,6 +30,7 @@ android:layout_width="fill_parent" android:layout_height="fill_parent">
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberPassword"
+        android:digits="@string/numeric_digits"
         android:ems="10"
         android:id="@+id/code_pin"
         android:layout_weight="1"
