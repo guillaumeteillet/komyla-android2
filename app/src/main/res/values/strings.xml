@@ -108,7 +108,7 @@
     <string name="code056">Description : Erreur interne au serveur, veuillez réessayer. Code d\'erreur Lizz : 056. Code HTTP : 500</string>
 
     <string name="email_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-0123456789@._</string>
-    <string name="name_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\'- </string>
+    <string name="name_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ \'-</string>
     <string name="alphaNumeric_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
 
 </resources>
