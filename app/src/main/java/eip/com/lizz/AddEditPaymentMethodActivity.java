@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -110,7 +109,9 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
                     }
                 }
                 else {
-                    AlertBox.alertOk(AddEditPaymentMethodActivity.this, "Erreur de connectivité", "Votre connexion internet ne semble pas fonctionner");
+                    AlertBox.alertOk(AddEditPaymentMethodActivity.this,
+                            getResources().getString(R.string.dialog_title_no_internet),
+                            getResources().getString(R.string.dialog_no_internet));
                 }
             }
         });
@@ -144,14 +145,12 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
                 if (!hasFocus) {
                     cardNumberStr = edittextCardNumber.getText().toString();
                     if (edittextCardNumber.getText().length() != 0 && isCardNumberIsValide() == 0) {
-                        Log.v("verifiyCardNumber", "La carte est valide");
                         edittextCardNumber.setTextColor(Color.BLACK);
                         edittextCardNumber.setError(null);
                     }
                     else {
-                        Log.v("verifiyCardNumber", "La carte n'est pas valide");
                         edittextCardNumber.setTextColor(Color.RED);
-                        edittextCardNumber.setError("Le numéro de carte n'est pas valide");
+                        edittextCardNumber.setError(getResources().getString(R.string.error_wrong_card_number));
                     }
                 }
             }
@@ -165,7 +164,7 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
                 if (!hasFocus) {
                     if (!isCryptogramValid()) {
                         edittextCardNumber.setTextColor(Color.RED);
-                        edittextCardNumber.setError("Le cryptogramme doit comporter 3 chiffres");
+                        edittextCardNumber.setError(getResources().getString(R.string.error_wrong_cryptogram));
                     }
                     else {
                         edittextCryptogram.setTextColor(Color.BLACK);
@@ -192,7 +191,7 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
             {
                 edittextExpirationDateMonth.setTextColor(Color.RED);
                 edittextExpirationDateYear.setTextColor(Color.RED);
-                edittextExpirationDateYear.setError("Veuillez respecter le format suivant MM / AA");
+                edittextExpirationDateYear.setError(getResources().getString(R.string.error_format_wrong_expiration_date));
                 return false;
             }
             else
@@ -227,7 +226,7 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
                 else {
                     edittextExpirationDateMonth.setTextColor(Color.RED);
                     edittextExpirationDateYear.setTextColor(Color.RED);
-                    edittextExpirationDateYear.setError("La date d'expiration ne peut pas être antérieur à la date actuelle");
+                    edittextExpirationDateYear.setError(getResources().getString(R.string.error_wrong_expiration_date));
                     return false;
                 }
             }

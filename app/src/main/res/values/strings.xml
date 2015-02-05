@@ -33,11 +33,13 @@
     <string name="url_api_get_paymentMethods">user/getPaymentCards</string>
     <string name="url_api_add_creditCard">paymentcard/create</string>
 
+    <string name="dialog_title_confirm">Confirmation</string>
+    <string name="dialog_title_info">Information</string>
+    <string name="dialog_title_no_internet">Erreur de connectivité</string>
+    <string name="dialog_no_internet">Votre connexion internet ne semble pas fonctionner</string>
     <string name="dialog_save">Enregistrer</string>
     <string name="dialog_cancel">Annuler</string>
     <string name="dialog_ok">Okay</string>
-    <string name="dialog_title_confirm">Confirmation</string>
-    <string name="dialog_title_info">Information</string>
     <string name="dialog_confirm_hint_pin">Entrez le code du contrôle parental pour enregistrer ce paramètre.</string>
     <string name="dialog_confirm_mdp_parental">Entrez à nouveau le mot de passe parental pour enregistrer ce paramètre</string>
     <string name="dialog_confirm_old_mdp_parental">Entrez votre ANCIEN mot de passe parental pour enregistrer ce paramètre</string>
@@ -80,6 +82,10 @@
 
     <string name="toast_valid_card_infos">Votre carte a bien été enregistrée</string>
 
+    <string name="error_wrong_card_number">Le numéro de carte n'est pas valide</string>
+    <string name="error_wrong_cryptogram">Le cryptogramme doit comporter 3 chiffres</string>
+    <string name="error_wrong_expiration_date">La date d\'expiration ne peut pas être antérieur à la date actuelle</string>
+    <string name="error_format_wrong_expiration_date">Veuillez respecter le format suivant MM / AA</string>
     <string name="error">Erreur</string>
     <string name="errordefault">Une erreur inconnue est survenue</string>
     <string name="errorQRCodeEmpty">Ce QRCode semble vide !</string>
