@@ -128,6 +128,15 @@ public class APIlogout extends AsyncTask<Void, Void, JSONObject> {
                    sharedpreferences.edit().putString("eip.com.lizz.surname", "").apply();
                    sharedpreferences.edit().putString("eip.com.lizz.email", "").apply();
                    sharedpreferences.edit().putString("eip.com.lizz.phone", "").apply();
+                   sharedpreferences.edit().putString("eip.com.lizz.address", "").apply();
+                   sharedpreferences.edit().putString("eip.com.lizz.complement", "").apply();
+                   sharedpreferences.edit().putString("eip.com.lizz.postalcode", "").apply();
+                   sharedpreferences.edit().putString("eip.com.lizz.city", "").apply();
+                   sharedpreferences.edit().putString("eip.com.lizz.phoneTMP", "").apply();
+                   sharedpreferences.edit().putString("eip.com.lizz.rib", "").apply();
+                   sharedpreferences.edit().putString("eip.com.lizz.payementLimit", "").apply();
+                   sharedpreferences.edit().putString("eip.com.lizz.codepinlizz", "").apply();
+                   sharedpreferences.edit().putBoolean("eip.com.lizz.scannerstatus", true).apply();
                    Intent loggedUser = new Intent(context, HomeActivity.class);
                    loggedUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                    context.startActivity(loggedUser);

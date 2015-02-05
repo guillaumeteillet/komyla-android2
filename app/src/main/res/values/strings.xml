@@ -144,5 +144,8 @@
     <string name="title_activity_payement_ptpconfirm">PayementPTPConfirm</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="facebook">Se connecter avec Facebook</string>
+    <string name="google">Se connecter avec Google</string>
+    <string name="facebook_wait">Connexion en cours...</string>
 
 </resources>

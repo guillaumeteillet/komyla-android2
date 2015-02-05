@@ -18,21 +18,29 @@
         android:src="@drawable/logohome1"/>
 
     <com.facebook.widget.LoginButton
+        xmlns:fb="http://schemas.android.com/apk/res-auto"
         android:id="@+id/btnConnectFB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#3a5a95"
         android:layout_below="@+id/logo"
         android:layout_centerHorizontal="true"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
-        />
+        android:contentDescription="ICI"
+        android:scaleType="centerInside"
+        fb:login_text="@string/facebook"
+        fb:logout_text="@string/facebook_wait" />
 
-    <com.google.android.gms.common.SignInButton
+    <Button
         android:id="@+id/plus_sign_in_button"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/btnConnectFB"
-     />
+        android:text="@string/common_signin_button_text_long"
+        android:textColor="#ffffff"/>
 
     <Button
         style="?android:textAppearanceSmall"
