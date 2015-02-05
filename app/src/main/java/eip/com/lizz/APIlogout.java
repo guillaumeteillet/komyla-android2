@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -21,12 +19,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.CookieStore;
 import java.util.List;
 
-/**
- * Created by guillaume on 21/12/14.
- */
+
 public class APIlogout extends AsyncTask<Void, Void, JSONObject> {
 
     private final String mtokenCSFR;

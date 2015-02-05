@@ -78,6 +78,8 @@
     <string name="hint_expiration_year">AA</string>
     <string name="hint_cryptogram">000</string>
 
+    <string name="toast_valid_card_infos">Votre carte a bien été enregistrée</string>
+
     <string name="error">Erreur</string>
     <string name="errordefault">Une erreur inconnue est survenue</string>
     <string name="errorQRCodeEmpty">Ce QRCode semble vide !</string>
@@ -93,6 +95,7 @@
     <string name="error_server_ok_but_fail_login">Le serveur d\'authentification Lizz est joignable mais la connexion a échouée. Veuillez réessayer ultérieurement. </string>
     <string name="wrongRIB">L\'iban que vous nous avez indiqué ne semble pas valide. Vérifiez votre saisie et réessayer.\n\nSi le problème persiste, contactez notre support.</string>
     <string name="IBANisNotFrench">Veuillez indiquer un compte en banque Français.</string>
+    <string name="wrong_card_infos">Certains champs n\'ont pas été remplis ou comportent des erreurs.</string>
 
     <string name="code000">Vérifiez votre connexion internet ! Le serveur d\'authentification Lizz est injoignable. Code d\'erreur Lizz : 000. Code HTTP : 118</string>
     <string name="code001">Code d\'erreur Lizz : 001. Code HTTP : 403</string>

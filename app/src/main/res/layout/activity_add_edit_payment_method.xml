@@ -23,7 +23,7 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:text="@string/labelCardName"
             android:id="@+id/textviewCardNumber"
             android:gravity="center"
@@ -31,7 +31,7 @@
 
         <EditText
             android:layout_width="180dp"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:layout_toEndOf="@+id/textviewCardNumber"
             android:layout_toRightOf="@+id/textviewCardNumber"
             android:layout_marginStart="20dp"
@@ -56,7 +56,7 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:text="@string/labelExpirationDate"
             android:id="@+id/textviewExpirationDate"
             android:gravity="center"
@@ -66,7 +66,7 @@
 
         <EditText
             android:layout_width="50dp"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:layout_toEndOf="@+id/textviewExpirationDate"
             android:layout_toRightOf="@+id/textviewExpirationDate"
             android:layout_marginStart="20dp"
@@ -74,7 +74,6 @@
             android:layout_marginTop="10dp"
             android:layout_below="@id/edittextCardNumber"
             android:hint="@string/hint_expiration_month"
-            android:textSize="15dp"
             android:id="@+id/edittextExpirationDateMonth"
             android:maxLength="2"
             android:inputType="number"
@@ -84,14 +83,13 @@
 
         <EditText
             android:layout_width="50dp"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:layout_toEndOf="@+id/textviewExpirationDate"
             android:layout_marginStart="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:layout_below="@id/edittextCardNumber"
             android:hint="@string/hint_expiration_year"
-            android:textSize="15dp"
             android:id="@+id/edittextExpirationDateYear"
             android:maxLength="2"
             android:inputType="number"
@@ -102,7 +100,7 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:text="@string/labelCryptogram"
             android:id="@+id/textviewCryptogram"
             android:gravity="center"
@@ -112,7 +110,7 @@
 
         <EditText
             android:layout_width="110dp"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:id="@+id/edittextCryptogram"
             android:hint="@string/hint_cryptogram"
             android:layout_toEndOf="@+id/textviewExpirationDate"
@@ -129,7 +127,7 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:text="@string/labelCardOwnerName"
             android:id="@+id/textviewOwnerName"
             android:gravity="center"
@@ -139,7 +137,7 @@
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:id="@+id/edittextOwnerName"
             android:layout_toEndOf="@+id/textviewExpirationDate"
             android:layout_toRightOf="@+id/textviewExpirationDate"
@@ -155,7 +153,7 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:text="@string/labelAccountDisplayName"
             android:id="@+id/textviewDisplayName"
             android:gravity="center"
@@ -165,7 +163,7 @@
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:id="@+id/edittextDisplayName"
             android:layout_toEndOf="@+id/textviewExpirationDate"
             android:layout_toRightOf="@+id/textviewExpirationDate"
