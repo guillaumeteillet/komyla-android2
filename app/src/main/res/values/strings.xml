@@ -109,7 +109,7 @@
 
     <string name="toast_valid_card_infos">Votre carte a bien été enregistrée</string>
 
-    <string name="error_wrong_card_number">Le numéro de carte n'est pas valide</string>
+    <string name="error_wrong_card_number">Le numéro de carte n\'est pas valide</string>
     <string name="error_wrong_cryptogram">Le cryptogramme doit comporter 3 chiffres</string>
     <string name="error_wrong_expiration_date">La date d\'expiration ne peut pas être antérieur à la date actuelle</string>
     <string name="error_format_wrong_expiration_date">Veuillez respecter le format suivant MM / AA</string>
