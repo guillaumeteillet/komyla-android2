@@ -75,7 +75,7 @@ public class MenuLizz {
         return true;
     }
 
-    private static boolean signout(final Context context)
+    public static boolean signout(final Context context)
     {
         String token;
         SharedPreferences sharedpreferences = context.getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);

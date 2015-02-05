@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -11,6 +12,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.facebook.Request;
 import com.facebook.RequestAsyncTask;
@@ -67,6 +69,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         setContentView(R.layout.activity_home);
 
         LoginButton authButton = (LoginButton) findViewById(R.id.btnConnectFB);
+        authButton.setBackgroundResource(R.drawable.facebook);
         authButton.setReadPermissions(Arrays.asList("email", "user_friends", "user_birthday", "user_likes"));
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -88,7 +91,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         lizzNewAccount.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 TelephonyManager tMgr = (TelephonyManager)getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
-            if (tMgr.getLine1Number() == null && getResources().getString(R.string.debugOrProd).equals("PROD"))
+            if ((tMgr.getLine1Number() == null || tMgr.getLine1Number().equals(""))&& getResources().getString(R.string.debugOrProd).equals("PROD"))
                 {
                     AlertBox.alertOk(HomeActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code007));
                 }
@@ -100,7 +103,12 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             }
         });
 
-        SignInButton gplus = (SignInButton) findViewById(R.id.plus_sign_in_button);
+        Button gplus = (Button) findViewById(R.id.plus_sign_in_button);
+        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Bold.ttf");
+        gplus.setTypeface(myTypeface);
+        gplus.setBackgroundResource(R.drawable.googleplus);
+        gplus.setText(getResources().getString(R.string.google));
+       // setGooglePlusButtonText(gplus,getResources().getString(R.string.google));
         if (!supportsGooglePlayServices()) {
             gplus.setVisibility(View.GONE);
             return;
@@ -115,6 +123,19 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 }
             });
 
+        }
+    }
+
+    protected void setGooglePlusButtonText(SignInButton signInButton, String buttonText) {
+        // Find the TextView that is inside of the SignInButton and set its text
+        for (int i = 0; i < signInButton.getChildCount(); i++) {
+            View v = signInButton.getChildAt(i);
+
+            if (v instanceof TextView) {
+                TextView tv = (TextView) v;
+                tv.setText(buttonText);
+                return;
+            }
         }
     }
 

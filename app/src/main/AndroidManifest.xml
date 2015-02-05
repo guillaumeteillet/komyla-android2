@@ -42,8 +42,8 @@
 
         <activity
             android:name=".HomeActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
         </activity>
         <activity android:name="com.facebook.LoginActivity" />
         <activity
@@ -54,8 +54,8 @@
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_register"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
@@ -76,6 +76,16 @@
             android:label="@string/title_activity_settings_payement_limit" >
         </activity>
         <activity
+            android:name=".SettingsProfil"
+            android:label="@string/title_activity_settings_profil"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name=".SettingsCoordonnees"
+            android:label="@string/title_activity_settings_coordonnees"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
             android:name=".SettingsCodePIN"
             android:label="@string/title_activity_settings_code_pin" >
         </activity>
@@ -89,8 +99,8 @@
             android:label="@string/title_activity_PayementActivity" >
         </activity>
         <activity
-            android:name=".SettingsParentalControl"
-            android:label="@string/title_activity_settings_parental_control" >
+            android:name=".PayementPTPActivity"
+            android:label="@string/title_activity_payement_ptp" >
         </activity>
         <activity
             android:name=".PayementWithUniqueCodeActivity"
@@ -123,6 +133,10 @@
         <activity
             android:name=".PaymentHistoryActivity"
             android:label="@string/title_activity_payment_history" >
+        </activity>
+        <activity
+            android:name=".PayementPTPConfirm"
+            android:label="@string/title_activity_payement_ptpconfirm" >
         </activity>
     </application>
 

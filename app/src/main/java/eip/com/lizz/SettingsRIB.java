@@ -1,14 +1,20 @@
 package eip.com.lizz;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -60,7 +66,7 @@ public class SettingsRIB  extends ActionBarActivity {
                         IbanUtil.validate(rib.getText().toString());
                         if (rib.getText().toString().length() == 27 && rib.getText().toString().substring(0, 2).equals("FR")) // On verifie que c'est un IBAN FR.
                         {
-                             SaveParams.saveParamsString(SettingsRIB.this, "eip.com.lizz.rib", rib.getText().toString());
+                            SaveParams.checkIsForChangePinOrNot(false, SettingsRIB.this, "eip.com.lizz.rib", rib.getText().toString());
                         }
                         else
                         {
