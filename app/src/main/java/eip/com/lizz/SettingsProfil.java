@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.facebook.Settings;
+
 import org.iban4j.IbanFormatException;
 import org.iban4j.IbanUtil;
 import org.iban4j.InvalidCheckDigitException;
@@ -83,7 +85,7 @@ public class SettingsProfil  extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return MenuLizz.settings_menu(item, getBaseContext());
+        return MenuLizz.settings_menu(item, getBaseContext(), SettingsProfil.this);
     }
 
     public void onResume()

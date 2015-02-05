@@ -115,6 +115,6 @@ public class PayementPTPConfirm extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return MenuLizz.main_menu(item, getBaseContext());
+        return MenuLizz.main_menu(item, getBaseContext(), PayementPTPConfirm.this);
     }
 }

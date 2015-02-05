@@ -90,7 +90,7 @@ public class SaveParams {
         else if (new_tentative == 3)
         {
             sharedpreferences.edit().putInt("eip.com.lizz.tentativePin", 0).apply();
-            MenuLizz.signout(context);
+            MenuLizz.signout(context, context);
         }
     }
 

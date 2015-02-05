@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.facebook.Settings;
+
 
 public class SettingsCodePIN extends ActionBarActivity {
 
@@ -56,6 +58,6 @@ public class SettingsCodePIN extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return MenuLizz.settings_menu(item, getBaseContext());
+        return MenuLizz.settings_menu(item, getBaseContext(), SettingsCodePIN.this);
     }
 }

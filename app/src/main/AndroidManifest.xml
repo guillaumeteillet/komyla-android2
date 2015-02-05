@@ -138,6 +138,10 @@
             android:name=".PayementPTPConfirm"
             android:label="@string/title_activity_payement_ptpconfirm" >
         </activity>
+        <activity
+            android:name=".SettingsPassword"
+            android:label="@string/title_activity_settings_password" >
+        </activity>
     </application>
 
 </manifest>

@@ -1,8 +1,10 @@
 package eip.com.lizz;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -25,22 +27,22 @@ public class MenuLizz {
     static ProgressDialog dialog;
     static Handler handler = null;
 
-    public static boolean main_menu(MenuItem item, Context context)
+    public static boolean main_menu(MenuItem item, Context context, Activity ctx)
     {
         int id = item.getItemId();
         if (id == R.id.action_params) {
             return settings(context);
         }
         if (id == R.id.action_signout) {
-            return signout(context);
+            return signout(context, ctx);
         }
         return false;
     }
 
-    public static boolean settings_menu(MenuItem item, Context context) {
+    public static boolean settings_menu(MenuItem item, Context context, Activity ctx) {
         int id = item.getItemId();
         if (id == R.id.action_signout) {
-            return signout(context);
+            return signout(context, ctx);
         }
         return false;
     }
@@ -75,21 +77,29 @@ public class MenuLizz {
         return true;
     }
 
-    public static boolean signout(final Context context)
+    public static boolean signout(final Context context, Activity ctx)
     {
-        String token;
-        SharedPreferences sharedpreferences = context.getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
-        token = sharedpreferences.getString("eip.com.lizz._csrf", "");
-        sharedpreferences.edit().putBoolean("eip.com.lizz.isLogged", false).apply();
-        mAuthTask = new APIlogout(token, context);
-        mAuthTask.setOnTaskFinishedEvent(new APIlogout.OnTaskExecutionFinished() {
-            @Override
-            public void OnTaskFihishedEvent(JSONObject jObj) {
-                APIlogout.checkErrorsAndLaunch(jObj, context);
-            }
+        AlertDialog.Builder alert;
+        alert = AlertBox.alert(ctx, context.getResources().getString(R.string.confirm), context.getResources().getString(R.string.logout));
+        alert.setPositiveButton(context.getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String token;
+                SharedPreferences sharedpreferences = context.getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+                token = sharedpreferences.getString("eip.com.lizz._csrf", "");
+                sharedpreferences.edit().putBoolean("eip.com.lizz.isLogged", false).apply();
+                mAuthTask = new APIlogout(token, context);
+                mAuthTask.setOnTaskFinishedEvent(new APIlogout.OnTaskExecutionFinished() {
+                    @Override
+                    public void OnTaskFihishedEvent(JSONObject jObj) {
+                        APIlogout.checkErrorsAndLaunch(jObj, context);
+                    }
 
+                });
+                mAuthTask.execute();
+            }
         });
-        mAuthTask.execute();
+        alert.setNegativeButton(context.getResources().getString(R.string.dialog_cancel), null);
+        alert.show();
         return true;
     }
 

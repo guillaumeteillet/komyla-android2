@@ -64,6 +64,7 @@
     <string name="dialog_confirm_old_mdp_parental">Entrez votre ANCIEN mot de passe parental pour enregistrer ce paramètre</string>
     <string name="dialog_confirm_mdp">Confirmer votre mot de passe</string>
     <string name="dialog_confirm_hint_pin_change">Entrez votre ANCIEN code PIN Lizz pour enregistrer ce paramètre.</string>
+    <string name="dialog_confirm_hint_pwd_change">Entrez votre ANCIEN mot de passe Lizz pour enregistrer ce paramètre.</string>
     <string name="dialog_info_flash_unavialable">Impossible de démarrer le flash.</string>
     <string name="dialog_scan_qr_code">Scan a Lizz QRCode</string>
     <string name="dialog_new_phone_number">Nouveau numéro de téléphone</string>
@@ -71,6 +72,9 @@
     <string name="dialog_new_phone_number_txt2">). Souhaitez-vous que nous mettions à jour votre profil ?</string>
     <string name="dialog_numberAdd">Numéro ajouté</string>
     <string name="dialog_numberAddTxt">Le numéro de votre carte SIM actuelle a été ajouté à votre compte.</string>
+    <string name="confirm">Confirmation</string>
+    <string name="logout">Êtes-vous sûr de vouloir vous déconnecter ?</string>
+
     <string name="connectwithlizzaccount">Se connecter avec un compte Lizz</string>
     <string name="createnewlizzaccount">Créer un nouveau compte Lizz</string>
 
@@ -89,12 +93,12 @@
     <string name="title_activity_payment_history">PaymentHistoryActivity</string>
     <string name="title_activity_settings_profil">Vos informations personnelles</string>
     <string name="title_activity_settings_coordonnees">Vos Coordonnées</string>
+    <string name="title_activity_settings_password">SettingsPassword</string>
+
     <string name="hint_paiement_limit">Vous pouvez enregistrer une alerte de dépense mensuelle. L\'application vous avertira lorsque vous approcherez de votre seuil d\'alerte.</string>
     <string name="hint_paiement_limit_edittext">Montant en euros</string>
     <string name="hint_code_pin">Vous pouvez entrer votre code PIN Lizz</string>
     <string name="hint_code_pin_edittext">Code PIN Lizz</string>
-    <string name="hint_code_parentalControl">Vous pouvez activer le contrôle parental pour empêcher votre enfant de modifier la limite de paiement.</string>
-    <string name="hint_code_parentalControl_mdp">Mot de passe parental :</string>
     <string name="hint_scanner">Si la caméra de votre smartphone est endommagé, vous pouvez désactivé le Scanner de QRCode et utiliser uniquement la saisie de l\'identifiant unique Lizz. Voulez-vous activer le scanner ?</string>
     <string name="hint_payement_with_unique_code">Vous n\'arrivez pas à scanner le QR Code de la caisse ? Vous pouvez saisir ici le code unique de la caisse qui est inscrit en dessous du QRCode :</string>
     <string name="hint_iban">Entrez le numéro de compte sur lequel vous souhaitez recevoir votre argent.</string>
@@ -106,6 +110,11 @@
     <string name="hint_phone_email">Numéro de téléphone ou adresse email</string>
     <string name="hint_payement_pap">Pour envoyer de l\'argent à un particulier, vous devez entrer son numéro de téléphone portable ou son adresse email.</string>
     <string name="hint_somme">Somme en euro €</string>
+    <string name="hint_password">Saisissez votre nouveau mot de passe :</string>
+    <string name="hint_password_edittext">Nouveau mot de passe</string>
+    <string name="hint_confirm_password">Confirmer votre nouveau mot de passe :</string>
+    <string name="hint_confirm_password_edittext">Confirmation mot de passe</string>
+
 
     <string name="toast_valid_card_infos">Votre carte a bien été enregistrée</string>
 
@@ -123,7 +132,8 @@
     <string name="wrongPassword">Le mot de passe que vous avez saisi est incorrect.</string>
     <string name="emptyPasswordParental">Si vous activez le control parental, vous devez saisir le mot de passe !</string>
     <string name="emptyPasswordPIN">Le code PIN ne peut pas être vide.</string>
-    <string name="wrongPasswordConfirm">Les mots des passes saisies ne sont pas identique.</string>
+    <string name="wrongPasswordConfirm">Les mots de passes saisies ne sont pas identique.</string>
+    <string name="passwordTooShort">Le nouveau mot de passe est trop court : 6 caractères minimum sont attendus.</string>
     <string name="wrongOldPassword">Le nouveau mot de passe n\'a pas été enregistré car vous n\'avez pas saisi l\'ancien correctement</string>
     <string name="no_unique_code">Une erreur est survenue : Le code unique Lizz n\'a pas été détécté.</string>
     <string name="error_camera_txt">Aucune appareil photo n\'a été détécté sur votre téléphone : Le scanner est inutilisable.</string>
@@ -160,11 +170,12 @@
     <string name="alphaNumeric_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
     <string name="address_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ÄÃÅĀÀÂÆÁĖĘĒÊÉÈËŸŪÜÚÙÛĪÍĮÌÏÎŌÕÓÒÖŒÔČÇĆ\'-()":äãåāàâæáėęēêéèëÿūüúùûīíįìïîōõóòöœ</string>
     <string name="numeric_digits">0123456789</string>
-    <string name="title_activity_payement_ptpconfirm">PayementPTPConfirm</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+
     <string name="facebook">Se connecter avec Facebook</string>
     <string name="google">Se connecter avec Google</string>
     <string name="facebook_wait">Connexion en cours...</string>
+    <string name="pwdsave">Le mot de passe a été enregistré avec succès !</string>
+    <string name="pleasewait">Veuillez patienter</string>
+    <string name="pleasewaitsave">Enregistrement de votre changement de mot passe...</string>
 
 </resources>

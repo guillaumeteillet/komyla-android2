@@ -15,6 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.facebook.Settings;
+
 
 public class SettingsActivity extends ActionBarActivity {
 
@@ -30,6 +32,7 @@ public class SettingsActivity extends ActionBarActivity {
                 "Vos informations personnelles",
                 "Alerte de dépense",
                 "Code PIN Lizz",
+                "Mot de passe",
                 "Scanner",
         };
 
@@ -63,6 +66,10 @@ public class SettingsActivity extends ActionBarActivity {
                         startActivity(loggedUser);
                         break;
                     case 3:
+                        loggedUser = new Intent(getBaseContext(), SettingsPassword.class);
+                        startActivity(loggedUser);
+                        break;
+                    case 4:
                         loggedUser = new Intent(getBaseContext(), SettingsScanner.class);
                         startActivity(loggedUser);
                         break;
@@ -82,6 +89,6 @@ public class SettingsActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return MenuLizz.settings_menu(item, getBaseContext());
+        return MenuLizz.settings_menu(item, getBaseContext(), SettingsActivity.this);
     }
 }
