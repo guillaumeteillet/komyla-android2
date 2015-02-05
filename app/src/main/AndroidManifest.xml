@@ -121,18 +121,21 @@
         <activity
             android:name=".AddEditPaymentMethodActivity"
             android:label="@string/title_activity_add_edit_card"
-            android:windowSoftInputMode="stateHidden" >
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".PaymentMethodsActivity" />
         </activity>
         <activity
             android:name=".PaymentMethodsActivity"
-            android:label="@string/title_activity_payment_method" >
+            android:label="@string/title_activity_payment_method"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".PaymentHistoryActivity"
-            android:label="@string/title_activity_payment_history" >
+            android:label="@string/title_activity_payment_history"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".PayementPTPConfirm"
