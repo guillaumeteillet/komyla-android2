@@ -219,6 +219,6 @@ public class SettingsCoordonnees  extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return MenuLizz.settings_menu(item, getBaseContext());
+        return MenuLizz.settings_menu(item, getBaseContext(), SettingsCoordonnees.this);
     }
 }

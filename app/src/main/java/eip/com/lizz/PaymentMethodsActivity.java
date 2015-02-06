@@ -93,7 +93,7 @@ public class PaymentMethodsActivity extends ActionBarActivity {
             return true;
         }
 
-        return MenuLizz.main_menu(item, getBaseContext());
+        return MenuLizz.main_menu(item, getBaseContext(), PaymentMethodsActivity.this);
     }
 }
 
