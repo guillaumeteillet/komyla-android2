@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,6 +46,8 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
     private ImageButton scanCard = null;
 
     private String cardNumberStr = null;
+    private int monthInput = 0;
+    private int yearInput = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +55,9 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
         setContentView(R.layout.activity_add_edit_payment_method);
 
         buttonBinding();
-        configureEdittextCardNumber();
+/*        configureEdittextCardNumber();
         configureEdittextExpirationDate();
-        configureEdittextCryptogram();
+        configureEdittextCryptogram();*/
         configureButtonSaveCard(this);
 
         saveCard.setEnabled(true);
@@ -117,12 +120,26 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
         });
     }
 
+    private void configureEdittextCardNumber() {
+
+        edittextCardNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    edittextCardNumber.setTextColor(Color.BLACK);
+                    edittextCardNumber.setError(null);
+                }
+            }
+        });
+    }
+
     private void configureEdittextExpirationDate() {
         edittextExpirationDateMonth.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    checkExpirationDate();
+                if (hasFocus) {
+                    edittextExpirationDateMonth.setTextColor(Color.BLACK);
+                    edittextExpirationDateMonth.setError(null);
                 }
             }
         });
@@ -130,28 +147,9 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
         edittextExpirationDateYear.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    checkExpirationDate();
-                }
-            }
-        });
-    }
-
-    private void configureEdittextCardNumber() {
-
-        edittextCardNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    cardNumberStr = edittextCardNumber.getText().toString();
-                    if (edittextCardNumber.getText().length() != 0 && isCardNumberIsValide() == 0) {
-                        edittextCardNumber.setTextColor(Color.BLACK);
-                        edittextCardNumber.setError(null);
-                    }
-                    else {
-                        edittextCardNumber.setTextColor(Color.RED);
-                        edittextCardNumber.setError(getResources().getString(R.string.error_wrong_card_number));
-                    }
+                if (hasFocus) {
+                    edittextExpirationDateYear.setTextColor(Color.BLACK);
+                    edittextExpirationDateYear.setError(null);
                 }
             }
         });
@@ -161,15 +159,9 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
         this.edittextCryptogram.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    if (!isCryptogramValid()) {
-                        edittextCardNumber.setTextColor(Color.RED);
-                        edittextCardNumber.setError(getResources().getString(R.string.error_wrong_cryptogram));
-                    }
-                    else {
-                        edittextCryptogram.setTextColor(Color.BLACK);
-                        edittextCryptogram.setError(null);
-                    }
+                if (hasFocus) {
+                    edittextCryptogram.setTextColor(Color.BLACK);
+                    edittextCryptogram.setError(null);
                 }
             }
         });
@@ -178,82 +170,97 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
 
 
     private boolean allFieldAreGood() {
-        if (isCardNumberIsValide() == 0 && checkExpirationDate() && isCryptogramValid()
+        if (isCardNumberIsValide() && checkExpirationMonth() && checkExpirationYear()
+                && isExpirationDateValide() && isCryptogramValid()
                 && this.edittextOwnerName.length() != 0 && this.edittextDisplayName.length() != 0) {
             return true;
         }
+
+        /* Erreur de numéro de carte bleue*/
+        /*cardNumberStr = edittextCardNumber.getText().toString();
+        if (isCardNumberIsValide() != 0)
+            edittextCardNumber.setError(getResources().getString(R.string.error_wrong_card_number)); // Intégrer ça dans la fonction de check*/
+
+        /* Erreur dans le cryptogramme */
+        /*if (!isCryptogramValid())
+            edittextCryptogram.setError(getResources().getString(R.string.error_wrong_cryptogram)); // Intégrer ça dans la fonction de check*/
+
+        // Changer la vérification de la date, on check d'abord l'année et ensuite le mois avec erreur au bon endroit
+
         return false;
     }
 
-    private boolean checkExpirationDate() {
-        if (edittextExpirationDateMonth.getText().length() != 0 && edittextExpirationDateYear.getText().length() != 0) {
-            if (edittextExpirationDateMonth.getText().length() != 2 || edittextExpirationDateYear.getText().length() != 2)
-            {
-                edittextExpirationDateMonth.setTextColor(Color.RED);
-                edittextExpirationDateYear.setTextColor(Color.RED);
-                edittextExpirationDateYear.setError(getResources().getString(R.string.error_format_wrong_expiration_date));
-                return false;
+    private boolean checkExpirationMonth() {
+
+        // VERIFICATION DU FORMAT
+        if (edittextExpirationDateMonth == null || edittextExpirationDateMonth.getText().length() != 2) {
+            edittextExpirationDateMonth.setError(getResources().getString(R.string.error_format_wrong_expiration_date));
+            return false;
+        }
+        // RECUPERATION DU MOIS
+        monthInput = 0;
+        monthInput += Character.getNumericValue(edittextExpirationDateMonth.getText().charAt(0));
+        monthInput *= 10;
+        monthInput += Character.getNumericValue(edittextExpirationDateMonth.getText().charAt(1));
+        // VERIFICATION DU MOIS
+        if (monthInput < 1 || monthInput > 12) {
+            edittextExpirationDateMonth.setError(getResources().getString(R.string.error_wrong_expiration_month));
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkExpirationYear() {
+
+        if (edittextExpirationDateYear == null || edittextExpirationDateYear.getText().length() != 2) {
+            edittextExpirationDateYear.setError(getResources().getString(R.string.error_format_wrong_expiration_date));
+            return false;
+        }
+        // RECUPERATION DE L'ANNÉE
+        yearInput = 0;
+        yearInput += Character.getNumericValue(edittextExpirationDateYear.getText().charAt(0));
+        yearInput *= 10;
+        yearInput += Character.getNumericValue(edittextExpirationDateYear.getText().charAt(1));
+        yearInput += 2000;
+
+        return true;
+    }
+
+    private boolean isExpirationDateValide() {
+        int monthCalendar;
+        int yearCalendar;
+
+        if (checkExpirationMonth() && checkExpirationYear()) {
+            Calendar calendar = Calendar.getInstance();
+            monthCalendar = calendar.get(Calendar.MONTH) + 1;
+            yearCalendar = calendar.get(Calendar.YEAR);
+
+            if (yearInput > yearCalendar && yearInput < yearCalendar + 3)
+                return true;
+            else if (yearInput == yearCalendar && monthInput >= monthCalendar)
+                return true;
+            else if (yearInput < yearCalendar) {
+                edittextExpirationDateYear.setError(getResources().getString(R.string.error_wrong_expiration_date));
             }
-            else
-            {
-                int monthInput = 0;
-                int yearInput = 0;
-
-                // Récupération du mois
-                if (edittextExpirationDateMonth.getText().charAt(0) == '0') {
-                    monthInput += Character.getNumericValue(edittextExpirationDateMonth.getText().charAt(1));
-                }
-                else if (edittextExpirationDateMonth.getText().charAt(0) == '1') {
-                    monthInput += Character.getNumericValue(edittextExpirationDateMonth.getText().charAt(0));
-                    monthInput *= 10;
-                    monthInput += Character.getNumericValue(edittextExpirationDateMonth.getText().charAt(1));
-                }
-
-                // Récupération de l'année
-                if (edittextExpirationDateYear.getText().length() == 2) {
-                    yearInput += Character.getNumericValue(edittextExpirationDateYear.getText().charAt(0));
-                    yearInput *= 10;
-                    yearInput += Character.getNumericValue(edittextExpirationDateYear.getText().charAt(1));
-                    yearInput += 2000;
-                }
-
-                if (isExpirationDateIsValide(monthInput, yearInput)) {
-                    edittextExpirationDateMonth.setTextColor(Color.BLACK);
-                    edittextExpirationDateYear.setTextColor(Color.BLACK);
-                    edittextExpirationDateYear.setError(null);
-                    return true;
-                }
-                else {
-                    edittextExpirationDateMonth.setTextColor(Color.RED);
-                    edittextExpirationDateYear.setTextColor(Color.RED);
-                    edittextExpirationDateYear.setError(getResources().getString(R.string.error_wrong_expiration_date));
-                    return false;
-                }
+            else if (yearInput > yearCalendar + 2) {
+                edittextExpirationDateYear.setError("Année_actuelle + 2 est le maximum");
             }
         }
         return false;
     }
 
-    private boolean isExpirationDateIsValide(int monthInput, int yearInput) {
-        int monthCalendar;
-        int yearCalendar;
-
-        Calendar calendar = Calendar.getInstance();
-        monthCalendar = calendar.get(Calendar.MONTH) + 1;
-        yearCalendar = calendar.get(Calendar.YEAR);
-
-        if (yearInput > yearCalendar && monthInput > 0 && monthInput <= 12)
-            return true;
-        else if (yearInput == yearCalendar && monthInput >= monthCalendar && monthInput > 0 && monthInput <= 12)
-            return true;
-        return false;
-    }
-
-    private int isCardNumberIsValide() {
-        if (cardNumberStr == null)
-            return 1;
-        if (cardNumberStr.length() != 16)
-            return 1;
+    private boolean isCardNumberIsValide() {
+        cardNumberStr = edittextCardNumber.getText().toString();
+        if (cardNumberStr == null) {
+            Log.d("CardNumber", "carte 0");
+            edittextCardNumber.setError(getResources().getString(R.string.error_wrong_card_number));
+            return false;
+        }
+        if (cardNumberStr.length() != 16) {
+            Log.d("CardNumber", "carte !16");
+            edittextCardNumber.setError(getResources().getString(R.string.error_wrong_card_number));
+            return false;
+        }
 
         // *2 every 2 number
         int[] resultTab = new int[15];
@@ -279,13 +286,20 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
         // % 10 and 10 - result
         totalSum = totalSum % 10;
         totalSum = 10 - totalSum;
-        return totalSum - Character.getNumericValue(cardNumberStr.charAt(cardNumberStr.length() - 1));
+
+        if (totalSum - Character.getNumericValue(cardNumberStr.charAt(cardNumberStr.length() - 1)) != 0) {
+            Log.d("CardNumber", "carte nop");
+            edittextCardNumber.setError(getResources().getString(R.string.error_wrong_card_number));
+            return false;
+        }
+        return true;
     }
 
     private boolean isCryptogramValid() {
-        if (this.edittextCryptogram.length() > 0 && this.edittextCryptogram.length() < 3)
-            return false;
-        return true;
+        if (this.edittextCryptogram.length() == 3)
+            return true;
+        edittextCryptogram.setError(getResources().getString(R.string.error_wrong_cryptogram));
+        return false;
     }
 
 

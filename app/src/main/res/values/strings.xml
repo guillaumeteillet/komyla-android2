@@ -112,7 +112,9 @@
     <string name="error_wrong_card_number">Le numéro de carte n\'est pas valide</string>
     <string name="error_wrong_cryptogram">Le cryptogramme doit comporter 3 chiffres</string>
     <string name="error_wrong_expiration_date">La date d\'expiration ne peut pas être antérieur à la date actuelle</string>
+    <string name="error_wrong_expiration_month">Le mois doit être compris entre 0 et 12</string>
     <string name="error_format_wrong_expiration_date">Veuillez respecter le format suivant MM / AA</string>
+    <string name="error_wrong_expiration_year">L\'année doit être au format AA</string>
     <string name="error">Erreur</string>
     <string name="error_tentatives">Tentatives restantes</string>
     <string name="error_nb_tentatives">Le code PIN que vous avez saisie est erroné. Il vous reste </string>
@@ -166,5 +168,6 @@
     <string name="facebook">Se connecter avec Facebook</string>
     <string name="google">Se connecter avec Google</string>
     <string name="facebook_wait">Connexion en cours...</string>
+
 
 </resources>
