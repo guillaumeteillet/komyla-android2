@@ -94,6 +94,7 @@
     <string name="title_activity_settings_profil">Vos informations personnelles</string>
     <string name="title_activity_settings_coordonnees">Vos Coordonnées</string>
     <string name="title_activity_settings_password">SettingsPassword</string>
+    <string name="title_activity_payement_ptpconfirm">Récapitulatif</string>
 
     <string name="hint_paiement_limit">Vous pouvez enregistrer une alerte de dépense mensuelle. L\'application vous avertira lorsque vous approcherez de votre seuil d\'alerte.</string>
     <string name="hint_paiement_limit_edittext">Montant en euros</string>
