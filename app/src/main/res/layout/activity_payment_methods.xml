@@ -1,31 +1,29 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-
+<android.support.v4.widget.SwipeRefreshLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:id="@+id/swipePaymentMethods"
+    >
 
-    tools:context=".CountryActivity">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/my_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        tools:context=".CountryActivity"
-        />
+        android:layout_height="match_parent"
 
-    <Button
-        android:id="@+id/checkInternetButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Check For Internet Connection"
-        android:layout_below="@+id/my_recycler_view"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
-        />
+        tools:context=".CountryActivity">
 
-</RelativeLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/my_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".CountryActivity"
+            />
+
+    </LinearLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>

@@ -6,7 +6,7 @@ import eip.com.lizz.AbstractClasses.APaymentMethod;
 public class        CreditCard extends APaymentMethod{
     private String  _cardNumber;
     private String  _expirationDateMonth;
-    private String _expirationDateYear;
+    private String  _expirationDateYear;
     private String  _cryptogram;
     private String  _cardHolder;
     private String  _displayName;
@@ -28,7 +28,7 @@ public class        CreditCard extends APaymentMethod{
     @Override
     public String toString() {
         return
-                "Credit Card," +
+                "Credit Card ->" +
                 " Number: " + _cardNumber +
                 " Expiration date: " + concatExpirationDate(_expirationDateMonth, _expirationDateYear) +
                 " cryptogram: " + _cryptogram +

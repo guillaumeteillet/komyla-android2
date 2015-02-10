@@ -31,6 +31,21 @@ public class GetPaymentMethodsFromAPI extends AsyncTask<Void, Void, String> {
         this._context = context;
     }
 
+    @Override
+    protected String doInBackground(Void... params) {
+        try {
+            return downloadDataSet();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+    }
+
     private String downloadDataSet() throws IOException {
         InputStream l_inputStream = null;
 
@@ -65,15 +80,5 @@ public class GetPaymentMethodsFromAPI extends AsyncTask<Void, Void, String> {
                 l_inputStream.close();
         }
         return ("PlaceHolderString");
-    }
-
-    @Override
-    protected String doInBackground(Void... params) {
-        try {
-            return downloadDataSet();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

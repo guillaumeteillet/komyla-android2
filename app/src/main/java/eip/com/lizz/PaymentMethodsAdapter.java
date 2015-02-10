@@ -3,11 +3,16 @@ package eip.com.lizz;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+
+import eip.com.lizz.Models.CreditCard;
 
 
 public class            PaymentMethodsAdapter
@@ -15,13 +20,13 @@ public class            PaymentMethodsAdapter
 
     // Attributes
     private Context     mContext;
-    private String[]    mDataset;
+    private ArrayList<CreditCard>    mCreditCards;
 
 
     // Constructors
     // Provide a suitable constructor (depends on the kind of dataset)
-    public              PaymentMethodsAdapter(String[] myDataset, Context context) {
-        mDataset = myDataset;
+    public              PaymentMethodsAdapter(ArrayList<CreditCard> myDataset, Context context) {
+        mCreditCards = myDataset;
         mContext = context;
     }
 
@@ -46,9 +51,9 @@ public class            PaymentMethodsAdapter
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         ViewHolder vh = (PaymentMethodsAdapter.ViewHolder)viewHolder;
-        vh.paymentMethodName.setText(mDataset[i]);
+        vh.paymentMethodName.setText(mCreditCards.get(i).get_displayName());
 
-        Drawable myDrawable = mContext.getResources().getDrawable(R.drawable.paypal);
+        Drawable myDrawable = mContext.getResources().getDrawable(R.drawable.placeholdercb);
         vh.paymentMethodImage.setImageDrawable(myDrawable);
 //        setImageDrawable(mContext.getDrawable(country.getImageResourceId(mContext)));
     }
@@ -56,7 +61,9 @@ public class            PaymentMethodsAdapter
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int  getItemCount() {
-        return mDataset.length;
+        if (mCreditCards == null)
+            return 0;
+        return mCreditCards.size();
     }
 
 

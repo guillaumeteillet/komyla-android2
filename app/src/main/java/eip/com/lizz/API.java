@@ -11,9 +11,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-/**
- * Created by guillaume on 20/12/14.
- */
+
 public class API {
 
     public static String convertStreamToString(InputStream is) throws Exception {
