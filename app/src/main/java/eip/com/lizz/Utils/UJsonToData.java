@@ -23,7 +23,7 @@ public class UJsonToData {
         {
             JSONObject oneObject = jsonArray.getJSONObject(i);
             creditCards.add(new CreditCard(
-                    "**** **** **** " + oneObject.getString("cardNumber"),
+                    "**** **** **** " + oneObject.getString("cardNumberHidden"),
                     oneObject.getString("cardExpireMounth"),
                     oneObject.getString("cardExpireYear"),
                     "***",
