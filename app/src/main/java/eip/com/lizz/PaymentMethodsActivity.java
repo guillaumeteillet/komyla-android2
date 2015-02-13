@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -33,7 +35,7 @@ public class PaymentMethodsActivity extends ActionBarActivity {
 
     /* Attributes */
     private RecyclerView                mRecyclerView;
-    private RecyclerView.Adapter        mAdapter;
+    private PaymentMethodsAdapter       mAdapter;
     private LinearLayoutManager         mLayoutManager;
     private SwipeRefreshLayout          mSwipeRefreshLayout;
 
@@ -53,6 +55,17 @@ public class PaymentMethodsActivity extends ActionBarActivity {
 
     private void Bindings() {
         mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipePaymentMethods);
+        mRecyclerView = (RecyclerView)findViewById(R.id.my_recycler_view);
+    }
+
+    private void createRecyclerView() {
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mAdapter = new PaymentMethodsAdapter(mCreditCards, this);
+        mRecyclerView.setAdapter(mAdapter);
+
+        new GetPaymentMethodsFromAPI(this).execute();
     }
 
     private void configureSwipeRefreshLayout(final Context context) {
@@ -85,18 +98,6 @@ public class PaymentMethodsActivity extends ActionBarActivity {
         });
     }
 
-    private void createRecyclerView() {
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        mAdapter = new PaymentMethodsAdapter(mCreditCards, this);
-        mRecyclerView.setAdapter(mAdapter);
-
-        new GetPaymentMethodsFromAPI(this).execute();
-    }
 
 
     /* ASYNCTASK POUR RÉCUPÉRER LES MOYENS DE PAIEMENTS STOCKÉS DANS L'API */

@@ -9,56 +9,37 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import eip.com.lizz.Models.CreditCard;
 
 
-public class            PaymentMethodsAdapter
-        extends         RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAdapter.PaymentMethodViewHolder> {
 
-    // Attributes
-    private Context     mContext;
-    private ArrayList<CreditCard>    mCreditCards;
+    private Context mContext;
+    private ArrayList<CreditCard> mCreditCards;
 
-
-    // Constructors
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public              PaymentMethodsAdapter(ArrayList<CreditCard> myDataset, Context context) {
+    public PaymentMethodsAdapter(ArrayList<CreditCard> myDataset, Context context) {
         mCreditCards = myDataset;
         mContext = context;
     }
 
-
-    // Methods
-    // Create new views (invoked by the layout manager)
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-
-        // create a new view
-        View v = LayoutInflater
-                .from(viewGroup.getContext())
-                .inflate(R.layout.card_payment_methods, viewGroup, false);
-
-        // set the view's size, margins, paddings and layout parameters
-        return new ViewHolder(v);
+    public PaymentMethodViewHolder onCreateViewHolder(ViewGroup parent, int i) {
+        View v = LayoutInflater.from(mContext).inflate(R.layout.card_payment_methods, parent, false);
+        return new PaymentMethodViewHolder(mContext, v);
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        ViewHolder vh = (PaymentMethodsAdapter.ViewHolder)viewHolder;
-        vh.paymentMethodName.setText(mCreditCards.get(i).get_displayName());
-
+    public void onBindViewHolder(PaymentMethodViewHolder paymentMethodViewHolder, int i) {
         Drawable myDrawable = mContext.getResources().getDrawable(R.drawable.placeholdercb);
-        vh.paymentMethodImage.setImageDrawable(myDrawable);
-//        setImageDrawable(mContext.getDrawable(country.getImageResourceId(mContext)));
+
+        paymentMethodViewHolder.paymentMethodName.setText(mCreditCards.get(i).get_displayName());
+        paymentMethodViewHolder.paymentMethodImage.setImageDrawable(myDrawable);
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int  getItemCount() {
         if (mCreditCards == null)
@@ -68,16 +49,24 @@ public class            PaymentMethodsAdapter
 
 
     // Classes
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        // Attributes
+    public static class PaymentMethodViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        private Context context;
         public TextView paymentMethodName;
         public ImageView paymentMethodImage;
 
-        // Constructor
-        public ViewHolder(View v) {
-            super(v);
-            paymentMethodName = (TextView)v.findViewById(R.id.paymentMethodName);
-            paymentMethodImage = (ImageView)v.findViewById(R.id.paymentMethodImage);
+        public PaymentMethodViewHolder(Context context, View itemView) {
+            super(itemView);
+            this.context = context;
+            paymentMethodName = (TextView) itemView.findViewById(R.id.paymentMethodName);
+            paymentMethodImage = (ImageView) itemView.findViewById(R.id.paymentMethodImage);
+            paymentMethodName.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Log.v("Gestuel", "Ça détecte un clic là");
+            Toast.makeText(context, "Toast", Toast.LENGTH_SHORT).show();
         }
     }
 }
