@@ -145,6 +145,14 @@
             android:name=".SettingsPassword"
             android:label="@string/title_activity_settings_password" >
         </activity>
+        <activity
+            android:name=".SettingsIDCard"
+            android:label="@string/title_activity_settings_idcard" >
+        </activity>
+        <activity
+            android:name=".SettingsProofAddress"
+            android:label="@string/title_activity_settings_proof_address" >
+        </activity>
     </application>
 
 </manifest>

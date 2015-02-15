@@ -36,9 +36,11 @@ public class SettingsProfil  extends ActionBarActivity {
         listView = (ListView) findViewById(R.id.list);
 
         String[] values = new String[] {
-                "Vos Coordonnées",
+                "Vos coordonnées",
                 "Vos moyens de paiement",
-                "Votre Relevé d'Identité Bancaire",
+                "Votre Relevé d'Identité Bancaire (RIB)",
+                "Votre carte d'identité",
+                "Votre justificatif de domicile",
         };
         final SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
         sharedpreferences.edit().putString("eip.com.lizz.phoneTMP", "").apply();
@@ -68,6 +70,14 @@ public class SettingsProfil  extends ActionBarActivity {
                         break;
                     case 2:
                         loggedUser = new Intent(getBaseContext(), SettingsRIB.class);
+                        startActivity(loggedUser);
+                        break;
+                    case 3:
+                        loggedUser = new Intent(getBaseContext(), SettingsIDCard.class);
+                        startActivity(loggedUser);
+                        break;
+                    case 4:
+                        loggedUser = new Intent(getBaseContext(), SettingsProofAddress.class);
                         startActivity(loggedUser);
                         break;
                 }

@@ -3,7 +3,7 @@
 
     <string name="app_name">Lizz</string>
     <string name="app_id">377638892395189</string>
-    <string name="debugOrProd">DEBUG</string><!-- DEBUG OR PROD -->
+    <string name="debugOrProd">DEBUG</string> <!-- DEBUG OR PROD -->
 
     <string name="action_params">Paramètres</string>
     <string name="action_signout">Déconnexion</string>
@@ -41,13 +41,20 @@
     <string name="label_no_account_sms">n\'a pas encore de compte Lizz. Il va recevoir un SMS pour l\'inviter à créer un compte Lizz pour récupérer son argent.</string>
     <string name="label_no_account_email">n\'a pas encore de compte Lizz. Il va recevoir un email pour l\'inviter à créer un compte Lizz pour récupérer son argent.</string>
     <string name="buttonSaveCardData">Enregistrer</string>
+    <string name="label_proof_address_hint">Pour recevoir votre argent, vous devez nous envoyer un justificatif de domicile récent.</string>
+    <string name="labelTakePicture">Prendre une photo</string>
+    <string name="labelSelectPicture">Séléctionner une photo</string>
+    <string name="labelDocumentOK">Document reçu.</string>
+    <string name="labelMessageProofAddress">Nous avons reçu votre justificatif de domicile. Nous allons l\'examiner sous 48 heures ouvrés.</string>
+    <string name="label_proof_not_receive">Nous n\'avons pas encore reçu votre justificatif de domicile.</string>
+    <string name="label_proof_wait">Nous avons reçu votre justificatif de domicile. Nous allons l\'examiner sous 48 heures ouvrés. Si vous nous soumettez un nouveau justificatif, l\'ancien sera supprimé.</string>
+    <string name="label_proof_ok">Nous avons reçu votre justificatif de domicile. Votre situation est régulière.</string>
 
     <string name="url_api_create">http://private-72ff4-lizz.apiary-mock.com/user/create</string>
     <string name="url_api_login">http://private-anon-ca973bc2f-lizz.apiary-mock.com/user/</string>
     <string name="url_api_final">http://163.5.84.225:8000/</string>
     <string name="url_api_final_v1">http://163.5.84.225:8000/api/v1/</string>
     <string name="urllizzcode">http://lizz.fr/code/</string>
-
     <string name="url_api_get_paymentMethods">user/getPaymentCards</string>
     <string name="url_api_add_creditCard">paymentcard/create</string>
 
@@ -72,9 +79,9 @@
     <string name="dialog_new_phone_number_txt2">). Souhaitez-vous que nous mettions à jour votre profil ?</string>
     <string name="dialog_numberAdd">Numéro ajouté</string>
     <string name="dialog_numberAddTxt">Le numéro de votre carte SIM actuelle a été ajouté à votre compte.</string>
+
     <string name="confirm">Confirmation</string>
     <string name="logout">Êtes-vous sûr de vouloir vous déconnecter ?</string>
-
     <string name="connectwithlizzaccount">Se connecter avec un compte Lizz</string>
     <string name="createnewlizzaccount">Créer un nouveau compte Lizz</string>
 
@@ -85,6 +92,7 @@
     <string name="title_activity_scan_QR_CODE">Scannez un QRCode Lizz</string>
     <string name="title_activity_PayementActivity">Paiement</string>
     <string name="title_activity_payement_ptp">Paiement à un particulier</string>
+    <string name="title_activity_payement_ptpconfirm">Récapitulatif</string>
     <string name="title_activity_payement_with_unique_code">Saisissez le code unique Lizz</string>
     <string name="title_activity_settings_scanner">Scanner</string>
     <string name="title_activity_add_edit_card">Ajouter une carte bancaire</string>
@@ -94,7 +102,8 @@
     <string name="title_activity_settings_profil">Vos informations personnelles</string>
     <string name="title_activity_settings_coordonnees">Vos Coordonnées</string>
     <string name="title_activity_settings_password">SettingsPassword</string>
-    <string name="title_activity_payement_ptpconfirm">Récapitulatif</string>
+    <string name="title_activity_settings_idcard">Votre carte d\'identité</string>
+    <string name="title_activity_settings_proof_address">Votre justificatif de domicile</string>
 
     <string name="hint_paiement_limit">Vous pouvez enregistrer une alerte de dépense mensuelle. L\'application vous avertira lorsque vous approcherez de votre seuil d\'alerte.</string>
     <string name="hint_paiement_limit_edittext">Montant en euros</string>
@@ -116,20 +125,18 @@
     <string name="hint_confirm_password">Confirmer votre nouveau mot de passe :</string>
     <string name="hint_confirm_password_edittext">Confirmation mot de passe</string>
 
-
     <string name="toast_valid_card_infos">Votre carte a bien été enregistrée</string>
 
+    <string name="error_wrong_expiration_month">Le mois doit être compris entre 0 et 12</string>
     <string name="error_wrong_card_number">Le numéro de carte n\'est pas valide</string>
     <string name="error_wrong_cryptogram">Le cryptogramme doit comporter 3 chiffres</string>
     <string name="error_wrong_expiration_date">La date d\'expiration ne peut pas être antérieur à la date actuelle</string>
-    <string name="error_wrong_expiration_month">Le mois doit être compris entre 0 et 12</string>
     <string name="error_format_wrong_expiration_date">Veuillez respecter le format suivant MM / AA</string>
-    <string name="error_wrong_expiration_year">L\'année doit être au format AA</string>
     <string name="error">Erreur</string>
     <string name="error_tentatives">Tentatives restantes</string>
     <string name="error_nb_tentatives">Le code PIN que vous avez saisie est erroné. Il vous reste </string>
     <string name="tentatives"> tentative(s)</string>
-    <string name="errordefault">Une erreur inconnue est survenue</string>
+    <string name="errordefault">Une erreur inconnue est survenue. Contacter le support Lizz</string>
     <string name="errorQRCodeEmpty">Ce QRCode semble vide !</string>
     <string name="errorQRCodeNotLizz">Ce QRCode n\'est pas un QR Code de caisse Lizz !</string>
     <string name="wrongPassword">Le mot de passe que vous avez saisi est incorrect.</string>
@@ -154,7 +161,6 @@
     <string name="error_contact_empty">Le numéro de téléphone ou l\'adresse email du destinataire est vide.</string>
     <string name="error_somme_empty">La somme a envoyer au destinataire est vide.</string>
     <string name="wrong_card_infos">Certains champs n\'ont pas été remplis ou comportent des erreurs.</string>
-
     <string name="code000">Vérifiez votre connexion internet ! Le serveur d\'authentification Lizz est injoignable. Code d\'erreur Lizz : 000. Code HTTP : 118</string>
     <string name="code001">Code d\'erreur Lizz : 001. Code HTTP : 403</string>
     <string name="code002">Description : Le serveur n\'a pas reçu le prénom. Code d\'erreur Lizz : 002. Code HTTP : 400</string>
@@ -180,6 +186,6 @@
     <string name="pwdsave">Le mot de passe a été enregistré avec succès !</string>
     <string name="pleasewait">Veuillez patienter</string>
     <string name="pleasewaitsave">Enregistrement de votre changement de mot passe...</string>
-
+    <string name="pleasewaitproofaddress">Envoi de votre justificatif de domicile au support, veuillez patienter...</string>
 
 </resources>
