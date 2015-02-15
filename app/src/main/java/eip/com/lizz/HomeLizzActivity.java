@@ -104,37 +104,61 @@ public class HomeLizzActivity extends ActionBarActivity {
         final TelephonyManager tMgr = (TelephonyManager)getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
         if (!tMgr.getLine1Number().equals("") && tMgr.getLine1Number() != null)
         {
-            String phone;
-            boolean isNew = true;
-            boolean loop = true;
-            int i = 0;
             final SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
-            phone = sharedpreferences.getString("eip.com.lizz.phone", "");
-            String[] phones = phone.split(";");
-            while((i <= (phones.length - 1)) && loop == true) {
-                if (tMgr.getLine1Number().equals(phones[i])) {
-                    isNew = false;
-                    loop = false;
-                }
-                i++;
-            }
-
-            if (isNew)
+            String phoneNever = sharedpreferences.getString("eip.com.lizz.phonenever", "");
+            boolean foundNever = false;
+            int i = 0;
+            if (!phoneNever.equals(""))
             {
-                AlertDialog.Builder alert;
-                alert = AlertBox.alert(HomeLizzActivity.this, getResources().getString(R.string.dialog_new_phone_number), getResources().getString(R.string.dialog_new_phone_number_txt1) + tMgr.getLine1Number() + getResources().getString(R.string.dialog_new_phone_number_txt2));
-                alert.setPositiveButton(getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        String phone_before;
-                        phone_before = sharedpreferences.getString("eip.com.lizz.phone", "");
-                        sharedpreferences.edit().putString("eip.com.lizz.phone", phone_before+tMgr.getLine1Number()+";").apply();
-                        Intent intent = new Intent(getBaseContext(), SettingsCoordonnees.class);
-                        intent.putExtra("numberAdd", true);
-                        startActivity(intent);
+                String[] values;
+                values = phoneNever.split(";");
+                while (i < values.length)
+                {
+                    if (values[i].equals(tMgr.getLine1Number()+sharedpreferences.getString("eip.com.lizz.email", "")))
+                        foundNever = true;
+                    i++;
+                }
+            }
+                if (!foundNever)
+                {
+                    String phone;
+                    boolean isNew = true;
+                    boolean loop = true;
+                    i = 0;
+                    phone = sharedpreferences.getString("eip.com.lizz.phone", "");
+                    String[] phones = phone.split(";");
+                    while((i <= (phones.length - 1)) && loop == true) {
+                        if (tMgr.getLine1Number().equals(phones[i])) {
+                            isNew = false;
+                            loop = false;
+                        }
+                        i++;
                     }
-                });
-                alert.setNegativeButton(getResources().getString(R.string.dialog_cancel), null);
-                alert.show();
+
+                    if (isNew)
+                    {
+                        AlertDialog.Builder alert;
+                        alert = AlertBox.alert(HomeLizzActivity.this, getResources().getString(R.string.dialog_new_phone_number), getResources().getString(R.string.dialog_new_phone_number_txt1) + tMgr.getLine1Number() + getResources().getString(R.string.dialog_new_phone_number_txt2));
+                        alert.setPositiveButton(getResources().getString(R.string.dialog_yes), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                String phone_before;
+                                phone_before = sharedpreferences.getString("eip.com.lizz.phone", "");
+                                sharedpreferences.edit().putString("eip.com.lizz.phone", phone_before+tMgr.getLine1Number()+";").apply();
+                                Intent intent = new Intent(getBaseContext(), SettingsCoordonnees.class);
+                                intent.putExtra("numberAdd", true);
+                                startActivity(intent);
+                            }
+                        });
+                        alert.setNeutralButton(getResources().getString(R.string.dialog_notnow), null);
+                        alert.setNegativeButton(getResources().getString(R.string.dialog_never), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                String phone_before;
+                                phone_before = sharedpreferences.getString("eip.com.lizz.phonenever", "");
+                                sharedpreferences.edit().putString("eip.com.lizz.phonenever", phone_before+tMgr.getLine1Number()+sharedpreferences.getString("eip.com.lizz.email", "")+";").apply();
+                            }
+                        });
+                        alert.show();
+                    }
             }
         }
     }
