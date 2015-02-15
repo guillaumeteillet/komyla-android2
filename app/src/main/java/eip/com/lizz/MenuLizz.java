@@ -22,7 +22,6 @@ import java.util.List;
  */
 public class MenuLizz {
 
-    private static APIlogout mAuthTask;
     static CookieStore cookieStore;
     static ProgressDialog dialog;
     static Handler handler = null;
@@ -83,23 +82,35 @@ public class MenuLizz {
         alert = AlertBox.alert(ctx, context.getResources().getString(R.string.confirm), context.getResources().getString(R.string.logout));
         alert.setPositiveButton(context.getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                String token;
-                SharedPreferences sharedpreferences = context.getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
-                token = sharedpreferences.getString("eip.com.lizz._csrf", "");
-                sharedpreferences.edit().putBoolean("eip.com.lizz.isLogged", false).apply();
-                mAuthTask = new APIlogout(token, context);
-                mAuthTask.setOnTaskFinishedEvent(new APIlogout.OnTaskExecutionFinished() {
-                    @Override
-                    public void OnTaskFihishedEvent(JSONObject jObj) {
-                        APIlogout.checkErrorsAndLaunch(jObj, context);
-                    }
-
-                });
-                mAuthTask.execute();
+                logout(context);
             }
         });
         alert.setNegativeButton(context.getResources().getString(R.string.dialog_cancel), null);
         alert.show();
+        return true;
+    }
+
+    public static boolean logout(Context context)
+    {
+        SharedPreferences sharedpreferences = context.getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+        sharedpreferences.edit().putString("eip.com.lizz._csrf", "").apply();
+        sharedpreferences.edit().putBoolean("eip.com.lizz.isLogged", false).apply();
+        sharedpreferences.edit().putString("eip.com.lizz.firstname", "").apply();
+        sharedpreferences.edit().putString("eip.com.lizz.surname", "").apply();
+        sharedpreferences.edit().putString("eip.com.lizz.email", "").apply();
+        sharedpreferences.edit().putString("eip.com.lizz.phone", "").apply();
+        sharedpreferences.edit().putString("eip.com.lizz.address", "").apply();
+        sharedpreferences.edit().putString("eip.com.lizz.complement", "").apply();
+        sharedpreferences.edit().putString("eip.com.lizz.postalcode", "").apply();
+        sharedpreferences.edit().putString("eip.com.lizz.city", "").apply();
+        sharedpreferences.edit().putString("eip.com.lizz.phoneTMP", "").apply();
+        sharedpreferences.edit().putString("eip.com.lizz.rib", "").apply();
+        sharedpreferences.edit().putString("eip.com.lizz.payementLimit", "").apply();
+        sharedpreferences.edit().putString("eip.com.lizz.codepinlizz", "").apply();
+        sharedpreferences.edit().putBoolean("eip.com.lizz.scannerstatus", true).apply();
+        Intent loggedUser = new Intent(context, HomeActivity.class);
+        loggedUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(loggedUser);
         return true;
     }
 
