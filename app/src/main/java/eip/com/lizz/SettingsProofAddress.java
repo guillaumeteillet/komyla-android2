@@ -65,12 +65,12 @@ public class SettingsProofAddress extends ActionBarActivity {
         final Button take = (Button) findViewById(R.id.take);
 
         SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
-        String returnAPI = sharedpreferences.getString("eip.com.lizz.returnAPI", "0");
+        String returnAPI = sharedpreferences.getString("eip.com.lizz.returnAPIProofAddress", "0");
 
         if (UNetwork.checkInternetConnection(getApplicationContext()))
         {
             returnAPI = "1"; // RETOUR API
-            sharedpreferences.edit().putString("eip.com.lizz.returnAPI",returnAPI).apply();
+            sharedpreferences.edit().putString("eip.com.lizz.returnAPIProofAddress",returnAPI).apply();
         }
         else
             AlertBox.alertOk(SettingsProofAddress.this, getResources().getString(R.string.dialog_title_no_internet), getResources().getString(R.string.dialog_no_internet));

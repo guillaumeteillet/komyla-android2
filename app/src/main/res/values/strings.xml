@@ -42,13 +42,25 @@
     <string name="label_no_account_email">n\'a pas encore de compte Lizz. Il va recevoir un email pour l\'inviter à créer un compte Lizz pour récupérer son argent.</string>
     <string name="buttonSaveCardData">Enregistrer</string>
     <string name="label_proof_address_hint">Pour recevoir votre argent, vous devez nous envoyer un justificatif de domicile récent.</string>
+    <string name="label_id_card_hint">Pour recevoir votre argent, vous devez nous envoyer votre carte d\'identité.</string>
     <string name="labelTakePicture">Prendre une photo</string>
     <string name="labelSelectPicture">Séléctionner une photo</string>
+    <string name="labelSendRecto">Envoyer le recto de la carte d\'identité</string>
+    <string name="labelSendVerso">Envoyer le verso de la carte d\'identité</string>
     <string name="labelDocumentOK">Document reçu.</string>
     <string name="labelMessageProofAddress">Nous avons reçu votre justificatif de domicile. Nous allons l\'examiner sous 48 heures ouvrés.</string>
+    <string name="labelMessageIDCardRecto">Nous avons reçu le recto de votre carte d\'identité. Nous allons l\'examiner sous 48 heures ouvrés.</string>
+    <string name="labelMessageIDCardVerso">Nous avons reçu le verso de votre carte d\'identité. Nous allons l\'examiner sous 48 heures ouvrés.</string>
     <string name="label_proof_not_receive">Nous n\'avons pas encore reçu votre justificatif de domicile.</string>
     <string name="label_proof_wait">Nous avons reçu votre justificatif de domicile. Nous allons l\'examiner sous 48 heures ouvrés. Si vous nous soumettez un nouveau justificatif, l\'ancien sera supprimé.</string>
     <string name="label_proof_ok">Nous avons reçu votre justificatif de domicile. Votre situation est régulière.</string>
+    <string name="label_id_card_recto_not_receive">Nous n\'avons pas encore reçu le recto de votre carte d\'identité.</string>
+    <string name="label_id_card_recto_wait">Nous avons reçu le recto de votre carte d\'identité. Nous allons l\'examiner sous 48 heures ouvrés. Si vous nous soumettez un nouveau recto de carte d\'identité, l\'ancien sera supprimé.</string>
+    <string name="label_id_card_recto_ok">Nous avons reçu le recto de votre carte d\'identité.</string>
+    <string name="label_id_card_verso_not_receive">Nous n\'avons pas encore reçu le verso de votre carte d\'identité.</string>
+    <string name="label_id_card_verso_wait">Nous avons reçu le verso de votre carte d\'identité. Nous allons l\'examiner sous 48 heures ouvrés. Si vous nous soumettez un nouveau verso de carte d\'identité, l\'ancien sera supprimé.</string>
+    <string name="label_id_card_verso_ok">Nous avons reçu le verso de votre carte d\'identité.</string>
+    <string name="label_id_card_ok">Nous avons reçu votre carte d\'identité. Votre situation est régulière.</string>
 
     <string name="url_api_create">http://private-72ff4-lizz.apiary-mock.com/user/create</string>
     <string name="url_api_login">http://private-anon-ca973bc2f-lizz.apiary-mock.com/user/</string>
@@ -190,5 +202,7 @@
     <string name="pleasewait">Veuillez patienter</string>
     <string name="pleasewaitsave">Enregistrement de votre changement de mot passe...</string>
     <string name="pleasewaitproofaddress">Envoi de votre justificatif de domicile au support, veuillez patienter...</string>
+    <string name="pleasewaitidcardrecto">Envoi du recto de votre carte d\'identité au support, veuillez patienter...</string>
+    <string name="pleasewaitidcardverso">Envoi du verso de votre carte d\'identité au support, veuillez patienter...</string>
 
 </resources>
