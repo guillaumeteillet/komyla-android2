@@ -20,50 +20,75 @@ import java.util.Calendar;
 import java.util.concurrent.ExecutionException;
 
 import eip.com.lizz.QueriesAPI.AddCreditCardToAPI;
+import eip.com.lizz.QueriesAPI.DeleteCreditCardFromAPI;
 import eip.com.lizz.Utils.UNetwork;
 import io.card.payment.CardIOActivity;
 import io.card.payment.CreditCard;
 
 //TODO: Mathieu
 /*
-2) Mettre la verification du numéro de la carte dans une fonction "onTextUpdate" ou qqch comme ça pour éviter le bug de
-la validation erroné quand on misclic avant le scan.
 3) Désactiver le scan si pas d'APN dispo
 */
 
 public class AddEditPaymentMethodActivity extends ActionBarActivity {
 
+    private enum E_MODE {
+        ADDITION,
+        EDITION
+    }
+
     private static final int MY_SCAN_REQUEST_CODE = 1;
+    private static E_MODE inputMode;
 
     // XML Attributes
-    private EditText edittextCardNumber = null;
-    private EditText edittextExpirationDateMonth = null;
-    private EditText edittextExpirationDateYear = null;
-    private EditText edittextCryptogram = null;
-    private EditText edittextOwnerName = null;
-    private EditText edittextDisplayName = null;
-    private Button saveCard = null;
+    private EditText    edittextCardNumber = null;
+    private EditText    edittextExpirationDateMonth = null;
+    private EditText    edittextExpirationDateYear = null;
+    private EditText    edittextCryptogram = null;
+    private EditText    edittextOwnerName = null;
+    private EditText    edittextDisplayName = null;
+    private Button      saveCard = null;
+    private Button      deleteCard = null;
     private ImageButton scanCard = null;
 
+    // Data attributes
     private String cardNumberStr = null;
     private int monthInput = 0;
     private int yearInput = 0;
-
+    private eip.com.lizz.Models.CreditCard oldCreditCard;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_payment_method);
 
+        setInputMode();
         buttonBinding();
-/*        configureEdittextCardNumber();
-        configureEdittextExpirationDate();
-        configureEdittextCryptogram();*/
+        configurationOfUI(this);
+
+//      saveCard.setEnabled(true);
+//      Mathieu : Si l'appareil photo n'existe pas, rendre le scan de carte bancaire impossible.
+    }
+
+    private void setInputMode() {
+        eip.com.lizz.Models.CreditCard cb = (eip.com.lizz.Models.CreditCard) getIntent().getSerializableExtra("EXTRA_CREDIT_CARD");
+        if (cb == null) {
+            inputMode = E_MODE.ADDITION;
+            Log.v("Extra", "Extra null -> Ajout d'un nouveau moyen de paiement");
+        }
+        else {
+            inputMode = E_MODE.EDITION;
+            oldCreditCard = cb;
+            Log.v("Extra", "Extra non null -> Edition d'un moyen de paiement existant");
+        }
+    }
+
+    private void configurationOfUI(Context context) {
         configureButtonSaveCard(this);
-
-        saveCard.setEnabled(true);
-        // Mathieu : Si l'appareil photo n'existe pas, rendre le scan de carte bancaire impossible.
+        configureButtonDeleteCard(this);
+        if (inputMode == E_MODE.ADDITION) {
+            deleteCard.setVisibility(View.GONE);
+        }
         PackageManager pm = getBaseContext().getPackageManager();
-
         if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
             scanCard.setVisibility(View.GONE);
         }
@@ -76,8 +101,12 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
         edittextCryptogram = (EditText)findViewById(R.id.edittextCryptogram);
         edittextOwnerName = (EditText)findViewById(R.id.edittextOwnerName);
         edittextDisplayName = (EditText)findViewById(R.id.edittextDisplayName);
-        saveCard = (Button)findViewById(R.id.buttonSaveCard);
+
         scanCard = (ImageButton)findViewById(R.id.buttonScanCard);
+        saveCard = (Button)findViewById(R.id.buttonSaveCard);
+        deleteCard = (Button)findViewById(R.id.buttonDeleteCard);
+
+
     }
 
 
@@ -92,7 +121,9 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
                         SharedPreferences sharedpreferences = getApplicationContext().getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
                         AddCreditCardToAPI task = new AddCreditCardToAPI(sharedpreferences.getString("eip.com.lizz._csrf", ""), getApplicationContext());
                         try {
-                            String responseCode = task.execute(new eip.com.lizz.Models.CreditCard(edittextCardNumber.getText().toString(),
+                            String responseCode = task.execute(new eip.com.lizz.Models.CreditCard(
+                                    null,
+                                    edittextCardNumber.getText().toString(),
                                     edittextExpirationDateMonth.getText().toString(),
                                     edittextExpirationDateYear.getText().toString(),
                                     edittextCryptogram.getText().toString(),
@@ -101,8 +132,8 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
                             // IL FAUT TRAITER LE RETOUR DE L'API ICI
                             if (responseCode.compareTo("200") == 0) {
                                 Toast.makeText(context, getResources().getString(R.string.toast_valid_card_infos), Toast.LENGTH_LONG).show();
+                                finish();
                             }
-                            finish();
                         } catch (InterruptedException | ExecutionException e) {
                             e.printStackTrace();
                         }
@@ -120,54 +151,31 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
         });
     }
 
-    private void configureEdittextCardNumber() {
-
-        edittextCardNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+    private void configureButtonDeleteCard(final Context context) {
+        deleteCard.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    edittextCardNumber.setTextColor(Color.BLACK);
-                    edittextCardNumber.setError(null);
+            public void onClick(View v) {
+                if (UNetwork.checkInternetConnection(context)) {
+                    SharedPreferences sharedpreferences = getApplicationContext().getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+                    DeleteCreditCardFromAPI task = new DeleteCreditCardFromAPI(sharedpreferences.getString("eip.com.lizz._csrf", ""), getApplicationContext());
+                    try {
+                        String responseCode = task.execute(oldCreditCard).get();
+                        if (responseCode.compareTo("200") == 0) {
+                            Toast.makeText(context, "La carte a été supprimée avec succès", Toast.LENGTH_LONG).show();
+                            finish();
+                        }
+                    } catch (InterruptedException | ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    AlertBox.alertOk(AddEditPaymentMethodActivity.this,
+                            getResources().getString(R.string.dialog_title_no_internet),
+                            getResources().getString(R.string.dialog_no_internet));
                 }
             }
         });
     }
-
-    private void configureEdittextExpirationDate() {
-        edittextExpirationDateMonth.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    edittextExpirationDateMonth.setTextColor(Color.BLACK);
-                    edittextExpirationDateMonth.setError(null);
-                }
-            }
-        });
-
-        edittextExpirationDateYear.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    edittextExpirationDateYear.setTextColor(Color.BLACK);
-                    edittextExpirationDateYear.setError(null);
-                }
-            }
-        });
-    }
-
-    private void configureEdittextCryptogram() {
-        this.edittextCryptogram.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    edittextCryptogram.setTextColor(Color.BLACK);
-                    edittextCryptogram.setError(null);
-                }
-            }
-        });
-    }
-
-
 
     private boolean allFieldAreGood() {
         if (isCardNumberIsValide() && checkExpirationMonth() && checkExpirationYear()
@@ -175,17 +183,6 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
                 && this.edittextOwnerName.length() != 0 && this.edittextDisplayName.length() != 0) {
             return true;
         }
-
-        /* Erreur de numéro de carte bleue*/
-        /*cardNumberStr = edittextCardNumber.getText().toString();
-        if (isCardNumberIsValide() != 0)
-            edittextCardNumber.setError(getResources().getString(R.string.error_wrong_card_number)); // Intégrer ça dans la fonction de check*/
-
-        /* Erreur dans le cryptogramme */
-        /*if (!isCryptogramValid())
-            edittextCryptogram.setError(getResources().getString(R.string.error_wrong_cryptogram)); // Intégrer ça dans la fonction de check*/
-
-        // Changer la vérification de la date, on check d'abord l'année et ensuite le mois avec erreur au bon endroit
 
         return false;
     }

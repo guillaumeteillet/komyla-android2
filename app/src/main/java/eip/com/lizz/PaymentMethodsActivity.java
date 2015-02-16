@@ -98,7 +98,43 @@ public class PaymentMethodsActivity extends ActionBarActivity {
         });
     }
 
+    private void refreshDisplay(String resultSet) {
+        try {
+            mCreditCards.clear();
+            ArrayList<CreditCard> tmp = UJsonToData.getCreditCardListFromJSON(resultSet);
 
+            for (int i = 0; i < tmp.size(); i++){
+                mCreditCards.add(tmp.get(i));
+            }
+
+            mAdapter.notifyDataSetChanged();
+            mSwipeRefreshLayout.setRefreshing(false);
+        } catch (JSONException e) {
+            Log.d("NoCreditCards", "Il n'y a pas de carte de crédit dans le retour d'API");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_payment_methods, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+       if (id == R.id.action_add_item) {
+            Intent intent = new Intent(this, AddEditPaymentMethodActivity.class);
+//            intent.putExtra("EXTRA_TYPE", "add");
+            startActivity(intent);
+            return true;
+        }
+
+        return MenuLizz.main_menu(item, getBaseContext(), PaymentMethodsActivity.this);
+    }
 
     /* ASYNCTASK POUR RÉCUPÉRER LES MOYENS DE PAIEMENTS STOCKÉS DANS L'API */
     public class                GetPaymentMethodsFromAPI extends AsyncTask<Void, Void, String> {
@@ -159,47 +195,6 @@ public class PaymentMethodsActivity extends ActionBarActivity {
             super.onPostExecute(resultSet);
             refreshDisplay(resultSet);
         }
-    }
-    /* FIN DE DÉCLARATION DE L'ASYNCTASK*/
-
-
-
-    private void refreshDisplay(String resultSet) {
-        try {
-            mCreditCards.clear();
-            ArrayList<CreditCard> tmp = UJsonToData.getCreditCardListFromJSON(resultSet);
-
-            for (int i = 0; i < tmp.size(); i++){
-                mCreditCards.add(tmp.get(i));
-            }
-
-            mAdapter.notifyDataSetChanged();
-            mSwipeRefreshLayout.setRefreshing(false);
-        } catch (JSONException e) {
-            Log.d("NoCreditCards", "Il n'y a pas de carte de crédit dans le retour d'API");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_payment_methods, menu);
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-       if (id == R.id.action_add_item) {
-            Intent intent = new Intent(this, AddEditPaymentMethodActivity.class);
-            intent.putExtra("EXTRA_TYPE", "add");
-            startActivity(intent);
-            return true;
-        }
-
-        return MenuLizz.main_menu(item, getBaseContext(), PaymentMethodsActivity.this);
     }
 }
 

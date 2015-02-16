@@ -3,7 +3,8 @@ package eip.com.lizz.Models;
 
 import eip.com.lizz.AbstractClasses.APaymentMethod;
 
-public class        CreditCard extends APaymentMethod{
+public class        CreditCard extends APaymentMethod {
+    private String  _id;
     private String  _cardNumber;
     private String  _expirationDateMonth;
     private String  _expirationDateYear;
@@ -11,10 +12,11 @@ public class        CreditCard extends APaymentMethod{
     private String  _cardHolder;
     private String  _displayName;
 
-    public CreditCard(String cardNumber, String expirationMonth, String expirationYear,
+    public CreditCard(String id, String cardNumber, String expirationMonth, String expirationYear,
                       String cryptogram, String cardHolder, String displayName)
     {
         set_paymentMethodType(Type.CREDIT_CARD);
+        this.set_id(id);
         this.set_cardNumber(cardNumber);
         this.set_expirationDateMonth(expirationMonth);
         this.set_expirationDateYear(expirationYear);
@@ -29,6 +31,7 @@ public class        CreditCard extends APaymentMethod{
     public String toString() {
         return
                 "Credit Card ->" +
+                " ID: " + _id +
                 " Number: " + _cardNumber +
                 " Expiration date: " + concatExpirationDate(_expirationDateMonth, _expirationDateYear) +
                 " cryptogram: " + _cryptogram +
@@ -43,6 +46,15 @@ public class        CreditCard extends APaymentMethod{
 
 
     /* Getters and setters*/
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
     public String get_cardNumber() {
         return _cardNumber;
     }

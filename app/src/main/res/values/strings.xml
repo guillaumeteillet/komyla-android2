@@ -40,7 +40,6 @@
     <string name="label_receive_money">va recevoir</string>
     <string name="label_no_account_sms">n\'a pas encore de compte Lizz. Il va recevoir un SMS pour l\'inviter à créer un compte Lizz pour récupérer son argent.</string>
     <string name="label_no_account_email">n\'a pas encore de compte Lizz. Il va recevoir un email pour l\'inviter à créer un compte Lizz pour récupérer son argent.</string>
-    <string name="buttonSaveCardData">Enregistrer</string>
     <string name="label_proof_address_hint">Pour recevoir votre argent, vous devez nous envoyer un justificatif de domicile récent.</string>
     <string name="labelTakePicture">Prendre une photo</string>
     <string name="labelSelectPicture">Séléctionner une photo</string>
@@ -50,6 +49,9 @@
     <string name="label_proof_wait">Nous avons reçu votre justificatif de domicile. Nous allons l\'examiner sous 48 heures ouvrés. Si vous nous soumettez un nouveau justificatif, l\'ancien sera supprimé.</string>
     <string name="label_proof_ok">Nous avons reçu votre justificatif de domicile. Votre situation est régulière.</string>
 
+    <string name="buttonSaveCardData">Enregistrer</string>
+    <string name="buttonDeleteCardData">Supprimer</string>
+
     <string name="url_api_create">http://private-72ff4-lizz.apiary-mock.com/user/create</string>
     <string name="url_api_login">http://private-anon-ca973bc2f-lizz.apiary-mock.com/user/</string>
     <string name="url_api_final">http://163.5.84.225:8000/</string>
@@ -57,6 +59,7 @@
     <string name="urllizzcode">http://lizz.fr/code/</string>
     <string name="url_api_get_paymentMethods">user/getPaymentCards</string>
     <string name="url_api_add_creditCard">paymentcard/create</string>
+    <string name="url_api_delete_creditCard">paymentcard/delete/</string>
 
     <string name="dialog_title_no_internet">Erreur de connectivité</string>
     <string name="dialog_no_internet">Votre connexion internet ne semble pas fonctionner</string>

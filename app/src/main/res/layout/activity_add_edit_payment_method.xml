@@ -32,8 +32,8 @@
         <EditText
             android:layout_width="180dp"
             android:layout_height="40dp"
-            android:layout_toEndOf="@+id/textviewCardNumber"
-            android:layout_toRightOf="@+id/textviewCardNumber"
+            android:layout_toEndOf="@id/textviewCardNumber"
+            android:layout_toRightOf="@id/textviewCardNumber"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:id="@+id/edittextCardNumber"
@@ -60,7 +60,7 @@
             android:text="@string/labelExpirationDate"
             android:id="@+id/textviewExpirationDate"
             android:gravity="center"
-            android:layout_below="@+id/textviewCardNumber"
+            android:layout_below="@id/textviewCardNumber"
             android:layout_marginTop="10dp"
             />
 
@@ -104,7 +104,7 @@
             android:text="@string/labelCryptogram"
             android:id="@+id/textviewCryptogram"
             android:gravity="center"
-            android:layout_below="@+id/textviewExpirationDate"
+            android:layout_below="@id/textviewExpirationDate"
             android:layout_marginTop="10dp"
             />
 
@@ -131,7 +131,7 @@
             android:text="@string/labelCardOwnerName"
             android:id="@+id/textviewOwnerName"
             android:gravity="center"
-            android:layout_below="@+id/textviewCryptogram"
+            android:layout_below="@id/textviewCryptogram"
             android:layout_marginTop="10dp"
             />
 
@@ -157,7 +157,7 @@
             android:text="@string/labelAccountDisplayName"
             android:id="@+id/textviewDisplayName"
             android:gravity="center"
-            android:layout_below="@+id/textviewOwnerName"
+            android:layout_below="@id/textviewOwnerName"
             android:layout_marginTop="10dp"
             />
 
@@ -180,10 +180,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/buttonSaveCard"
-            android:layout_below="@+id/textviewDisplayName"
+            android:layout_below="@id/textviewDisplayName"
             android:layout_marginTop="20dp"
             android:layout_centerHorizontal="true"
             android:text="@string/buttonSaveCardData"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonDeleteCard"
+            android:layout_below="@id/buttonSaveCard"
+            android:layout_centerHorizontal="true"
+            android:text="@string/buttonDeleteCardData"
             />
 
     </RelativeLayout>

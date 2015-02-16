@@ -1,6 +1,7 @@
 package eip.com.lizz;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -36,6 +37,7 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
     public void onBindViewHolder(PaymentMethodViewHolder paymentMethodViewHolder, int i) {
         Drawable myDrawable = mContext.getResources().getDrawable(R.drawable.placeholdercb);
 
+        paymentMethodViewHolder.paymentMethod = mCreditCards.get(i);
         paymentMethodViewHolder.paymentMethodName.setText(mCreditCards.get(i).get_displayName());
         paymentMethodViewHolder.paymentMethodImage.setImageDrawable(myDrawable);
     }
@@ -51,13 +53,15 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
     // Classes
     public static class PaymentMethodViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private Context context;
-        public TextView paymentMethodName;
-        public ImageView paymentMethodImage;
+        public  CreditCard  paymentMethod;
+        public  TextView    paymentMethodName;
+        public  ImageView   paymentMethodImage;
+        private Context     context;
 
         public PaymentMethodViewHolder(Context context, View itemView) {
             super(itemView);
             this.context = context;
+
             paymentMethodName = (TextView) itemView.findViewById(R.id.paymentMethodName);
             paymentMethodImage = (ImageView) itemView.findViewById(R.id.paymentMethodImage);
             paymentMethodName.setOnClickListener(this);
@@ -65,8 +69,10 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
 
         @Override
         public void onClick(View v) {
-            Log.v("Gestuel", "Ça détecte un clic là");
-            Toast.makeText(context, "Toast", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "L'id de la carte bleue est : " + this.paymentMethod.get_id(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(context, AddEditPaymentMethodActivity.class);
+            intent.putExtra("EXTRA_CREDIT_CARD", this.paymentMethod);
+            context.startActivity(intent);
         }
     }
 }

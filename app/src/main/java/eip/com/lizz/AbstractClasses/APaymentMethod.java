@@ -1,7 +1,9 @@
 package eip.com.lizz.AbstractClasses;
 
 
-public abstract class        APaymentMethod {
+import java.io.Serializable;
+
+public abstract class        APaymentMethod implements Serializable{
 
     /* Enums */
     public enum             Type {
