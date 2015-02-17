@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -21,6 +20,7 @@ import java.util.concurrent.ExecutionException;
 
 import eip.com.lizz.QueriesAPI.AddCreditCardToAPI;
 import eip.com.lizz.QueriesAPI.DeleteCreditCardFromAPI;
+import eip.com.lizz.Utils.UAlertBox;
 import eip.com.lizz.Utils.UNetwork;
 import io.card.payment.CardIOActivity;
 import io.card.payment.CreditCard;
@@ -143,7 +143,7 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
                     }
                 }
                 else {
-                    AlertBox.alertOk(AddEditPaymentMethodActivity.this,
+                    UAlertBox.alertOk(AddEditPaymentMethodActivity.this,
                             getResources().getString(R.string.dialog_title_no_internet),
                             getResources().getString(R.string.dialog_no_internet));
                 }
@@ -169,7 +169,7 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
                     }
                 }
                 else {
-                    AlertBox.alertOk(AddEditPaymentMethodActivity.this,
+                    UAlertBox.alertOk(AddEditPaymentMethodActivity.this,
                             getResources().getString(R.string.dialog_title_no_internet),
                             getResources().getString(R.string.dialog_no_internet));
                 }

@@ -4,10 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.os.Environment;
 
-import eip.com.lizz.APISendFile;
-import eip.com.lizz.AlertBox;
+import eip.com.lizz.QueriesAPI.AddFileToAPI;
 import eip.com.lizz.R;
 
 /**
@@ -15,7 +13,7 @@ import eip.com.lizz.R;
  */
 public class UThread {
 
-    public static APISendFile mAuthTask = null;
+    public static AddFileToAPI mAuthTask = null;
 
     public static void send(final Activity context, final String file_name, String pleasewait, final String OK) {
 
@@ -25,12 +23,12 @@ public class UThread {
         @Override
         public void run()
         {
-            mAuthTask = new APISendFile(context, file_name, "http://teillet.eu/lizz/index.php", progress);
-            mAuthTask.setOnTaskFinishedEvent(new APISendFile.OnTaskExecutionFinished() {
+            mAuthTask = new AddFileToAPI(context, file_name, "http://teillet.eu/lizz/index.php", progress);
+            mAuthTask.setOnTaskFinishedEvent(new AddFileToAPI.OnTaskExecutionFinished() {
                 @Override
                 public void OnTaskFihishedEvent(Boolean jObj) {
                     AlertDialog.Builder alert;
-                    alert = AlertBox.alert(context, context.getResources().getString(R.string.labelDocumentOK), OK);
+                    alert = UAlertBox.alert(context, context.getResources().getString(R.string.labelDocumentOK), OK);
                     alert.setPositiveButton(context.getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             context.finish();

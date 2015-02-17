@@ -1,50 +1,24 @@
-package eip.com.lizz;
+package eip.com.lizz.Setting;
 
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.facebook.Settings;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.cookie.Cookie;
-import org.apache.http.entity.InputStreamEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
+import eip.com.lizz.Utils.UAlertBox;
+import eip.com.lizz.MenuLizz;
+import eip.com.lizz.R;
 import eip.com.lizz.Utils.UNetwork;
 import eip.com.lizz.Utils.UPhoto;
 import eip.com.lizz.Utils.UThread;
@@ -73,7 +47,7 @@ public class SettingsProofAddress extends ActionBarActivity {
             sharedpreferences.edit().putString("eip.com.lizz.returnAPIProofAddress",returnAPI).apply();
         }
         else
-            AlertBox.alertOk(SettingsProofAddress.this, getResources().getString(R.string.dialog_title_no_internet), getResources().getString(R.string.dialog_no_internet));
+            UAlertBox.alertOk(SettingsProofAddress.this, getResources().getString(R.string.dialog_title_no_internet), getResources().getString(R.string.dialog_no_internet));
 
         TextView statut = (TextView) findViewById(R.id.statut);
         if (returnAPI.equals("0")) // Pas encore recu
@@ -128,7 +102,7 @@ public class SettingsProofAddress extends ActionBarActivity {
                 cursor.close();
 
             } catch (Exception e) {
-                AlertBox.alertOk(SettingsProofAddress.this, getResources().getString(R.string.error), getResources().getString(R.string.errordefault));
+                UAlertBox.alertOk(SettingsProofAddress.this, getResources().getString(R.string.error), getResources().getString(R.string.errordefault));
             }
         }
 

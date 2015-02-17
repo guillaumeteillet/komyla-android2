@@ -1,4 +1,4 @@
-package eip.com.lizz;
+package eip.com.lizz.Models;
 
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.cookie.BasicClientCookie;

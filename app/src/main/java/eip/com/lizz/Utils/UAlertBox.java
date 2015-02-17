@@ -1,13 +1,13 @@
-package eip.com.lizz;
+package eip.com.lizz.Utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.widget.EditText;
 
-/**
- * Created by guillaume on 15/12/14.
- */
-public class AlertBox {
+import eip.com.lizz.R;
+
+
+public class UAlertBox {
 
     public static void alertOk(Activity context, String title, String msg)
     {

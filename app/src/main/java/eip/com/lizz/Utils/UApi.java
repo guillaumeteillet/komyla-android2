@@ -1,4 +1,4 @@
-package eip.com.lizz;
+package eip.com.lizz.Utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 
-public class API {
+public class UApi {
 
     public static String convertStreamToString(InputStream is) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -38,7 +38,7 @@ public class API {
         String result = "";
         if(inputStream != null)
         {
-            result = API.convertStreamToString(inputStream);
+            result = UApi.convertStreamToString(inputStream);
             if (!result.equals("") && !result.equals("CSRF mismatch"))
             {
                 jObj = new JSONObject(result);

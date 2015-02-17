@@ -1,16 +1,14 @@
-package eip.com.lizz;
+package eip.com.lizz.Setting;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +16,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import eip.com.lizz.Utils.UAlertBox;
+import eip.com.lizz.MenuLizz;
+import eip.com.lizz.R;
 
 
 public class SettingsPassword extends ActionBarActivity {
@@ -42,7 +44,7 @@ public class SettingsPassword extends ActionBarActivity {
                         input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
                         input.setTransformationMethod(PasswordTransformationMethod.getInstance());
                         input.setTextColor(Color.BLACK);
-                        final AlertDialog.Builder alert = AlertBox.alertInputOk(SettingsPassword.this, getResources().getString(R.string.dialog_title_confirm), getResources().getString(R.string.dialog_confirm_hint_pwd_change), input);
+                        final AlertDialog.Builder alert = UAlertBox.alertInputOk(SettingsPassword.this, getResources().getString(R.string.dialog_title_confirm), getResources().getString(R.string.dialog_confirm_hint_pwd_change), input);
                         alert.setPositiveButton(getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String old_pwd = input.getText().toString();
@@ -78,10 +80,10 @@ public class SettingsPassword extends ActionBarActivity {
                         alert.show();
                     }
                     else
-                        AlertBox.alertOk(SettingsPassword.this, getResources().getString(R.string.error), getResources().getString(R.string.passwordTooShort));
+                        UAlertBox.alertOk(SettingsPassword.this, getResources().getString(R.string.error), getResources().getString(R.string.passwordTooShort));
                 }
                 else
-                    AlertBox.alertOk(SettingsPassword.this, getResources().getString(R.string.error), getResources().getString(R.string.wrongPasswordConfirm));
+                    UAlertBox.alertOk(SettingsPassword.this, getResources().getString(R.string.error), getResources().getString(R.string.wrongPasswordConfirm));
 
             }
         });

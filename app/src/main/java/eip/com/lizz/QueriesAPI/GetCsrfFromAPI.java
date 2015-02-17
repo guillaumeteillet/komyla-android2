@@ -1,11 +1,9 @@
-package eip.com.lizz;
+package eip.com.lizz.QueriesAPI;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -27,14 +25,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import eip.com.lizz.Models.Cookies;
+import eip.com.lizz.R;
+import eip.com.lizz.Utils.UApi;
+
 /**
  * Created by guillaume on 20/12/14.
  */
-public class APIgetCsrf extends AsyncTask<Void, Void, JSONObject> {
+public class GetCsrfFromAPI extends AsyncTask<Void, Void, JSONObject> {
 
     /*  CSRFToken : On récupère le token et le cookie */
 
-    private static Activity contextHere;
+    private Activity contextHere;
     private String url_token;
     CookieStore cookieStore;
 
@@ -53,7 +55,7 @@ public class APIgetCsrf extends AsyncTask<Void, Void, JSONObject> {
         }
     }
 
-    APIgetCsrf(Activity context) {
+    public GetCsrfFromAPI(Activity context) {
 
         contextHere = context;
         url_token = contextHere.getResources().getString(R.string.url_api_final)+"csrfToken";
@@ -76,7 +78,7 @@ public class APIgetCsrf extends AsyncTask<Void, Void, JSONObject> {
 
             if (entity != null) {
                 InputStream instream = entity.getContent();
-                String result = API.convertStreamToString(instream);
+                String result = UApi.convertStreamToString(instream);
 
                 jObj = new JSONObject(result);
 

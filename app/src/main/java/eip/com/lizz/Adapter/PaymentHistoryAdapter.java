@@ -1,4 +1,4 @@
-package eip.com.lizz;
+package eip.com.lizz.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import eip.com.lizz.R;
 
 public class PaymentHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

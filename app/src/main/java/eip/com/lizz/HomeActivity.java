@@ -44,6 +44,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import eip.com.lizz.Utils.UAlertBox;
+
 
 public class HomeActivity extends FragmentActivity implements View.OnClickListener,
         GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -93,7 +95,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 TelephonyManager tMgr = (TelephonyManager)getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
             if ((tMgr.getLine1Number() == null || tMgr.getLine1Number().equals(""))&& getResources().getString(R.string.debugOrProd).equals("PROD"))
                 {
-                    AlertBox.alertOk(HomeActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code007));
+                    UAlertBox.alertOk(HomeActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code007));
                 }
             else
                 {

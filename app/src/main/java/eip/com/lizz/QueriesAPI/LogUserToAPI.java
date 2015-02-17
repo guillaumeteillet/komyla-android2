@@ -1,11 +1,10 @@
-package eip.com.lizz;
+package eip.com.lizz.QueriesAPI;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -23,16 +22,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import eip.com.lizz.HomeLizzActivity;
+import eip.com.lizz.R;
+import eip.com.lizz.Utils.UAlertBox;
+import eip.com.lizz.Utils.UApi;
+
 /**
  * Created by guillaume on 21/12/14.
  */
-public class APIloginUser extends AsyncTask<Void, Void, JSONObject> {
+public class LogUserToAPI extends AsyncTask<Void, Void, JSONObject> {
 
-    private final String mEmail;
-    private final String mPassword;
-    private final String mtokenCSFR;
-    private final Activity contextHere;
-    private final List<Cookie> mCookies;
+    private String mEmail;
+    private String mPassword;
+    private String mtokenCSFR;
+    private Activity contextHere;
+    private List<Cookie> mCookies;
 
     private OnTaskExecutionFinished _task_finished_event;
 
@@ -49,7 +53,7 @@ public class APIloginUser extends AsyncTask<Void, Void, JSONObject> {
         }
     }
 
-    APIloginUser(String email, String password, String tokenCSFR, Activity context, List<Cookie> cookies) {
+    public LogUserToAPI(String email, String password, String tokenCSFR, Activity context, List<Cookie> cookies) {
         mEmail = email;
         mPassword = password;
         contextHere = context;
@@ -90,21 +94,21 @@ public class APIloginUser extends AsyncTask<Void, Void, JSONObject> {
             int responseCode = httpResponse.getStatusLine().getStatusCode();
             switch(responseCode) {
                 case 200:
-                    jObj = API.prepareJson(responseCode, inputStream, jObj, 202);
+                    jObj = UApi.prepareJson(responseCode, inputStream, jObj, 202);
                     break;
                 case 400:
-                    jObj = API.prepareJson(responseCode, inputStream, jObj, 400);
+                    jObj = UApi.prepareJson(responseCode, inputStream, jObj, 400);
                     break;
                 case 403:
-                    jObj = API.prepareJson(responseCode, inputStream, jObj, 403);
+                    jObj = UApi.prepareJson(responseCode, inputStream, jObj, 403);
                     break;
                 default:
-                    jObj = API.prepareJson(responseCode, inputStream, jObj, 500);
+                    jObj = UApi.prepareJson(responseCode, inputStream, jObj, 500);
                     break;
             }
         } catch (ClientProtocolException e) {
             try {
-               jObj = API.prepareJson(408, null, jObj, 408);
+               jObj = UApi.prepareJson(408, null, jObj, 408);
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -144,21 +148,21 @@ public class APIloginUser extends AsyncTask<Void, Void, JSONObject> {
             }
             else if(jObj.get("responseCode").toString().equals("403"))
             {
-                AlertBox.alertOk(activity, context.getResources().getString(R.string.error), context.getResources().getString(R.string.error_server_ok_but_fail_login)+context.getResources().getString(R.string.code051));
+                UAlertBox.alertOk(activity, context.getResources().getString(R.string.error), context.getResources().getString(R.string.error_server_ok_but_fail_login) + context.getResources().getString(R.string.code051));
             }
             else if (jObj.get("responseCode").toString().equals("400"))
             {
                 String error = jObj.getString("message");
                 if (error.equals("Unknown user"))
-                    AlertBox.alertOk(activity, context.getResources().getString(R.string.error),  context.getResources().getString(R.string.error_server_ok_but_fail_login)+context.getResources().getString(R.string.code052));
+                    UAlertBox.alertOk(activity, context.getResources().getString(R.string.error), context.getResources().getString(R.string.error_server_ok_but_fail_login) + context.getResources().getString(R.string.code052));
                 else if (error.equals("Invalid password"))
-                    AlertBox.alertOk(activity, context.getResources().getString(R.string.error),  context.getResources().getString(R.string.error_server_ok_but_fail_login)+context.getResources().getString(R.string.code053));
+                    UAlertBox.alertOk(activity, context.getResources().getString(R.string.error), context.getResources().getString(R.string.error_server_ok_but_fail_login) + context.getResources().getString(R.string.code053));
                 else if (error.equals("Invalid password"))
-                    AlertBox.alertOk(activity, context.getResources().getString(R.string.error),  context.getResources().getString(R.string.error_server_ok_but_fail_login)+context.getResources().getString(R.string.code053));
+                    UAlertBox.alertOk(activity, context.getResources().getString(R.string.error), context.getResources().getString(R.string.error_server_ok_but_fail_login) + context.getResources().getString(R.string.code053));
             }
             else if (jObj.get("responseCode").toString().equals("500"))
             {
-                AlertBox.alertOk(activity, context.getResources().getString(R.string.error), context.getResources().getString(R.string.error_server_ok_but_fail_login)+context.getResources().getString(R.string.code056));
+                UAlertBox.alertOk(activity, context.getResources().getString(R.string.error), context.getResources().getString(R.string.error_server_ok_but_fail_login) + context.getResources().getString(R.string.code056));
             }
         } catch (JSONException e) {
             e.printStackTrace();

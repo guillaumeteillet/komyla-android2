@@ -1,27 +1,20 @@
-package eip.com.lizz;
+package eip.com.lizz.Setting;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 
-import com.facebook.Settings;
-
-import org.iban4j.IbanFormatException;
-import org.iban4j.IbanUtil;
-import org.iban4j.InvalidCheckDigitException;
-import org.iban4j.UnsupportedCountryException;
+import eip.com.lizz.PaymentMethodsActivity;
+import eip.com.lizz.MenuLizz;
+import eip.com.lizz.R;
 
 public class SettingsProfil  extends ActionBarActivity {
 

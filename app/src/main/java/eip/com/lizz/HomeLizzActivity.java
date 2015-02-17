@@ -1,6 +1,5 @@
 package eip.com.lizz;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,8 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import eip.com.lizz.Setting.SettingsCoordonnees;
+import eip.com.lizz.Utils.UAlertBox;
 
 
 public class HomeLizzActivity extends ActionBarActivity {
@@ -138,7 +137,7 @@ public class HomeLizzActivity extends ActionBarActivity {
                     if (isNew)
                     {
                         AlertDialog.Builder alert;
-                        alert = AlertBox.alert(HomeLizzActivity.this, getResources().getString(R.string.dialog_new_phone_number), getResources().getString(R.string.dialog_new_phone_number_txt1) + tMgr.getLine1Number() + getResources().getString(R.string.dialog_new_phone_number_txt2));
+                        alert = UAlertBox.alert(HomeLizzActivity.this, getResources().getString(R.string.dialog_new_phone_number), getResources().getString(R.string.dialog_new_phone_number_txt1) + tMgr.getLine1Number() + getResources().getString(R.string.dialog_new_phone_number_txt2));
                         alert.setPositiveButton(getResources().getString(R.string.dialog_yes), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String phone_before;

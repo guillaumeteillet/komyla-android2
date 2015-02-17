@@ -1,4 +1,4 @@
-package eip.com.lizz;
+package eip.com.lizz.UI;
 
 import android.content.Context;
 import android.graphics.Canvas;

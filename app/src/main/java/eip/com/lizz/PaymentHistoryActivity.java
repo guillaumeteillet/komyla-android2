@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import eip.com.lizz.Adapter.PaymentHistoryAdapter;
+
 
 public class PaymentHistoryActivity extends ActionBarActivity {
 

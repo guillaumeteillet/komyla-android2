@@ -11,8 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -27,7 +25,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import eip.com.lizz.Models.Cookies;
 import eip.com.lizz.Models.CreditCard;
+import eip.com.lizz.Adapter.PaymentMethodsAdapter;
+import eip.com.lizz.Utils.UApi;
 import eip.com.lizz.Utils.UJsonToData;
 
 public class PaymentMethodsActivity extends ActionBarActivity {
@@ -35,7 +36,7 @@ public class PaymentMethodsActivity extends ActionBarActivity {
 
     /* Attributes */
     private RecyclerView                mRecyclerView;
-    private PaymentMethodsAdapter       mAdapter;
+    private PaymentMethodsAdapter mAdapter;
     private LinearLayoutManager         mLayoutManager;
     private SwipeRefreshLayout          mSwipeRefreshLayout;
 
@@ -179,7 +180,7 @@ public class PaymentMethodsActivity extends ActionBarActivity {
                 l_inputStream = httpResponse.getEntity().getContent();
 
                 int responseCode = httpResponse.getStatusLine().getStatusCode();
-                resultSet = API.convertStreamToString(l_inputStream);
+                resultSet = UApi.convertStreamToString(l_inputStream);
 
             }
             finally

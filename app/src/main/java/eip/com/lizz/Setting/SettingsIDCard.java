@@ -1,4 +1,4 @@
-package eip.com.lizz;
+package eip.com.lizz.Setting;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,15 +12,15 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import eip.com.lizz.Utils.UAlertBox;
+import eip.com.lizz.MenuLizz;
+import eip.com.lizz.R;
 import eip.com.lizz.Utils.UNetwork;
 import eip.com.lizz.Utils.UPhoto;
 import eip.com.lizz.Utils.UThread;
@@ -54,7 +54,7 @@ public class SettingsIDCard extends ActionBarActivity {
             sharedpreferences.edit().putString("eip.com.lizz.returnAPIIDCardVerso",returnAPIIDCardVerso).apply();
         }
         else
-            AlertBox.alertOk(SettingsIDCard.this, getResources().getString(R.string.dialog_title_no_internet), getResources().getString(R.string.dialog_no_internet));
+            UAlertBox.alertOk(SettingsIDCard.this, getResources().getString(R.string.dialog_title_no_internet), getResources().getString(R.string.dialog_no_internet));
 
         TextView statut = (TextView) findViewById(R.id.statut);
         TextView statut2 = (TextView) findViewById(R.id.statut2);
@@ -181,7 +181,7 @@ public class SettingsIDCard extends ActionBarActivity {
                 cursor.close();
 
             } catch (Exception e) {
-                AlertBox.alertOk(SettingsIDCard.this, getResources().getString(R.string.error), getResources().getString(R.string.errordefault));
+                UAlertBox.alertOk(SettingsIDCard.this, getResources().getString(R.string.error), getResources().getString(R.string.errordefault));
             }
         }
 

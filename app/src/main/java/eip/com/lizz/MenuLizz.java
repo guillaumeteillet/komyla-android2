@@ -11,11 +11,8 @@ import android.os.Handler;
 import android.view.MenuItem;
 
 import org.apache.http.client.CookieStore;
-import org.apache.http.cookie.Cookie;
-import org.apache.http.impl.client.BasicCookieStore;
-import org.json.JSONObject;
 
-import java.util.List;
+import eip.com.lizz.Utils.UAlertBox;
 
 /**
  * Created by guillaume on 16/12/14.
@@ -79,7 +76,7 @@ public class MenuLizz {
     public static boolean signout(final Context context, Activity ctx)
     {
         AlertDialog.Builder alert;
-        alert = AlertBox.alert(ctx, context.getResources().getString(R.string.confirm), context.getResources().getString(R.string.logout));
+        alert = UAlertBox.alert(ctx, context.getResources().getString(R.string.confirm), context.getResources().getString(R.string.logout));
         alert.setPositiveButton(context.getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 logout(context);

@@ -17,8 +17,8 @@ import org.json.JSONObject;
 import java.io.InputStream;
 import java.util.List;
 
-import eip.com.lizz.API;
-import eip.com.lizz.Cookies;
+import eip.com.lizz.Utils.UApi;
+import eip.com.lizz.Models.Cookies;
 import eip.com.lizz.Models.CreditCard;
 import eip.com.lizz.R;
 
@@ -76,7 +76,7 @@ public class                    AddCreditCardToAPI extends AsyncTask<CreditCard,
 
         int responseCode = httpResponse.getStatusLine().getStatusCode();
         Log.d("GetPaymentMethods", "Le code de retour est: " + responseCode +
-                " et le contenu est: " + API.convertStreamToString(inputStream));
+                " et le contenu est: " + UApi.convertStreamToString(inputStream));
 
         return Integer.toString(responseCode);
     }

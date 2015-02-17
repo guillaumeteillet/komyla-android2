@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import eip.com.lizz.API;
-import eip.com.lizz.Cookies;
+import eip.com.lizz.Utils.UApi;
+import eip.com.lizz.Models.Cookies;
 import eip.com.lizz.R;
 
 
@@ -69,7 +69,7 @@ public class GetPaymentMethodsFromAPI extends AsyncTask<Void, Void, String> {
             int responseCode = httpResponse.getStatusLine().getStatusCode();
 
             try {
-                Log.d("GetPaymentMethods", "Le code de retour est: " + responseCode + " et le contenu est: " + API.convertStreamToString(l_inputStream));
+                Log.d("GetPaymentMethods", "Le code de retour est: " + responseCode + " et le contenu est: " + UApi.convertStreamToString(l_inputStream));
             } catch (Exception e) {
                 e.printStackTrace();
             }

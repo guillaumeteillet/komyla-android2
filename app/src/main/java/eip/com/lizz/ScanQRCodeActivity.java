@@ -9,14 +9,10 @@ import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.Button;
 
@@ -27,7 +23,6 @@ import android.hardware.Camera.Parameters;
 import android.hardware.Camera.Size;
 
 import android.widget.TextView;
-import android.graphics.ImageFormat;
 import android.widget.Toast;
 
 /* Import ZBar Class files */

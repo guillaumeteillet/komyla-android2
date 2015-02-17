@@ -1,20 +1,14 @@
-package eip.com.lizz;
+package eip.com.lizz.Setting;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
-import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -22,6 +16,10 @@ import org.iban4j.IbanFormatException;
 import org.iban4j.IbanUtil;
 import org.iban4j.InvalidCheckDigitException;
 import org.iban4j.UnsupportedCountryException;
+
+import eip.com.lizz.MenuLizz;
+import eip.com.lizz.R;
+import eip.com.lizz.Utils.USaveParams;
 
 public class SettingsRIB  extends ActionBarActivity {
 
@@ -66,16 +64,16 @@ public class SettingsRIB  extends ActionBarActivity {
                         IbanUtil.validate(rib.getText().toString());
                         if (rib.getText().toString().length() == 27 && rib.getText().toString().substring(0, 2).equals("FR")) // On verifie que c'est un IBAN FR.
                         {
-                            SaveParams.checkIsForChangePinOrNot(false, SettingsRIB.this, "eip.com.lizz.rib", rib.getText().toString());
+                            USaveParams.checkIsForChangePinOrNot(false, SettingsRIB.this, "eip.com.lizz.rib", rib.getText().toString());
                         }
                         else
                         {
-                            SaveParams.displayError(8, SettingsRIB.this, null, null, false);
+                            USaveParams.displayError(8, SettingsRIB.this, null, null, false);
                         }
                     } catch (IbanFormatException |
                             InvalidCheckDigitException |
                             UnsupportedCountryException e) {
-                        SaveParams.displayError(7, SettingsRIB.this, null, null, false);
+                        USaveParams.displayError(7, SettingsRIB.this, null, null, false);
                     }
             }
         });

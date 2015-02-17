@@ -1,12 +1,9 @@
-package eip.com.lizz;
+package eip.com.lizz.Setting;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
@@ -14,27 +11,35 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.NumberPicker;
+
+import eip.com.lizz.MenuLizz;
+import eip.com.lizz.R;
+import eip.com.lizz.Utils.USaveParams;
 
 
-public class SettingsPayementLimit extends ActionBarActivity {
+public class SettingsCodePIN extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings_payement_limit);
+        setContentView(R.layout.activity_settings_code_pin);
 
-        final EditText payementLimit = (EditText) findViewById(R.id.payement_limit);
+        final EditText codePinEditText = (EditText) findViewById(R.id.code_pin);
 
         SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
-        String payementLimitSave = sharedpreferences.getString("eip.com.lizz.payementLimit", "0");
+        String codePinSave = sharedpreferences.getString("eip.com.lizz.codepinlizz", "");
 
-        payementLimit.setText(payementLimitSave);
+        codePinEditText.setText(codePinSave);
+        codePinEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        codePinEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
         final Button save = (Button) findViewById(R.id.save);
         save.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                SaveParams.checkIsForChangePinOrNot(false, SettingsPayementLimit.this, "eip.com.lizz.payementLimit",  payementLimit.getText().toString());
+                if (codePinEditText.getText().toString().equals(""))
+                    USaveParams.displayError(6, SettingsCodePIN.this, null, null, false);
+                else
+                    USaveParams.checkIsForChangePinOrNot(true, SettingsCodePIN.this, "eip.com.lizz.codepinlizz", codePinEditText.getText().toString());
             }
         });
 
@@ -55,6 +60,6 @@ public class SettingsPayementLimit extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return MenuLizz.settings_menu(item, getBaseContext(), SettingsPayementLimit.this);
+        return MenuLizz.settings_menu(item, getBaseContext(), SettingsCodePIN.this);
     }
 }

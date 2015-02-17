@@ -1,4 +1,4 @@
-package eip.com.lizz;
+package eip.com.lizz.Setting;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -9,12 +9,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.TelephonyManager;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,14 +20,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.facebook.Settings;
-
-import org.iban4j.IbanFormatException;
-import org.iban4j.IbanUtil;
-import org.iban4j.InvalidCheckDigitException;
-import org.iban4j.UnsupportedCountryException;
+import eip.com.lizz.Utils.USaveParams;
+import eip.com.lizz.Utils.UAlertBox;
+import eip.com.lizz.MenuLizz;
+import eip.com.lizz.R;
 
 public class SettingsCoordonnees  extends ActionBarActivity {
 
@@ -56,7 +49,7 @@ public class SettingsCoordonnees  extends ActionBarActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             if (bundle.getBoolean("numberAdd")) {
-                AlertBox.alertOk(SettingsCoordonnees.this, getResources().getString(R.string.dialog_numberAdd), getResources().getString(R.string.dialog_numberAddTxt));
+                UAlertBox.alertOk(SettingsCoordonnees.this, getResources().getString(R.string.dialog_numberAdd), getResources().getString(R.string.dialog_numberAddTxt));
             }
         }
 
@@ -91,12 +84,12 @@ public class SettingsCoordonnees  extends ActionBarActivity {
                 Intent loggedUser;
                 AlertDialog.Builder alerte;
 
-                alerte = AlertBox.alert(SettingsCoordonnees.this, "Confirmation", "Êtes-vous sûr de vouloir supprimer ce numéro de votre compte ?");
+                alerte = UAlertBox.alert(SettingsCoordonnees.this, "Confirmation", "Êtes-vous sûr de vouloir supprimer ce numéro de votre compte ?");
                 alerte.setPositiveButton(getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         TelephonyManager tMgr = (TelephonyManager)getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
                         if (tMgr.getLine1Number().equals(itemValue))
-                            AlertBox.alertOk(SettingsCoordonnees.this, "Erreur", "Vous ne pouvez pas supprimer le numéro de votre carte SIM actuelle.");
+                            UAlertBox.alertOk(SettingsCoordonnees.this, "Erreur", "Vous ne pouvez pas supprimer le numéro de votre carte SIM actuelle.");
                         else
                         {
                             String phone = sharedpreferences.getString("eip.com.lizz.phone", "");
@@ -168,7 +161,7 @@ public class SettingsCoordonnees  extends ActionBarActivity {
                     input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     input.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     input.setTextColor(Color.BLACK);
-                    final AlertDialog.Builder alert = AlertBox.alertInputOk(SettingsCoordonnees.this, getResources().getString(R.string.dialog_title_confirm), getResources().getString(R.string.dialog_confirm_hint_pin), input);
+                    final AlertDialog.Builder alert = UAlertBox.alertInputOk(SettingsCoordonnees.this, getResources().getString(R.string.dialog_title_confirm), getResources().getString(R.string.dialog_confirm_hint_pin), input);
                     alert.setPositiveButton(getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             if (input.getText().toString().equals(pinCode))
@@ -192,7 +185,7 @@ public class SettingsCoordonnees  extends ActionBarActivity {
                             }
                             else
                             {
-                                SaveParams.tentativeCheck(SettingsCoordonnees.this, sharedpreferences);
+                                USaveParams.tentativeCheck(SettingsCoordonnees.this, sharedpreferences);
                             }
                         }
                     });

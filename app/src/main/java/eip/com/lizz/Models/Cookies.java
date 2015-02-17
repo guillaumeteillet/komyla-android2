@@ -1,4 +1,4 @@
-package eip.com.lizz;
+package eip.com.lizz.Models;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,7 +6,6 @@ import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.util.Base64InputStream;
 import android.util.Base64OutputStream;
-import android.webkit.CookieSyncManager;
 
 import org.apache.http.cookie.Cookie;
 
@@ -15,8 +14,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.CookieManager;
-import java.net.CookieStore;
 import java.util.ArrayList;
 import java.util.List;
 

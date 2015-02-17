@@ -12,13 +12,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import eip.com.lizz.Utils.UAlertBox;
 
 
 public class PayementPTPActivity extends ActionBarActivity {
@@ -53,14 +53,14 @@ public class PayementPTPActivity extends ActionBarActivity {
                     boolean isEmail = LoginActivity.isEmailValid(contact_a_check);
                     boolean isPhone = isPhoneValid(contact_a_check);
                     if (contact_a_check.isEmpty())
-                        AlertBox.alertOk(PayementPTPActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_contact_empty));
+                        UAlertBox.alertOk(PayementPTPActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_contact_empty));
                     else if (somme.isEmpty())
-                        AlertBox.alertOk(PayementPTPActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_somme_empty));
+                        UAlertBox.alertOk(PayementPTPActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_somme_empty));
                     else if (!isEmail && !isPhone)
-                        AlertBox.alertOk(PayementPTPActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_contact_ptp));
+                        UAlertBox.alertOk(PayementPTPActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_contact_ptp));
                     else
                     {
-                        Intent paiement = new Intent(getBaseContext(), PayementPTPConfirm.class);
+                        Intent paiement = new Intent(getBaseContext(), PayementPTPConfirmActivity.class);
                         paiement.putExtra("contact", contact_a_check);
                         paiement.putExtra("somme", somme);
                         paiement.putExtra("isEmail", isEmail);
@@ -167,7 +167,7 @@ public class PayementPTPActivity extends ActionBarActivity {
                 {
                     EditText contact_input = (EditText) findViewById(R.id.contact);
                     contact_input.setText("");
-                    AlertBox.alertOk(PayementPTPActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_contact));
+                    UAlertBox.alertOk(PayementPTPActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_contact));
                 }
 
             }

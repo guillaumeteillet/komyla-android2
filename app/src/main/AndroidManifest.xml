@@ -72,21 +72,21 @@
             android:label="@string/title_activity_settings" >
         </activity>
         <activity
-            android:name=".SettingsPayementLimit"
+            android:name=".Setting.SettingsPayementLimit"
             android:label="@string/title_activity_settings_payement_limit" >
         </activity>
         <activity
-            android:name=".SettingsProfil"
+            android:name=".Setting.SettingsProfil"
             android:label="@string/title_activity_settings_profil"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
-            android:name=".SettingsCoordonnees"
+            android:name=".Setting.SettingsCoordonnees"
             android:label="@string/title_activity_settings_coordonnees"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
-            android:name=".SettingsCodePIN"
+            android:name=".Setting.SettingsCodePIN"
             android:label="@string/title_activity_settings_code_pin" >
         </activity>
         <activity
@@ -107,11 +107,11 @@
             android:label="@string/title_activity_payement_with_unique_code" >
         </activity>
         <activity
-            android:name=".SettingsScanner"
+            android:name=".Setting.SettingsScanner"
             android:label="@string/title_activity_settings_scanner" >
         </activity>
         <activity
-            android:name=".SettingsRIB"
+            android:name=".Setting.SettingsRIB"
             android:label="@string/title_activity_settings_rib" >
         </activity>
         <activity
@@ -138,19 +138,19 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".PayementPTPConfirm"
+            android:name=".PayementPTPConfirmActivity"
             android:label="@string/title_activity_payement_ptpconfirm" >
         </activity>
         <activity
-            android:name=".SettingsPassword"
+            android:name=".Setting.SettingsPassword"
             android:label="@string/title_activity_settings_password" >
         </activity>
         <activity
-            android:name=".SettingsIDCard"
+            android:name=".Setting.SettingsIDCard"
             android:label="@string/title_activity_settings_idcard" >
         </activity>
         <activity
-            android:name=".SettingsProofAddress"
+            android:name=".Setting.SettingsProofAddress"
             android:label="@string/title_activity_settings_proof_address" >
         </activity>
     </application>

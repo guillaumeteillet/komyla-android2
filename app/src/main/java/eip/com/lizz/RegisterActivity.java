@@ -39,11 +39,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import eip.com.lizz.QueriesAPI.AddUserToAPI;
+import eip.com.lizz.QueriesAPI.GetCsrfFromAPI;
+import eip.com.lizz.QueriesAPI.LogUserToAPI;
+import eip.com.lizz.Utils.UAlertBox;
+import eip.com.lizz.Utils.UApi;
+import eip.com.lizz.Utils.USaveParams;
+
 public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor>{
 
-    private APIgetCsrf mAuthTask = null;
-    private APIcreateUser mAuthTask2 = null;
-    private APIloginUser mAuthTask3 = null;
+    private GetCsrfFromAPI mAuthTask = null;
+    private AddUserToAPI mAuthTask2 = null;
+    private LogUserToAPI mAuthTask3 = null;
     private AutoCompleteTextView mEmailView;
     private EditText mSurnameView;
     private EditText mFirstnameView;
@@ -93,10 +100,10 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
             public void onClick(View view) {
                 mAuthTask = null;
                 mAuthTask2 = null;
-                            if (API.isOnline(RegisterActivity.this))
+                            if (UApi.isOnline(RegisterActivity.this))
                                 attemptLogin();
                             else
-                                AlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code000));
+                                UAlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code000));
             }
         });
 
@@ -171,7 +178,7 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
 
             final EditText mdpConfirm = new EditText(RegisterActivity.this);
             mdpConfirm.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            final AlertDialog.Builder alert = AlertBox.alertInputOk(RegisterActivity.this, getResources().getString(R.string.dialog_title_confirm), getResources().getString(R.string.dialog_confirm_mdp), mdpConfirm);
+            final AlertDialog.Builder alert = UAlertBox.alertInputOk(RegisterActivity.this, getResources().getString(R.string.dialog_title_confirm), getResources().getString(R.string.dialog_confirm_mdp), mdpConfirm);
             alert.setPositiveButton(getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
 
@@ -186,20 +193,20 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
             }
             showProgress(true);
 
-            mAuthTask = new APIgetCsrf(RegisterActivity.this);
-            mAuthTask.setOnTaskFinishedEvent(new APIgetCsrf.OnTaskExecutionFinished()
+            mAuthTask = new GetCsrfFromAPI(RegisterActivity.this);
+            mAuthTask.setOnTaskFinishedEvent(new GetCsrfFromAPI.OnTaskExecutionFinished()
             {
                 @Override
                 public void OnTaskFihishedEvent(final String tokenCSFR, final List<Cookie> cookies)
                 {
                     if (tokenCSFR.equals("000x000"))
                     {
-                        AlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code000));
+                        UAlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code000));
                     }
                     else
                     {
-                        mAuthTask2 = new APIcreateUser(firstname, surname, email, password, tokenCSFR, RegisterActivity.this, cookies);
-                        mAuthTask2.setOnTaskFinishedEvent(new APIcreateUser.OnTaskExecutionFinished() {
+                        mAuthTask2 = new AddUserToAPI(firstname, surname, email, password, tokenCSFR, RegisterActivity.this, cookies);
+                        mAuthTask2.setOnTaskFinishedEvent(new AddUserToAPI.OnTaskExecutionFinished() {
                             @Override
                             public void OnTaskFihishedEvent(JSONObject jObj) {
                                 showProgress(false);
@@ -207,13 +214,13 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
                                     if (jObj.get("responseCode").toString().equals("200"))
                                     {
                                         finish();
-                                        mAuthTask3 = new APIloginUser(mEmailView.getText().toString(), mPasswordView.getText().toString(), tokenCSFR, RegisterActivity.this, cookies);
-                                        mAuthTask3.setOnTaskFinishedEvent(new APIloginUser.OnTaskExecutionFinished() {
+                                        mAuthTask3 = new LogUserToAPI(mEmailView.getText().toString(), mPasswordView.getText().toString(), tokenCSFR, RegisterActivity.this, cookies);
+                                        mAuthTask3.setOnTaskFinishedEvent(new LogUserToAPI.OnTaskExecutionFinished() {
                                             @Override
                                             public void OnTaskFihishedEvent(JSONObject jObj) {
 
                                                 showProgress(false);
-                                                APIloginUser.checkErrorsAndLaunch(jObj, RegisterActivity.this, getBaseContext());
+                                                LogUserToAPI.checkErrorsAndLaunch(jObj, RegisterActivity.this, getBaseContext());
                                             }
                                         });
                                         mAuthTask3.execute();
@@ -226,25 +233,25 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
                                         boolean emailIsMissing = array.has("email");
                                         boolean passwordIsMissing = array.has("password");
                                         if (firstnameIsMissing)
-                                            AlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error),  getResources().getString(R.string.error_server_ok_but_fail)+getResources().getString(R.string.code002));
+                                            UAlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail) + getResources().getString(R.string.code002));
                                         else if (surnameIsMissing)
-                                            AlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail)+getResources().getString(R.string.code003));
+                                            UAlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail) + getResources().getString(R.string.code003));
                                         else if (emailIsMissing)
-                                            AlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail)+getResources().getString(R.string.code004));
+                                            UAlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail) + getResources().getString(R.string.code004));
                                         else if (passwordIsMissing)
-                                            AlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail)+getResources().getString(R.string.code005));
+                                            UAlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail) + getResources().getString(R.string.code005));
                                     }
                                     else if(jObj.get("responseCode").toString().equals("403"))
                                     {
-                                        AlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail)+getResources().getString(R.string.code001));
+                                        UAlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail) + getResources().getString(R.string.code001));
                                     }
                                     else if(jObj.get("responseCode").toString().equals("408"))
                                     {
-                                        AlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code000));
+                                        UAlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code000));
                                     }
                                     else if (jObj.get("responseCode").toString().equals("500"))
                                     {
-                                        AlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail)+getResources().getString(R.string.code006));
+                                        UAlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail) + getResources().getString(R.string.code006));
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -262,7 +269,7 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
                     }
                     else
                     {
-                        SaveParams.displayError(5, RegisterActivity.this, null, null, false);
+                        USaveParams.displayError(5, RegisterActivity.this, null, null, false);
                         mdpConfirm.setText("");
                     }
                 }

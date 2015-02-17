@@ -1,23 +1,23 @@
-package eip.com.lizz;
+package eip.com.lizz.Setting;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.text.InputType;
-import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+
+import eip.com.lizz.CameraPreview;
+import eip.com.lizz.MenuLizz;
+import eip.com.lizz.R;
+import eip.com.lizz.Utils.USaveParams;
 
 /**
  * Created by guillaume on 18/12/14.
@@ -99,11 +99,11 @@ public class SettingsScanner  extends ActionBarActivity {
                 SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
 
                 if (scannerStatus) {
-                    SaveParams.saveParamsBoolean(SettingsScanner.this, "eip.com.lizz.scannerstatus", true);
+                    USaveParams.saveParamsBoolean(SettingsScanner.this, "eip.com.lizz.scannerstatus", true);
                 }
                 else
                 {
-                    SaveParams.saveParamsBoolean(SettingsScanner.this, "eip.com.lizz.scannerstatus", false);
+                    USaveParams.saveParamsBoolean(SettingsScanner.this, "eip.com.lizz.scannerstatus", false);
                 }
             }
         });

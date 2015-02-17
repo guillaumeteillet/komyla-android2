@@ -185,13 +185,13 @@ ADDED from AndroidManifest.xml:70:9
 		ADDED from AndroidManifest.xml:72:13
 	android:name
 		ADDED from AndroidManifest.xml:71:13
-activity#eip.com.lizz.SettingsPayementLimit
+activity#eip.com.lizz.Setting.SettingsPayementLimit
 ADDED from AndroidManifest.xml:74:9
 	android:label
 		ADDED from AndroidManifest.xml:76:13
 	android:name
 		ADDED from AndroidManifest.xml:75:13
-activity#eip.com.lizz.SettingsCodePIN
+activity#eip.com.lizz.Setting.SettingsCodePIN
 ADDED from AndroidManifest.xml:78:9
 	android:label
 		ADDED from AndroidManifest.xml:80:13
@@ -223,7 +223,7 @@ ADDED from AndroidManifest.xml:95:9
 		ADDED from AndroidManifest.xml:97:13
 	android:name
 		ADDED from AndroidManifest.xml:96:13
-activity#eip.com.lizz.SettingsScanner
+activity#eip.com.lizz.Setting.SettingsScanner
 ADDED from AndroidManifest.xml:99:9
 	android:label
 		ADDED from AndroidManifest.xml:101:13

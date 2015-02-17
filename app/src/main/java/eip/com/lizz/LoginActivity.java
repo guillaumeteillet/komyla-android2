@@ -8,9 +8,7 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.CursorLoader;
-import android.content.Intent;
 import android.content.Loader;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -19,11 +17,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -32,27 +28,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.cookie.Cookie;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import eip.com.lizz.QueriesAPI.GetCsrfFromAPI;
+import eip.com.lizz.QueriesAPI.LogUserToAPI;
+import eip.com.lizz.Utils.UAlertBox;
+import eip.com.lizz.Utils.UApi;
+
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
-    private APIloginUser mAuthTask2 = null;
-    private APIgetCsrf mAuthTask = null;
+    private LogUserToAPI mAuthTask2 = null;
+    private GetCsrfFromAPI mAuthTask = null;
 
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
@@ -85,10 +75,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             public void onClick(View view) {
                 mAuthTask = null;
                 mAuthTask2 = null;
-                if (API.isOnline(LoginActivity.this))
+                if (UApi.isOnline(LoginActivity.this))
                     attemptLogin();
                 else
-                    AlertBox.alertOk(LoginActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code000));
+                    UAlertBox.alertOk(LoginActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code000));
             }
         });
 
@@ -141,23 +131,23 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
             showProgress(true);
-            mAuthTask = new APIgetCsrf(LoginActivity.this);
-            mAuthTask.setOnTaskFinishedEvent(new APIgetCsrf.OnTaskExecutionFinished() {
+            mAuthTask = new GetCsrfFromAPI(LoginActivity.this);
+            mAuthTask.setOnTaskFinishedEvent(new GetCsrfFromAPI.OnTaskExecutionFinished() {
                 @Override
                 public void OnTaskFihishedEvent(String tokenCSFR, List<Cookie> cookies) {
                     if (tokenCSFR.equals("000x000"))
                     {
                         showProgress(false);
-                        AlertBox.alertOk(LoginActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code000));
+                        UAlertBox.alertOk(LoginActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code000));
                     }
                     else {
-                        mAuthTask2 = new APIloginUser(mEmailView.getText().toString(), mPasswordView.getText().toString(), tokenCSFR, LoginActivity.this, cookies);
-                        mAuthTask2.setOnTaskFinishedEvent(new APIloginUser.OnTaskExecutionFinished() {
+                        mAuthTask2 = new LogUserToAPI(mEmailView.getText().toString(), mPasswordView.getText().toString(), tokenCSFR, LoginActivity.this, cookies);
+                        mAuthTask2.setOnTaskFinishedEvent(new LogUserToAPI.OnTaskExecutionFinished() {
                             @Override
                             public void OnTaskFihishedEvent(JSONObject jObj) {
 
                                 showProgress(false);
-                                APIloginUser.checkErrorsAndLaunch(jObj, LoginActivity.this, getBaseContext());
+                                LogUserToAPI.checkErrorsAndLaunch(jObj, LoginActivity.this, getBaseContext());
                             }
 
                         });

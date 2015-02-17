@@ -1,14 +1,10 @@
-package eip.com.lizz;
+package eip.com.lizz.QueriesAPI;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Environment;
-import android.util.Log;
-
-import org.json.JSONObject;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -16,10 +12,13 @@ import java.io.FileInputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import eip.com.lizz.R;
+import eip.com.lizz.Utils.UAlertBox;
+
 /**
  * Created by guillaume on 06/02/15.
  */
-public class APISendFile extends AsyncTask<String, Void, Boolean> {
+public class AddFileToAPI extends AsyncTask<String, Void, Boolean> {
 
     private final Activity contextHere;
     private final String mUrl;
@@ -41,7 +40,7 @@ public class APISendFile extends AsyncTask<String, Void, Boolean> {
         }
     }
 
-    public APISendFile(final Activity context, String url, String api, ProgressDialog progress) {
+    public AddFileToAPI(final Activity context, String url, String api, ProgressDialog progress) {
         contextHere = context;
         mUrl = url;
         mProgress = progress;
@@ -67,7 +66,7 @@ public class APISendFile extends AsyncTask<String, Void, Boolean> {
 
             if (!sourceFile.isFile()) {
                 mProgress.dismiss();
-                AlertBox.alertOk(contextHere, contextHere.getResources().getString(R.string.error), contextHere.getResources().getString(R.string.errordefault));
+                UAlertBox.alertOk(contextHere, contextHere.getResources().getString(R.string.error), contextHere.getResources().getString(R.string.errordefault));
                 return false;
             }
             else
@@ -117,7 +116,7 @@ public class APISendFile extends AsyncTask<String, Void, Boolean> {
             }
         } catch (Exception e) {
             mProgress.dismiss();
-            AlertBox.alertOk(contextHere, contextHere.getResources().getString(R.string.error), contextHere.getResources().getString(R.string.errordefault));
+            UAlertBox.alertOk(contextHere, contextHere.getResources().getString(R.string.error), contextHere.getResources().getString(R.string.errordefault));
             return false;
         }
     }
