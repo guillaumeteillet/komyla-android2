@@ -104,12 +104,14 @@ public class PaymentMethodsActivity extends ActionBarActivity {
             mCreditCards.clear();
             ArrayList<CreditCard> tmp = UJsonToData.getCreditCardListFromJSON(resultSet);
 
-            for (int i = 0; i < tmp.size(); i++){
-                mCreditCards.add(tmp.get(i));
+            if (tmp != null) {
+                for (int i = 0; i < tmp.size(); i++){
+                    mCreditCards.add(tmp.get(i));
+                }
+                mAdapter.notifyDataSetChanged();
+                mSwipeRefreshLayout.setRefreshing(false);
             }
 
-            mAdapter.notifyDataSetChanged();
-            mSwipeRefreshLayout.setRefreshing(false);
         } catch (JSONException e) {
             Log.d("NoCreditCards", "Il n'y a pas de carte de crédit dans le retour d'API");
             e.printStackTrace();

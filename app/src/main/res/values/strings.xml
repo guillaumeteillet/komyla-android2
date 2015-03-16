@@ -3,7 +3,7 @@
 
     <string name="app_name">Lizz</string>
     <string name="app_id">377638892395189</string>
-    <string name="debugOrProd">PROD</string> <!-- DEBUG OR PROD -->
+    <string name="debugOrProd">PROG</string> <!-- DEBUG OR PROD -->
 
     <string name="action_params">Paramètres</string>
     <string name="action_signout">Déconnexion</string>
@@ -71,6 +71,7 @@
     <string name="urllizzcode">http://lizz.fr/code/</string>
     <string name="url_api_get_paymentMethods">user/getPaymentCards</string>
     <string name="url_api_add_creditCard">paymentcard/create</string>
+    <string name="url_api_update_creditCard">paymentcard/update/</string>
     <string name="url_api_delete_creditCard">paymentcard/delete/</string>
 
     <string name="dialog_title_no_internet">Erreur de connectivité</string>
@@ -113,7 +114,10 @@
     <string name="title_activity_payement_ptpconfirm">Récapitulatif</string>
     <string name="title_activity_payement_with_unique_code">Saisissez le code unique Lizz</string>
     <string name="title_activity_settings_scanner">Scanner</string>
-    <string name="title_activity_add_edit_card">Ajouter une carte bancaire</string>
+
+    <string name="title_activity_add_edit_card">Nouvelle carte bancaire</string>
+    <string name="title_activity_add_edit_card_edition">Carte bancaire existante</string>
+
     <string name="title_activity_payment_method">Moyens de paiement</string>
     <string name="title_activity_settings_rib">Relevé d\'Identité Bancaire</string>
     <string name="title_activity_payment_history">PaymentHistoryActivity</string>

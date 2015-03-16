@@ -36,7 +36,7 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
 
     @Override
     public void onBindViewHolder(PaymentMethodViewHolder paymentMethodViewHolder, int i) {
-        Drawable myDrawable = mContext.getResources().getDrawable(R.drawable.placeholdercb);
+        Drawable myDrawable = mContext.getResources().getDrawable(R.drawable.facebook);
 
         paymentMethodViewHolder.paymentMethod = mCreditCards.get(i);
         paymentMethodViewHolder.paymentMethodName.setText(mCreditCards.get(i).get_displayName());

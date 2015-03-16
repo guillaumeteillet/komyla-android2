@@ -1,6 +1,5 @@
 package eip.com.lizz.Utils;
 
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,7 +23,7 @@ public class UJsonToData {
             JSONObject oneObject = jsonArray.getJSONObject(i);
             creditCards.add(new CreditCard(
                     oneObject.getString("id"),
-                    "**** **** **** " + oneObject.getString("cardNumberHidden"),
+                    "************" + oneObject.getString("cardNumberHidden"),
                     oneObject.getString("cardExpireMounth"),
                     oneObject.getString("cardExpireYear"),
                     "***",

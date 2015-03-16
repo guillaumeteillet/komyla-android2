@@ -16,19 +16,17 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 import eip.com.lizz.QueriesAPI.AddCreditCardToAPI;
 import eip.com.lizz.QueriesAPI.DeleteCreditCardFromAPI;
+import eip.com.lizz.QueriesAPI.UpdateCreditCardToAPI;
 import eip.com.lizz.Utils.UAlertBox;
 import eip.com.lizz.Utils.UNetwork;
 import io.card.payment.CardIOActivity;
 import io.card.payment.CreditCard;
 
-//TODO: Mathieu
-/*
-3) Désactiver le scan si pas d'APN dispo
-*/
 
 public class AddEditPaymentMethodActivity extends ActionBarActivity {
 
@@ -64,34 +62,46 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
         setInputMode();
         buttonBinding();
         configurationOfUI(this);
-
-//      saveCard.setEnabled(true);
-//      Mathieu : Si l'appareil photo n'existe pas, rendre le scan de carte bancaire impossible.
     }
 
     private void setInputMode() {
         eip.com.lizz.Models.CreditCard cb = (eip.com.lizz.Models.CreditCard) getIntent().getSerializableExtra("EXTRA_CREDIT_CARD");
         if (cb == null) {
-            inputMode = E_MODE.ADDITION;
             Log.v("Extra", "Extra null -> Ajout d'un nouveau moyen de paiement");
+
+            inputMode = E_MODE.ADDITION;
         }
         else {
+            Log.v("Extra", "Extra non null -> Edition d'un moyen de paiement existant");
+
             inputMode = E_MODE.EDITION;
             oldCreditCard = cb;
-            Log.v("Extra", "Extra non null -> Edition d'un moyen de paiement existant");
         }
     }
 
     private void configurationOfUI(Context context) {
-        configureButtonSaveCard(this);
-        configureButtonDeleteCard(this);
+
+        if (inputMode == E_MODE.EDITION) {
+            this.edittextCardNumber.setText(oldCreditCard.get_cardNumber());
+            this.edittextExpirationDateMonth.setText(oldCreditCard.get_expirationDateMonth());
+            this.edittextExpirationDateYear.setText(oldCreditCard.get_expirationDateYear());
+            this.edittextCryptogram.setText(oldCreditCard.get_cryptogram());
+            this.edittextOwnerName.setText(oldCreditCard.get_cardHolder());
+            this.edittextDisplayName.setText(oldCreditCard.get_displayName());
+            this.setTitle(getResources().getString(R.string.title_activity_add_edit_card_edition));
+        }
+
         if (inputMode == E_MODE.ADDITION) {
             deleteCard.setVisibility(View.GONE);
         }
+
         PackageManager pm = getBaseContext().getPackageManager();
         if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
             scanCard.setVisibility(View.GONE);
         }
+
+        configureButtonSaveCard(this);
+        configureButtonDeleteCard(this);
     }
 
     private void buttonBinding() {
@@ -105,8 +115,6 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
         scanCard = (ImageButton)findViewById(R.id.buttonScanCard);
         saveCard = (Button)findViewById(R.id.buttonSaveCard);
         deleteCard = (Button)findViewById(R.id.buttonDeleteCard);
-
-
     }
 
 
@@ -117,30 +125,10 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
             public void onClick(View v) {
                 if (UNetwork.checkInternetConnection(context)) {
                 /* VERIFICATION DES CHAMPS DU FORMULAIRE */
-                    if (allFieldAreGood()) {
-                        SharedPreferences sharedpreferences = getApplicationContext().getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
-                        AddCreditCardToAPI task = new AddCreditCardToAPI(sharedpreferences.getString("eip.com.lizz._csrf", ""), getApplicationContext());
-                        try {
-                            String responseCode = task.execute(new eip.com.lizz.Models.CreditCard(
-                                    null,
-                                    edittextCardNumber.getText().toString(),
-                                    edittextExpirationDateMonth.getText().toString(),
-                                    edittextExpirationDateYear.getText().toString(),
-                                    edittextCryptogram.getText().toString(),
-                                    edittextOwnerName.getText().toString(),
-                                    edittextDisplayName.getText().toString())).get();
-                            // IL FAUT TRAITER LE RETOUR DE L'API ICI
-                            if (responseCode.compareTo("200") == 0) {
-                                Toast.makeText(context, getResources().getString(R.string.toast_valid_card_infos), Toast.LENGTH_LONG).show();
-                                finish();
-                            }
-                        } catch (InterruptedException | ExecutionException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    else {
-                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.wrong_card_infos), Toast.LENGTH_LONG).show();
-                    }
+                    if (inputMode == E_MODE.ADDITION)
+                        buttonSaveCardAdditionMode(context);
+                    else if (inputMode == E_MODE.EDITION)
+                        buttonSaveCardEditionMode(context);
                 }
                 else {
                     UAlertBox.alertOk(AddEditPaymentMethodActivity.this,
@@ -149,6 +137,108 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
                 }
             }
         });
+    }
+
+    private void buttonSaveCardAdditionMode(final Context context) {
+        if (allFieldAreGood()) {
+            SharedPreferences sharedpreferences = getApplicationContext().getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+            AddCreditCardToAPI task = new AddCreditCardToAPI(sharedpreferences.getString("eip.com.lizz._csrf", ""), getApplicationContext());
+            try {
+                String responseCode = task.execute(new eip.com.lizz.Models.CreditCard(
+                        null,
+                        edittextCardNumber.getText().toString(),
+                        edittextExpirationDateMonth.getText().toString(),
+                        edittextExpirationDateYear.getText().toString(),
+                        edittextCryptogram.getText().toString(),
+                        edittextOwnerName.getText().toString(),
+                        edittextDisplayName.getText().toString())).get();
+                // IL FAUT TRAITER LE RETOUR DE L'API ICI
+                if (responseCode.compareTo("200") == 0) {
+                    Toast.makeText(context, getResources().getString(R.string.toast_valid_card_infos), Toast.LENGTH_LONG).show();
+                    finish();
+                }
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.wrong_card_infos), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void buttonSaveCardEditionMode(final Context context) {
+
+        HashMap<String, String> modifiedFields = new HashMap<String, String>();
+        saveChangedData(modifiedFields);
+
+        if (modifiedFields.size() == 0)
+            finish();
+
+        if (verifyChangedData(modifiedFields)) {
+            SharedPreferences sharedpreferences = getApplicationContext().getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+            UpdateCreditCardToAPI task = new UpdateCreditCardToAPI(sharedpreferences.getString("eip.com.lizz._csrf", ""),
+                    oldCreditCard.get_id(), getApplicationContext());
+            try {
+                String responseCode = task.execute(modifiedFields).get();
+                // IL FAUT TRAITER LE RETOUR DE L'API ICI
+                if (responseCode.compareTo("200") == 0) {
+                    Toast.makeText(context, getResources().getString(R.string.toast_valid_card_infos), Toast.LENGTH_LONG).show();
+                    finish();
+                }
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.wrong_card_infos), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void saveChangedData(HashMap<String, String> modifiedFields) {
+        if (edittextCardNumber.getText().toString().compareTo(oldCreditCard.get_cardNumber()) != 0)
+            modifiedFields.put("cardNumber", edittextCardNumber.getText().toString());
+        if (edittextExpirationDateMonth.getText().toString().compareTo(oldCreditCard.get_expirationDateMonth()) != 0)
+            modifiedFields.put("cardExpireMounth", edittextExpirationDateMonth.getText().toString());
+        if (edittextExpirationDateYear.getText().toString().compareTo(oldCreditCard.get_expirationDateYear()) != 0)
+            modifiedFields.put("cardExpireYear", edittextExpirationDateYear.getText().toString());
+        if (edittextCryptogram.getText().toString().compareTo(oldCreditCard.get_cryptogram()) != 0)
+            modifiedFields.put("cardVerificationValue", edittextCryptogram.getText().toString());
+        if (edittextOwnerName.getText().toString().compareTo(oldCreditCard.get_cardHolder()) != 0)
+            modifiedFields.put("cardHolder", edittextOwnerName.getText().toString());
+        if (edittextDisplayName.getText().toString().compareTo(oldCreditCard.get_displayName()) != 0)
+            modifiedFields.put("cardName", edittextDisplayName.getText().toString());
+    }
+
+    private boolean verifyChangedData(HashMap<String, String> modifiedData) {
+        for (String key : modifiedData.keySet()) {
+            if (key.compareTo("cardNumber") == 0)
+                if (!isCardNumberIsValide())
+                    return false;
+            if (key.compareTo("cardExpireMounth") == 0)
+                if (!checkExpirationMonth())
+                    return false;
+                else
+                    if (!isExpirationDateValide())
+                        return false;
+            if (key.compareTo("cardExpireYear") == 0)
+                if (!checkExpirationYear())
+                    return false;
+                else
+                    if (!isExpirationDateValide())
+                        return false;
+            if (key.compareTo("cardVerificationValue") == 0)
+                if (!isCryptogramValid())
+                    return false;
+            if (key.compareTo("cardHolder") == 0)
+                if (this.edittextOwnerName.length() == 0)
+                    return false;
+            if (key.compareTo("cardName") == 0)
+                if (this.edittextDisplayName.length() == 0)
+                    return false;
+
+            Log.d("Edition", "" + key + ":" + modifiedData.get(key));
+        }
+        return true;
     }
 
     private void configureButtonDeleteCard(final Context context) {
@@ -185,6 +275,50 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
         }
 
         return false;
+    }
+
+    private boolean isCardNumberIsValide() {
+        cardNumberStr = edittextCardNumber.getText().toString();
+        if (cardNumberStr == null) {
+            edittextCardNumber.setError(getResources().getString(R.string.error_wrong_card_number));
+            return false;
+        }
+        if (!cardNumberStr.matches("\\d{16}")) {
+            edittextCardNumber.setError(getResources().getString(R.string.error_wrong_card_number));
+            return false;
+        }
+
+        // *2 every 2 number
+        int[] resultTab = new int[15];
+        for (int i = 0; i < cardNumberStr.length() - 1; i++) {
+            if (i % 2 == 0) {
+                int tmp = Character.getNumericValue(cardNumberStr.charAt(i));
+                tmp *= 2;
+                if (tmp > 9) {
+                    tmp -= 9;
+                }
+                resultTab[i] = tmp;
+            } else {
+                resultTab[i] = Character.getNumericValue(cardNumberStr.charAt(i));
+            }
+        }
+
+        // Add all the number beetween them
+        int totalSum = 0;
+        for (int aResultTab : resultTab) {
+            totalSum += aResultTab;
+        }
+
+        // % 10 and 10 - result
+        totalSum = totalSum % 10;
+        totalSum = 10 - totalSum;
+
+        if (totalSum - Character.getNumericValue(cardNumberStr.charAt(cardNumberStr.length() - 1)) != 0) {
+            Log.d("CardNumber", "carte nop");
+            edittextCardNumber.setError(getResources().getString(R.string.error_wrong_card_number));
+            return false;
+        }
+        return true;
     }
 
     private boolean checkExpirationMonth() {
@@ -246,54 +380,8 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
         return false;
     }
 
-    private boolean isCardNumberIsValide() {
-        cardNumberStr = edittextCardNumber.getText().toString();
-        if (cardNumberStr == null) {
-            Log.d("CardNumber", "carte 0");
-            edittextCardNumber.setError(getResources().getString(R.string.error_wrong_card_number));
-            return false;
-        }
-        if (cardNumberStr.length() != 16) {
-            Log.d("CardNumber", "carte !16");
-            edittextCardNumber.setError(getResources().getString(R.string.error_wrong_card_number));
-            return false;
-        }
-
-        // *2 every 2 number
-        int[] resultTab = new int[15];
-        for (int i = 0; i < cardNumberStr.length() - 1; i++) {
-            if (i % 2 == 0) {
-                int tmp = Character.getNumericValue(cardNumberStr.charAt(i));
-                tmp *= 2;
-                if (tmp > 9) {
-                    tmp -= 9;
-                }
-                resultTab[i] = tmp;
-            } else {
-                resultTab[i] = Character.getNumericValue(cardNumberStr.charAt(i));
-            }
-        }
-
-        // Add all the number beetween them
-        int totalSum = 0;
-        for (int aResultTab : resultTab) {
-            totalSum += aResultTab;
-        }
-
-        // % 10 and 10 - result
-        totalSum = totalSum % 10;
-        totalSum = 10 - totalSum;
-
-        if (totalSum - Character.getNumericValue(cardNumberStr.charAt(cardNumberStr.length() - 1)) != 0) {
-            Log.d("CardNumber", "carte nop");
-            edittextCardNumber.setError(getResources().getString(R.string.error_wrong_card_number));
-            return false;
-        }
-        return true;
-    }
-
     private boolean isCryptogramValid() {
-        if (this.edittextCryptogram.length() == 3)
+        if (this.edittextCryptogram.getText().toString().matches("\\d{3}"))
             return true;
         edittextCryptogram.setError(getResources().getString(R.string.error_wrong_cryptogram));
         return false;
