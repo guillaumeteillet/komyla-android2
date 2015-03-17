@@ -71,6 +71,8 @@
     <string name="urllizzcode">http://lizz.fr/code/</string>
     <string name="url_api_get_paymentMethods">user/getPaymentCards</string>
     <string name="url_api_user_update_password">user/updatePassword</string>
+    <string name="url_api_user_session_ssofb">session/ssofacebook</string>
+    <string name="url_api_user_session_ssogoogle">session/ssogoogle</string>
     <string name="url_api_add_creditCard">paymentcard/create</string>
     <string name="url_api_update_creditCard">paymentcard/update/</string>
     <string name="url_api_delete_creditCard">paymentcard/delete/</string>
@@ -202,12 +204,18 @@
     <string name="error_400_old_password_empty">L\'ancien mot de passe ne peut pas être vide !</string>
     <string name="error_400_new_password_empty">Le nouveau mot de passe ne peut pas être vide !</string>
     <string name="error_400_new_old_same">Votre nouveau mot de passe est identique à l\'ancien !</string>
+    <string name="error_400_sso_fb_token_empty">Impossible de créer votre compte ou de vous connecter via Facebook : L\'access token de Facebook est vide. Contacter le support.</string>
+    <string name="error_400_sso_fb_token_expire">Impossible de créer votre compte ou de vous connecter via Facebook : L\'access token de Facebook est expiré. Contacter le support.</string>
 
     <string name="api_change_password_old">oldPassword</string>
     <string name="api_change_password_new">newPassword</string>
     <string name="api_change_password_dontmatch">don\'t match</string>
     <string name="api_change_password_cannotbeempty">cannot be empty</string>
     <string name="api_change_password_cannotbethesameasoldone">cannot be the same as old one</string>
+    <string name="api_user_sso_fb_error">error</string>
+    <string name="api_user_sso_fb_message">message</string>
+    <string name="api_user_sso_fb_access_token_empty">no access_token provided</string>
+    <string name="api_user_sso_fb_access_token_expire">Invalid OAuth access token.</string>
 
     <string name="email_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-0123456789@.!#$%\'*+/=?^_`{|}~</string>
     <string name="name_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ \'-</string>

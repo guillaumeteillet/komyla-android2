@@ -3,9 +3,7 @@ package eip.com.lizz;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.telephony.TelephonyManager;
@@ -13,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.Request;
 import com.facebook.RequestAsyncTask;
@@ -26,38 +25,32 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.model.people.Person;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
+import org.apache.http.cookie.Cookie;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
+import eip.com.lizz.QueriesAPI.GetCsrfFromAPI;
+import eip.com.lizz.QueriesAPI.LogUserToAPI;
+import eip.com.lizz.QueriesAPI.UserCreateSSOFb;
 import eip.com.lizz.Utils.UAlertBox;
+import eip.com.lizz.Utils.UApi;
 
 
 public class HomeActivity extends FragmentActivity implements View.OnClickListener,
         GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private String fbAccessToken;
-    public String fbLastName;
-    public String fbId;
-    public String fbFirstName;
     public String email;
-    private UserRegisterSSO mAuthTask = null;
+    private GetCsrfFromAPI mAuthTask = null;
+    private UserCreateSSOFb mAuthTask2 = null;
     private static final String TAG = "ExampleActivity";
-    private static final int REQUEST_CODE_RESOLVE_ERR = 9000;
     private static final int RC_SIGN_IN = 0;
     private GoogleApiClient mGoogleApiClient;
     private boolean mIntentInProgress;
@@ -223,49 +216,98 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             RequestAsyncTask requestAsyncTask = Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
                 @Override
                 public void onCompleted(GraphUser user, Response response) {
+                    mAuthTask = new GetCsrfFromAPI(HomeActivity.this);
+                    mAuthTask.setOnTaskFinishedEvent(new GetCsrfFromAPI.OnTaskExecutionFinished() {
+                        @Override
+                        public void OnTaskFihishedEvent(String tokenCSFR, List<Cookie> cookies) {
+                            if (tokenCSFR.equals("000x000"))
+                            {
+                                UAlertBox.alertOk(HomeActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code000));
+                            }
+                            else {
+                                mAuthTask2 = new UserCreateSSOFb(tokenCSFR, getBaseContext(), fbAccessToken);
+                                mAuthTask2.setOnTaskFinishedEvent(new UserCreateSSOFb.OnTaskExecutionFinished() {
+                                    @Override
+                                    public void OnTaskFihishedEvent(HttpResponse httpResponse) {
+                                        dataAPI(httpResponse);
+                                    }
+                                });
+                                mAuthTask2.execute();
+                            }
+                        }
 
-                    // ID Unique FB, LastName, FirstName, Email (OBLIGATOIRE)
-
-                    fbId = user.getId();
-                    fbLastName = user.getLastName();
-                    fbFirstName = user.getFirstName();
-                    email = user.asMap().get("email").toString();
-
-                    // Sexe, Birth
-
-                    String fbSex = user.asMap().get("gender").toString();
-                    String fbBirthday = user.asMap().get("birthday").toString();
-
-                    // TO DO : Likes, UserFriends
-
-
-                    //DEBUG FB
-                    Log.i("fb", "fb user: " + user.toString());
-                    Log.i("fb", ">>>>" + fbFirstName + "--" + fbLastName + "--" + fbId + "---" + fbAccessToken + "---" + email + "---" + fbSex + "--" + fbBirthday);
-
-                    // TO DO : Verifier si le token Facebook existe déjà ou non
-
-                    boolean account_exist = true;
-
-                    mAuthTask = new UserRegisterSSO(fbFirstName, fbLastName, email, "", account_exist);
-                    mAuthTask.execute((Void) null);
-
-                    SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
-                    sharedpreferences.edit().putBoolean("eip.com.lizz.isLogged", true).apply();
-
-                    Session session = Session.getActiveSession();
-                    if (session != null) {
-                        session.closeAndClearTokenInformation();
-                    }
-
-                    Intent loggedUser = new Intent(getBaseContext(), HomeLizzActivity.class);
-                    loggedUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);// On supprime les vues précédentes, l'utilisateur est connecté.
-                    //loggedUser.putExtra("user_info",jObj.toString());
-                    startActivity(loggedUser);
+                    });
+                    mAuthTask.execute();
                 }
             });
         }
         }
+    }
+
+    private void dataAPI(HttpResponse httpResponse)
+    {
+        InputStream inputStream = null;
+        try {
+            inputStream = httpResponse.getEntity().getContent();
+            String jString =  UApi.convertStreamToString(inputStream);
+            JSONObject jObj = new JSONObject(jString);
+
+            int responseCode = httpResponse.getStatusLine().getStatusCode();
+
+            if (responseCode == 200)
+                API_200(jObj);
+            else if (responseCode == 400)
+                API_400(jObj);
+            else if (responseCode == 403)
+                API_403();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void API_200(JSONObject jObj) throws JSONException {
+
+        LogUserToAPI.LogUserSaveLocalParams(jObj.getString("firstname"), jObj.getString("surname"), jObj.getString("email"), "0;", HomeActivity.this);
+
+        Session session = Session.getActiveSession();
+        if (session != null) {
+            session.closeAndClearTokenInformation();
+        }
+
+        Intent loggedUser = new Intent(getBaseContext(), HomeLizzActivity.class);
+        loggedUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);// On supprime les vues précédentes, l'utilisateur est connecté.
+        startActivity(loggedUser);
+    }
+
+    private  void API_400(JSONObject jObj)
+    {
+       if (jObj.has(getResources().getString(R.string.api_user_sso_fb_error)))
+        {
+            try {
+                String error = jObj.get(getResources().getString(R.string.api_user_sso_fb_error)).toString();
+                if (error.equals(getResources().getString(R.string.api_user_sso_fb_access_token_empty)))
+                {
+                    UAlertBox.alertOk(HomeActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_400_sso_fb_token_empty));
+                }
+                else // L'access token est expiré.
+                {
+                    UAlertBox.alertOk(HomeActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_400_sso_fb_token_expire));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        Session session = Session.getActiveSession();
+        if (session != null) {
+            session.closeAndClearTokenInformation();
+        }
+    }
+
+    private void API_403()
+    {
+        Toast.makeText(getBaseContext(), getResources().getString(R.string.error_403_token_expire), Toast.LENGTH_LONG).show();
     }
 
     public void onDisconnected() {
@@ -274,7 +316,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        mSignInClicked = false;
+    /*    mSignInClicked = false;
         // TO DO : Verifier si le token Google+ existe déjà ou non
 
         if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
@@ -299,86 +341,11 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         Intent loggedUser = new Intent(getBaseContext(), HomeLizzActivity.class);
         loggedUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);// On supprime les vues précédentes, l'utilisateur est connecté.
         //loggedUser.putExtra("user_info",jObj.toString());
-        startActivity(loggedUser);
+        startActivity(loggedUser);*/
     }
 
     public void onConnectionSuspended(int cause) {
         mGoogleApiClient.connect();
-    }
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserRegisterSSO extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mFirstname;
-        private final String mSurname;
-        private final String mEmail;
-        private final String mPassword;
-        private final Boolean mAccountExist;
-
-        UserRegisterSSO(String firstname, String surname, String email, String password, Boolean account_exist) {
-            mFirstname = firstname;
-            mSurname = surname;
-            mEmail = email;
-            mPassword = password;
-            mAccountExist = account_exist;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // Create a new HttpClient and Post Header
-            HttpClient httpclient = new DefaultHttpClient();
-            String url_api;
-            if (mAccountExist)
-                url_api = getResources().getString(R.string.url_api_login);
-            else
-                url_api = getResources().getString(R.string.url_api_create);
-
-            HttpPost httppost = new HttpPost(url_api);
-
-            try {
-                // Add your data
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-                nameValuePairs.add(new BasicNameValuePair("fisrtname", mFirstname));
-                nameValuePairs.add(new BasicNameValuePair("surname", mSurname));
-                nameValuePairs.add(new BasicNameValuePair("password", ""));
-                nameValuePairs.add(new BasicNameValuePair("email", mEmail));
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-                // Execute HTTP Post Request
-                HttpResponse response = httpclient.execute(httppost);
-                int responseCode = response.getStatusLine().getStatusCode();
-                switch(responseCode) {
-                    case 200:
-                        HttpEntity entity = response.getEntity();
-                        if(entity != null) {
-                            String responseBody = EntityUtils.toString(entity);
-                            Log.d("REGISTER","<<<<"+mFirstname+"-"+mSurname+"-"+mPassword+"-"+mEmail);
-                            Log.d("REGISTER","<<<<"+responseBody);
-                        }
-                        break;
-                }
-
-            } catch (ClientProtocolException e) {
-                // TODO Auto-generated catch block
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-            }
-
-            return true;
-        }
-
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-        }
     }
 
     /**

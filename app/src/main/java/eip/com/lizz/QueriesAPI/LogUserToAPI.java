@@ -125,21 +125,27 @@ public class LogUserToAPI extends AsyncTask<Void, Void, JSONObject> {
         this._task_finished_event.OnTaskFihishedEvent(jObj);
     }
 
+    public static void LogUserSaveLocalParams(String lFirstname, String lSurname, String lEmail, String lPhone, Context context)
+    {
+        String firstname, surname, email, phone;
+        firstname = lFirstname;
+        surname = lSurname;
+        email = lEmail;
+        phone = lPhone; //obj.getString("phone"); // TODO : Récupérer les numéros de téléphone from l'API.
+        SharedPreferences sharedpreferences = context.getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+        sharedpreferences.edit().putString("eip.com.lizz.firstname", firstname).apply();
+        sharedpreferences.edit().putString("eip.com.lizz.surname", surname).apply();
+        sharedpreferences.edit().putString("eip.com.lizz.email", email).apply();
+        sharedpreferences.edit().putString("eip.com.lizz.phone", phone).apply();
+        sharedpreferences.edit().putBoolean("eip.com.lizz.isLogged", true).apply();
+    }
+
     public static void checkErrorsAndLaunch(JSONObject jObj, Activity activity, Context context) {
         String firstname, surname, email, phone;
         try {
             if (jObj.get("responseCode").toString().equals("200"))
             {
-                firstname = jObj.getString("firstname");
-                surname = jObj.getString("surname");
-                email = jObj.getString("email");
-                phone = "0;"; //obj.getString("phone"); // TODO : Récupérer les numéros de téléphone from l'API.
-                SharedPreferences sharedpreferences = context.getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
-                sharedpreferences.edit().putString("eip.com.lizz.firstname", firstname).apply();
-                sharedpreferences.edit().putString("eip.com.lizz.surname", surname).apply();
-                sharedpreferences.edit().putString("eip.com.lizz.email", email).apply();
-                sharedpreferences.edit().putString("eip.com.lizz.phone", phone).apply();
-                sharedpreferences.edit().putBoolean("eip.com.lizz.isLogged", true).apply();
+                LogUserSaveLocalParams(jObj.getString("firstname"), jObj.getString("surname"), jObj.getString("email"), "0;", context);
                 activity.finish();
 
                 Intent loggedUser = new Intent(context, HomeLizzActivity.class);
