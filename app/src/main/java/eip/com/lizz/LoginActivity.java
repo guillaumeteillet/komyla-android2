@@ -33,6 +33,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import eip.com.lizz.QueriesAPI.GetCsrfFromAPI;
 import eip.com.lizz.QueriesAPI.LogUserToAPI;
@@ -162,10 +164,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     public static boolean isEmailValid(String email) {
-        if (email.contains("@") && email.contains("."))
-            return true;
-        else
-            return false;
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)

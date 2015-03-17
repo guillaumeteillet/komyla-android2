@@ -23,7 +23,7 @@ import eip.com.lizz.Utils.UAlertBox;
 
 public class PayementPTPActivity extends ActionBarActivity {
 
-    String name = "", picture_URI = "";
+    String name = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,6 @@ public class PayementPTPActivity extends ActionBarActivity {
                         paiement.putExtra("somme", somme);
                         paiement.putExtra("isEmail", isEmail);
                         paiement.putExtra("isPhone", isPhone);
-                        paiement.putExtra("picture_URI", picture_URI);
                         startActivity(paiement);
                     }
                 }
@@ -84,11 +83,16 @@ public class PayementPTPActivity extends ActionBarActivity {
 
     private boolean isPhoneValid(String contact_a_check) {
 
+        if (!contact_a_check.matches("[0-9]+"))
+        {
+            return false;
+        }
         if (contact_a_check.length() >= 10 && contact_a_check.length() <= 12)
         {
             if(contact_a_check.substring(0, 2).equals("33") || contact_a_check.substring(0, 2).equals("06") || contact_a_check.substring(0, 2).equals("07"))
                 return true;
         }
+
         return false;
     }
 
@@ -103,7 +107,6 @@ public class PayementPTPActivity extends ActionBarActivity {
                 name = c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
                 Uri result = data.getData();
                 String id = result.getLastPathSegment();
-                picture_URI = getPhotoUri(id).toString();
 
                 boolean phone_multiple = false;
                 boolean email_multiple = false;
@@ -172,31 +175,6 @@ public class PayementPTPActivity extends ActionBarActivity {
 
             }
         }
-    }
-
-    public Uri getPhotoUri(String id) {
-        try {
-            Cursor cur = getContentResolver().query(
-                    ContactsContract.Data.CONTENT_URI,
-                    null,
-                    ContactsContract.Data.CONTACT_ID + "=" + id + " AND "
-                            + ContactsContract.Data.MIMETYPE + "='"
-                            + ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE + "'", null,
-                    null);
-            if (cur != null) {
-                if (!cur.moveToFirst()) {
-                    return null; // no photo
-                }
-            } else {
-                return null; // error in cursor process
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        Uri person = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long
-                .parseLong(id));
-        return Uri.withAppendedPath(person, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
     }
 
             @Override

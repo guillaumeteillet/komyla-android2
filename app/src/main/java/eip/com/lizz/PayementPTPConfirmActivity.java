@@ -1,6 +1,7 @@
 package eip.com.lizz;
 
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
@@ -38,9 +39,6 @@ public class PayementPTPConfirmActivity extends ActionBarActivity {
                 boolean isPhone = bundle.getBoolean("isPhone");
                 String contact = bundle.getString("contact");
                 contact_label.setText(contact);
-                profil_picture.setImageURI(Uri.parse(bundle.getString("picture_URI")));
-                if(profil_picture.getDrawable() == null)
-                    profil_picture.setImageResource(R.drawable.ic_launcher);
 
                 if (api)
                 {
@@ -49,26 +47,38 @@ public class PayementPTPConfirmActivity extends ActionBarActivity {
                 else
                 {
                     ContentResolver cr = getContentResolver();
-                    String contactName = "";
+                    String contactName = "", id = "";
                     if (isPhone)
                     {
                         Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(contact));
-                        Cursor cursor = cr.query(uri, new String[]{ContactsContract.PhoneLookup.DISPLAY_NAME}, null, null, null);
+                        String[] projection = new String[] {ContactsContract.PhoneLookup.DISPLAY_NAME, ContactsContract.PhoneLookup._ID};
+                        Cursor cursor =
+                                cr.query(
+                                        uri,
+                                        projection,
+                                        null,
+                                        null,
+                                        null);
 
-                        if(cursor.moveToFirst()) {
-                            contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
+                        if(cursor!=null) {
+                            if(cursor.moveToFirst()) {
+                                contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
+                                id = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.PhoneLookup._ID));
+                            }
+                            cursor.close();
                         }
-                        cursor.close();
                     }
                     else if (isEmail)
                     {
+                        String[] projection = new String[] {ContactsContract.PhoneLookup.DISPLAY_NAME, ContactsContract.CommonDataKinds.Email.CONTACT_ID};
                         Cursor emailCur = cr.query(
                                 ContactsContract.CommonDataKinds.Email.CONTENT_URI,
-                                null,
+                                projection,
                                 ContactsContract.CommonDataKinds.Email.DATA
                                         + " = '" + contact+"'", null, null);
                         while (emailCur.moveToNext()) {
                             contactName = emailCur.getString(emailCur.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
+                           id = emailCur.getString(emailCur.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Email.CONTACT_ID));
                         }
                         emailCur.close();
                     }
@@ -89,6 +99,12 @@ public class PayementPTPConfirmActivity extends ActionBarActivity {
                         else if (isPhone)
                             no_account_label.setText(contactName+" ("+contact+") "+getResources().getString(R.string.label_no_account_sms));
                     }
+                    if (!id.equals(""))
+                        profil_picture.setImageURI(Uri.parse(getPhotoUri(id).toString()));
+                    else
+                        profil_picture.setImageResource(R.drawable.ic_launcher);
+                    if(profil_picture.getDrawable() == null)
+                        profil_picture.setImageResource(R.drawable.ic_launcher);
                 }
             }
             if (bundle.getString("somme") != null) {
@@ -96,6 +112,31 @@ public class PayementPTPConfirmActivity extends ActionBarActivity {
                 somme_label.setText(somme+" €");
             }
         }
+    }
+
+    public Uri getPhotoUri(String id) {
+        try {
+            Cursor cur = getContentResolver().query(
+                    ContactsContract.Data.CONTENT_URI,
+                    null,
+                    ContactsContract.Data.CONTACT_ID + "=" + id + " AND "
+                            + ContactsContract.Data.MIMETYPE + "='"
+                            + ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE + "'", null,
+                    null);
+            if (cur != null) {
+                if (!cur.moveToFirst()) {
+                    return null; // no photo
+                }
+            } else {
+                return null; // error in cursor process
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        Uri person = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long
+                .parseLong(id));
+        return Uri.withAppendedPath(person, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
     }
 
 

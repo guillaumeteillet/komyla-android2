@@ -196,10 +196,10 @@
     <string name="code053">Description : Le mot de passe de ce compte est erroné. Code d\'erreur Lizz : 053. Code HTTP : 400</string>
     <string name="code056">Description : Erreur interne au serveur, veuillez réessayer. Code d\'erreur Lizz : 056. Code HTTP : 500</string>
 
-    <string name="email_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-0123456789@._</string>
+    <string name="email_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-0123456789@.!#$%\'*+/=?^_`{|}~</string>
     <string name="name_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ \'-</string>
     <string name="alphaNumeric_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
-    <string name="address_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ÄÃÅĀÀÂÆÁĖĘĒÊÉÈËŸŪÜÚÙÛĪÍĮÌÏÎŌÕÓÒÖŒÔČÇĆ\'-()":äãåāàâæáėęēêéèëÿūüúùûīíįìïîōõóòöœ</string>
+    <string name="address_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ÄÃÅĀÀÂÆÁĖĘĒÊÉÈËŸŪÜÚÙÛĪÍĮÌÏÎŌÕÓÒÖŒÔČÇĆ\'-()":äãåā àâæáėęēêéèëÿūüúùûīíįìïîōõóòöœ</string>
     <string name="numeric_digits">0123456789</string>
 
     <string name="facebook">Se connecter avec Facebook</string>
