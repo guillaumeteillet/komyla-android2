@@ -3,7 +3,7 @@
 
     <string name="app_name">Lizz</string>
     <string name="app_id">377638892395189</string>
-    <string name="debugOrProd">PROG</string> <!-- DEBUG OR PROD -->
+    <string name="debugOrProd">PROD</string> <!-- DEBUG OR PROD -->
 
     <string name="action_params">Paramètres</string>
     <string name="action_signout">Déconnexion</string>
