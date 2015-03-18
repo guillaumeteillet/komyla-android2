@@ -5,9 +5,11 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -24,6 +26,18 @@ public class UApi {
         }
         is.close();
         return sb.toString();
+    }
+
+    public static JSONObject convertStreamToJSONObject(InputStream inputStream)
+            throws JSONException, IOException {
+        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+        String line = "";
+        String result = "";
+        while((line = bufferedReader.readLine()) != null)
+            result += line;
+
+        //inputStream.close();
+        return new JSONObject(result);
     }
 
     public static boolean isOnline(Activity context) {

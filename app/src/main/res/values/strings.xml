@@ -70,6 +70,7 @@
     <string name="url_api_final_v1">http://163.5.84.225:8000/api/v1/</string>
     <string name="urllizzcode">http://lizz.fr/code/</string>
     <string name="url_api_get_paymentMethods">user/getPaymentCards</string>
+    <string name="url_api_user_update_password">user/updatePassword</string>
     <string name="url_api_add_creditCard">paymentcard/create</string>
     <string name="url_api_update_creditCard">paymentcard/update/</string>
     <string name="url_api_delete_creditCard">paymentcard/delete/</string>
@@ -123,7 +124,7 @@
     <string name="title_activity_payment_history">PaymentHistoryActivity</string>
     <string name="title_activity_settings_profil">Vos informations personnelles</string>
     <string name="title_activity_settings_coordonnees">Vos Coordonnées</string>
-    <string name="title_activity_settings_password">SettingsPassword</string>
+    <string name="title_activity_settings_password">Votre mot de passe</string>
     <string name="title_activity_settings_idcard">Votre carte d\'identité</string>
     <string name="title_activity_settings_proof_address">Votre justificatif de domicile</string>
 
@@ -195,6 +196,18 @@
     <string name="code052">Description : Aucun compte n\'existe avec cette adresse email. Code d\'erreur Lizz : 052. Code HTTP : 400</string>
     <string name="code053">Description : Le mot de passe de ce compte est erroné. Code d\'erreur Lizz : 053. Code HTTP : 400</string>
     <string name="code056">Description : Erreur interne au serveur, veuillez réessayer. Code d\'erreur Lizz : 056. Code HTTP : 500</string>
+    <string name="error_403_token_expire">Erreur : La session a expiré. </string>
+    <string name="error_403_passwordChange"> Votre mot de passe n\'a pas été modifié.</string>
+    <string name="error_400_old_password_dont_match">Une erreur dans votre mot de passe actuel nous empêche d\'enregistrer votre nouveau mot de passe</string>
+    <string name="error_400_old_password_empty">L\'ancien mot de passe ne peut pas être vide !</string>
+    <string name="error_400_new_password_empty">Le nouveau mot de passe ne peut pas être vide !</string>
+    <string name="error_400_new_old_same">Votre nouveau mot de passe est identique à l\'ancien !</string>
+
+    <string name="api_change_password_old">oldPassword</string>
+    <string name="api_change_password_new">newPassword</string>
+    <string name="api_change_password_dontmatch">don\'t match</string>
+    <string name="api_change_password_cannotbeempty">cannot be empty</string>
+    <string name="api_change_password_cannotbethesameasoldone">cannot be the same as old one</string>
 
     <string name="email_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-0123456789@.!#$%\'*+/=?^_`{|}~</string>
     <string name="name_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ \'-</string>
