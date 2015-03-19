@@ -3,6 +3,7 @@ package eip.com.lizz;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -24,6 +25,7 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
 
 import org.apache.http.HttpResponse;
@@ -39,6 +41,7 @@ import java.util.List;
 import eip.com.lizz.QueriesAPI.GetCsrfFromAPI;
 import eip.com.lizz.QueriesAPI.LogUserToAPI;
 import eip.com.lizz.QueriesAPI.UserCreateSSOFb;
+import eip.com.lizz.QueriesAPI.UserCreateSSOGoogle;
 import eip.com.lizz.Utils.UAlertBox;
 import eip.com.lizz.Utils.UApi;
 
@@ -50,6 +53,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     public String email;
     private GetCsrfFromAPI mAuthTask = null;
     private UserCreateSSOFb mAuthTask2 = null;
+    private UserCreateSSOGoogle mAuthTask3 = null;
     private static final String TAG = "ExampleActivity";
     private static final int RC_SIGN_IN = 0;
     private GoogleApiClient mGoogleApiClient;
@@ -72,6 +76,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 .addOnConnectionFailedListener(this)
                 .addApi(Plus.API)
                 .addScope(Plus.SCOPE_PLUS_LOGIN)
+                .addScope(new Scope("https://www.googleapis.com/auth/userinfo.email"))
+                .addScope(new Scope("https://www.googleapis.com/auth/userinfo.profile"))
                 .build();
 
         Button lizzConnect = (Button) findViewById(R.id.btnConnectLizz);
@@ -86,11 +92,11 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         lizzNewAccount.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 TelephonyManager tMgr = (TelephonyManager)getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
-            if ((tMgr.getLine1Number() == null || tMgr.getLine1Number().equals(""))&& getResources().getString(R.string.debugOrProd).equals("PROD"))
+                if ((tMgr.getLine1Number() == null || tMgr.getLine1Number().equals(""))&& getResources().getString(R.string.debugOrProd).equals("PROD"))
                 {
                     UAlertBox.alertOk(HomeActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code007));
                 }
-            else
+                else
                 {
                     Intent intent = new Intent(HomeActivity.this, RegisterActivity.class);
                     startActivity(intent);
@@ -103,7 +109,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         gplus.setTypeface(myTypeface);
         gplus.setBackgroundResource(R.drawable.googleplus);
         gplus.setText(getResources().getString(R.string.google));
-       // setGooglePlusButtonText(gplus,getResources().getString(R.string.google));
+        // setGooglePlusButtonText(gplus,getResources().getString(R.string.google));
         if (!supportsGooglePlayServices()) {
             gplus.setVisibility(View.GONE);
             return;
@@ -187,7 +193,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             resolveSignInError();
         }
     }
-    
+
 
 
     @Override
@@ -207,44 +213,43 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         }
         else
         {
-
-        Session session = Session.getActiveSession();
-        session.onActivityResult(this, requestCode, resultCode, data);
-        if (session.isOpened()) {
-            fbAccessToken = session.getAccessToken();
-            // make request to get facebook user info
-            RequestAsyncTask requestAsyncTask = Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
-                @Override
-                public void onCompleted(GraphUser user, Response response) {
-                    mAuthTask = new GetCsrfFromAPI(HomeActivity.this);
-                    mAuthTask.setOnTaskFinishedEvent(new GetCsrfFromAPI.OnTaskExecutionFinished() {
-                        @Override
-                        public void OnTaskFihishedEvent(String tokenCSFR, List<Cookie> cookies) {
-                            if (tokenCSFR.equals("000x000"))
-                            {
-                                UAlertBox.alertOk(HomeActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code000));
+            Session session = Session.getActiveSession();
+            session.onActivityResult(this, requestCode, resultCode, data);
+            if (session.isOpened()) {
+                fbAccessToken = session.getAccessToken();
+                // make request to get facebook user info
+                RequestAsyncTask requestAsyncTask = Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
+                    @Override
+                    public void onCompleted(GraphUser user, Response response) {
+                        mAuthTask = new GetCsrfFromAPI(HomeActivity.this);
+                        mAuthTask.setOnTaskFinishedEvent(new GetCsrfFromAPI.OnTaskExecutionFinished() {
+                            @Override
+                            public void OnTaskFihishedEvent(String tokenCSFR, List<Cookie> cookies) {
+                                if (tokenCSFR.equals("000x000"))
+                                {
+                                    UAlertBox.alertOk(HomeActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code000));
+                                }
+                                else {
+                                    mAuthTask2 = new UserCreateSSOFb(tokenCSFR, getBaseContext(), fbAccessToken);
+                                    mAuthTask2.setOnTaskFinishedEvent(new UserCreateSSOFb.OnTaskExecutionFinished() {
+                                        @Override
+                                        public void OnTaskFihishedEvent(HttpResponse httpResponse) {
+                                            dataAPI(httpResponse, "fb");
+                                        }
+                                    });
+                                    mAuthTask2.execute();
+                                }
                             }
-                            else {
-                                mAuthTask2 = new UserCreateSSOFb(tokenCSFR, getBaseContext(), fbAccessToken);
-                                mAuthTask2.setOnTaskFinishedEvent(new UserCreateSSOFb.OnTaskExecutionFinished() {
-                                    @Override
-                                    public void OnTaskFihishedEvent(HttpResponse httpResponse) {
-                                        dataAPI(httpResponse);
-                                    }
-                                });
-                                mAuthTask2.execute();
-                            }
-                        }
 
-                    });
-                    mAuthTask.execute();
-                }
-            });
-        }
+                        });
+                        mAuthTask.execute();
+                    }
+                });
+            }
         }
     }
 
-    private void dataAPI(HttpResponse httpResponse)
+    private void dataAPI(HttpResponse httpResponse, String sso)
     {
         InputStream inputStream = null;
         try {
@@ -254,12 +259,10 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
             int responseCode = httpResponse.getStatusLine().getStatusCode();
 
-            if (responseCode == 200)
-                API_200(jObj);
-            else if (responseCode == 400)
-                API_400(jObj);
-            else if (responseCode == 403)
-                API_403();
+            if (sso.equals("fb"))
+                data_fb(jObj, responseCode);
+            else if (sso.equals("google"))
+                data_googleplus(jObj, responseCode);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -267,13 +270,34 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         }
     }
 
-    private void API_200(JSONObject jObj) throws JSONException {
+    private void data_fb(JSONObject jObj, int responseCode) throws JSONException {
+        if (responseCode == 200)
+            API_200(jObj, "fb");
+        else if (responseCode == 400)
+            API_400(jObj, "fb");
+        else if (responseCode == 403)
+            API_403();
+    }
+
+    private void data_googleplus(JSONObject jObj, int responseCode) throws JSONException {
+        if (responseCode == 200)
+            API_200(jObj, "google");
+        else if (responseCode == 400)
+            API_400(jObj, "google");
+        else if (responseCode == 403)
+            API_403();
+    }
+
+    private void API_200(JSONObject jObj, String sso) throws JSONException {
 
         LogUserToAPI.LogUserSaveLocalParams(jObj.getString("firstname"), jObj.getString("surname"), jObj.getString("email"), "0;", HomeActivity.this);
 
-        Session session = Session.getActiveSession();
-        if (session != null) {
-            session.closeAndClearTokenInformation();
+        if (sso.equals("fb"))
+        {
+            Session session = Session.getActiveSession();
+            if (session != null) {
+                session.closeAndClearTokenInformation();
+            }
         }
 
         Intent loggedUser = new Intent(getBaseContext(), HomeLizzActivity.class);
@@ -281,27 +305,49 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         startActivity(loggedUser);
     }
 
-    private  void API_400(JSONObject jObj)
+    private  void API_400(JSONObject jObj, String sso)
     {
-       if (jObj.has(getResources().getString(R.string.api_user_sso_fb_error)))
+        if (sso.equals("fb"))
         {
-            try {
-                String error = jObj.get(getResources().getString(R.string.api_user_sso_fb_error)).toString();
-                if (error.equals(getResources().getString(R.string.api_user_sso_fb_access_token_empty)))
-                {
-                    UAlertBox.alertOk(HomeActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_400_sso_fb_token_empty));
+            if (jObj.has(getResources().getString(R.string.api_user_sso_fb_error)))
+            {
+                try {
+                    String error = jObj.get(getResources().getString(R.string.api_user_sso_fb_error)).toString();
+                    if (error.equals(getResources().getString(R.string.api_user_sso_fb_access_token_empty)))
+                    {
+                        UAlertBox.alertOk(HomeActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_400_sso_fb_token_empty));
+                    }
+                    else // L'access token est expiré.
+                    {
+                        UAlertBox.alertOk(HomeActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_400_sso_fb_token_expire));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                else // L'access token est expiré.
-                {
-                    UAlertBox.alertOk(HomeActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_400_sso_fb_token_expire));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            }
+            Session session = Session.getActiveSession();
+            if (session != null) {
+                session.closeAndClearTokenInformation();
             }
         }
-        Session session = Session.getActiveSession();
-        if (session != null) {
-            session.closeAndClearTokenInformation();
+        else if (sso.equals("google"))
+        {
+            if (jObj.has(getResources().getString(R.string.api_user_sso_google_error)))
+            {
+                try {
+                    String error = jObj.get(getResources().getString(R.string.api_user_sso_google_error)).toString();
+                    if (error.equals(getResources().getString(R.string.api_user_sso_google_access_token_empty)))
+                    {
+                        UAlertBox.alertOk(HomeActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_400_sso_google_token_empty));
+                    }
+                    else // L'access token est expiré.
+                    {
+                        UAlertBox.alertOk(HomeActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_400_sso_google_token_expire));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -316,32 +362,37 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     public void onConnected(Bundle connectionHint) {
-    /*    mSignInClicked = false;
+        mSignInClicked = false;
         // TO DO : Verifier si le token Google+ existe déjà ou non
 
-        if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
-            Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
-            String personName = currentPerson.getDisplayName();
-            fbFirstName = String.valueOf(currentPerson.getName().getGivenName());
-            fbLastName = String.valueOf(currentPerson.getName().getFamilyName());
-            email = Plus.AccountApi.getAccountName(mGoogleApiClient);
-            Log.d("TEST", ">>>"+fbFirstName+"--"+fbLastName+"----"+email);
-        }
+       /* */
 
-        boolean account_exist = true;
-        mAuthTask = new UserRegisterSSO(fbFirstName, fbLastName, email, "", account_exist);
-        mAuthTask.execute((Void) null);
+
         if (mGoogleApiClient.isConnected()) {
-            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
-            mGoogleApiClient.disconnect();
-            mGoogleApiClient.connect();
+            mAuthTask = new GetCsrfFromAPI(HomeActivity.this);
+            mAuthTask.setOnTaskFinishedEvent(new GetCsrfFromAPI.OnTaskExecutionFinished() {
+                @Override
+                public void OnTaskFihishedEvent(String tokenCSFR, List<Cookie> cookies) {
+                    if (tokenCSFR.equals("000x000")) {
+                        UAlertBox.alertOk(HomeActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code000));
+                    } else {
+                        mAuthTask3 = new UserCreateSSOGoogle(tokenCSFR, getBaseContext(), mGoogleApiClient);
+                        mAuthTask3.setOnTaskFinishedEvent(new UserCreateSSOGoogle.OnTaskExecutionFinished() {
+                            @Override
+                            public void OnTaskFihishedEvent(HttpResponse httpResponse) {
+                                dataAPI(httpResponse, "google");
+                                Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+                                mGoogleApiClient.disconnect();
+                                mGoogleApiClient.connect();
+                            }
+                        });
+                        mAuthTask3.execute();
+                    }
+                }
+
+            });
+        mAuthTask.execute();
         }
-        SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
-        sharedpreferences.edit().putBoolean("eip.com.lizz.isLogged", true).apply();
-        Intent loggedUser = new Intent(getBaseContext(), HomeLizzActivity.class);
-        loggedUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);// On supprime les vues précédentes, l'utilisateur est connecté.
-        //loggedUser.putExtra("user_info",jObj.toString());
-        startActivity(loggedUser);*/
     }
 
     public void onConnectionSuspended(int cause) {
@@ -354,7 +405,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
      *
      * @return whether the device supports Google Play Services
      */
-   private boolean supportsGooglePlayServices() {
+    private boolean supportsGooglePlayServices() {
         return GooglePlayServicesUtil.isGooglePlayServicesAvailable(this) ==
                 ConnectionResult.SUCCESS;
     }

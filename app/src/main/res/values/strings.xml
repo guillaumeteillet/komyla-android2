@@ -205,7 +205,9 @@
     <string name="error_400_new_password_empty">Le nouveau mot de passe ne peut pas être vide !</string>
     <string name="error_400_new_old_same">Votre nouveau mot de passe est identique à l\'ancien !</string>
     <string name="error_400_sso_fb_token_empty">Impossible de créer votre compte ou de vous connecter via Facebook : L\'access token de Facebook est vide. Contacter le support.</string>
-    <string name="error_400_sso_fb_token_expire">Impossible de créer votre compte ou de vous connecter via Facebook : L\'access token de Facebook est expiré. Contacter le support.</string>
+    <string name="error_400_sso_google_token_empty">Impossible de créer votre compte ou de vous connecter via Google Plus : Les tokens de Google Plus est vide. Contacter le support.</string>
+    <string name="error_400_sso_fb_token_expire">Impossible de créer votre compte ou de vous connecter via Facebook : L\'adresse email de votre compte Facebook existe déjà sur Lizz avec une autre méthode d\'authentification ou l\'access token de Facebook est expiré. Contacter le support.</string>
+    <string name="error_400_sso_google_token_expire">Impossible de créer votre compte ou de vous connecter via Google Plus : L\'adresse email de votre compte Google existe déjà sur Lizz avec une autre méthode d\'authentification ou les tokens de Google Plus sont expirés. Contacter le support.</string>
 
     <string name="api_change_password_old">oldPassword</string>
     <string name="api_change_password_new">newPassword</string>
@@ -213,8 +215,10 @@
     <string name="api_change_password_cannotbeempty">cannot be empty</string>
     <string name="api_change_password_cannotbethesameasoldone">cannot be the same as old one</string>
     <string name="api_user_sso_fb_error">error</string>
+    <string name="api_user_sso_google_error">error</string>
     <string name="api_user_sso_fb_message">message</string>
     <string name="api_user_sso_fb_access_token_empty">no access_token provided</string>
+    <string name="api_user_sso_google_access_token_empty">no access_token provided</string>
     <string name="api_user_sso_fb_access_token_expire">Invalid OAuth access token.</string>
 
     <string name="email_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-0123456789@.!#$%\'*+/=?^_`{|}~</string>

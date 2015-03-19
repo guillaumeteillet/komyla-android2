@@ -23,6 +23,13 @@
         <dex dex="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/pre-dexed/debug/classes-b057dff59094533dd99d5823083e2aceb4aad008.jar" />
     </item>
     <item
+        jar="/Users/guillaume/.gradle/caches/modules-2/files-2.1/com.google.api-client/google-api-client/1.18.0-rc/45b0d00b78197d8a3047751443c09538117d188b/google-api-client-1.18.0-rc.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="45b0d00b78197d8a3047751443c09538117d188b">
+        <dex dex="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/pre-dexed/debug/google-api-client-1.18.0-rc-40485e14cea78966a933a92bacd2ca9f93ba1e49.jar" />
+    </item>
+    <item
         jar="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.3/classes.jar"
         jumboMode="false"
         revision="20.0.0"
@@ -56,6 +63,27 @@
         revision="20.0.0"
         sha1="6871955c5f3c7b8488036dd8308225d57b7dabee">
         <dex dex="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/pre-dexed/debug/card.io-0d9ca43d98105fcff2c8dd110fe242e89f3a5335.jar" />
+    </item>
+    <item
+        jar="/Users/guillaume/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client/1.18.0-rc/880ad30d2b249a7591c195c2392646f1b146c139/google-http-client-1.18.0-rc.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="880ad30d2b249a7591c195c2392646f1b146c139">
+        <dex dex="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/pre-dexed/debug/google-http-client-1.18.0-rc-45cdb5d33e8780b9f6c2c3e3ad78a1ed757f810a.jar" />
+    </item>
+    <item
+        jar="/Users/guillaume/.gradle/caches/modules-2/files-2.1/com.google.oauth-client/google-oauth-client/1.18.0-rc/30281a66559f60a491748974ac17cec3483b873/google-oauth-client-1.18.0-rc.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="030281a66559f60a491748974ac17cec3483b873">
+        <dex dex="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/pre-dexed/debug/google-oauth-client-1.18.0-rc-152100dc9155c8d99747ba1645069d182695dee0.jar" />
+    </item>
+    <item
+        jar="/Users/guillaume/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/1.3.9/40719ea6961c0cb6afaeb6a921eaa1f6afd4cfdf/jsr305-1.3.9.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="40719ea6961c0cb6afaeb6a921eaa1f6afd4cfdf">
+        <dex dex="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/pre-dexed/debug/jsr305-1.3.9-c5af7b05b56250c0fa32c8dda382b1b443676a61.jar" />
     </item>
     <item
         jar="/Users/guillaume/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-android/1.1.2/91c20388c9a45f62b5ed8fe0502bb76ff6251fc7/bolts-android-1.1.2.jar"
