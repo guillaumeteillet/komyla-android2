@@ -2,16 +2,22 @@ package eip.com.lizz;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import eip.com.lizz.Protocols.PED;
 
 
 public class PayementPTPConfirmActivity extends ActionBarActivity {
@@ -30,6 +36,19 @@ public class PayementPTPConfirmActivity extends ActionBarActivity {
         TextView contact_label = (TextView) findViewById(R.id.contactLabel);
         TextView no_account_label = (TextView) findViewById(R.id.no_account);
         ImageView profil_picture = (ImageView) findViewById(R.id.profil_picture);
+        Button confirm = (Button) findViewById(R.id.confirm);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String id_payement_method = "3";
+                String PIN = "8274";
+                String email_sender = "jean.dupont@gmail.com";
+                String receiver = "barack@obama.com";
+                String id_user = "132";
+                String amount = "15.23";
+                String token = PED.cryptped(id_payement_method, PIN, email_sender, receiver, id_user, amount, getBaseContext());
+                Log.d("TOKEN CRYPT", ">>" + token + "<<");
+            }
+        });
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {

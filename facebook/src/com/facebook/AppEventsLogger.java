@@ -116,7 +116,7 @@ import java.util.concurrent.TimeUnit;
  * invocations for that eventName.
  * </li>
  * <li>
- * Event names and parameter names (the keys in the NSDictionary) must be between 2 and 40 characters, and
+ * Event names and parameter names (the raw.keys in the NSDictionary) must be between 2 and 40 characters, and
  * must consist of alphanumeric characters, _, -, or spaces.
  * </li>
  * <li>
@@ -524,7 +524,7 @@ public class AppEventsLogger {
      *                       will be rounded to the thousandths place (e.g., 12.34567 becomes 12.346).
      * @param currency       Currency used to specify the amount.
      * @param parameters     Arbitrary additional information for describing this event.  Should have no more than
-     *                       10 entries, and keys should be mostly consistent from one purchase event to the next.
+     *                       10 entries, and raw.keys should be mostly consistent from one purchase event to the next.
      */
     public void logPurchase(BigDecimal purchaseAmount, Currency currency, Bundle parameters) {
 

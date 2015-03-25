@@ -511,7 +511,7 @@ public abstract class PickerFragment<T extends GraphObject> extends Fragment {
      * calling Activities may use this to pass additional configuration information to the
      * PickerFragment beyond what is specified in its XML layout.
      *
-     * @param inState a Bundle containing keys corresponding to properties of the PickerFragment
+     * @param inState a Bundle containing raw.keys corresponding to properties of the PickerFragment
      */
     public void setSettingsFromBundle(Bundle inState) {
         setPickerFragmentSettingsFromBundle(inState);

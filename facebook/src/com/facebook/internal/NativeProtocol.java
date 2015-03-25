@@ -91,22 +91,22 @@ public final class NativeProtocol {
     public static final int MESSAGE_GET_LIKE_STATUS_REQUEST     = 0x10006;
     public static final int MESSAGE_GET_LIKE_STATUS_REPLY       = 0x10007;
 
-    // MESSAGE_ERROR_REPLY data keys:
+    // MESSAGE_ERROR_REPLY data raw.keys:
     // See STATUS_*
 
-    // MESSAGE_GET_ACCESS_TOKEN_REQUEST data keys:
+    // MESSAGE_GET_ACCESS_TOKEN_REQUEST data raw.keys:
     // EXTRA_APPLICATION_ID
 
-    // MESSAGE_GET_ACCESS_TOKEN_REPLY data keys:
+    // MESSAGE_GET_ACCESS_TOKEN_REPLY data raw.keys:
     // EXTRA_ACCESS_TOKEN
     // EXTRA_EXPIRES_SECONDS_SINCE_EPOCH
     // EXTRA_PERMISSIONS
 
-    // MESSAGE_GET_LIKE_STATUS_REQUEST data keys:
+    // MESSAGE_GET_LIKE_STATUS_REQUEST data raw.keys:
     // EXTRA_APPLICATION_ID
     // EXTRA_OBJECT_ID
 
-    // MESSAGE_GET_LIKE_STATUS_REPLY data keys:
+    // MESSAGE_GET_LIKE_STATUS_REPLY data raw.keys:
     // EXTRA_OBJECT_IS_LIKED
     // EXTRA_LIKE_COUNT_STRING_WITH_LIKE
     // EXTRA_LIKE_COUNT_STRING_WITHOUT_LIKE
@@ -114,7 +114,7 @@ public final class NativeProtocol {
     // EXTRA_SOCIAL_SENTENCE_WITHOUT_LIKE
     // EXTRA_UNLIKE_TOKEN
 
-    // MESSAGE_GET_PROTOCOL_VERSIONS_REPLY data keys:
+    // MESSAGE_GET_PROTOCOL_VERSIONS_REPLY data raw.keys:
     static final String EXTRA_PROTOCOL_VERSIONS = "com.facebook.platform.extra.PROTOCOL_VERSIONS";
 
     // Values of EXTRA_PROTOCOL_ACTION supported by PlatformActivity:
@@ -590,7 +590,7 @@ public final class NativeProtocol {
             return null;
         }
 
-        // TODO This is not going to work for JS dialogs, where the keys are not STATUS_ERROR_TYPE etc.
+        // TODO This is not going to work for JS dialogs, where the raw.keys are not STATUS_ERROR_TYPE etc.
         // TODO However, it should keep existing dialogs functional
         String type = errorData.getString(STATUS_ERROR_TYPE);
         String description = errorData.getString(STATUS_ERROR_DESCRIPTION);

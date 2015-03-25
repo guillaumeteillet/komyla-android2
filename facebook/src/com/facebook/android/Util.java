@@ -120,7 +120,7 @@ public final class Util {
      * Parse a URL query and fragment parameters into a key-value bundle.
      *
      * @param url the URL to parse
-     * @return a dictionary bundle of keys and values
+     * @return a dictionary bundle of raw.keys and values
      */
     @Deprecated
     public static Bundle parseUrl(String url) {

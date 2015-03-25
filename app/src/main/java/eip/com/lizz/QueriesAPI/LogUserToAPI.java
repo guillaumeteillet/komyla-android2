@@ -26,6 +26,7 @@ import eip.com.lizz.HomeLizzActivity;
 import eip.com.lizz.R;
 import eip.com.lizz.Utils.UAlertBox;
 import eip.com.lizz.Utils.UApi;
+import eip.com.lizz.Utils.UDownload;
 
 /**
  * Created by guillaume on 21/12/14.
@@ -106,6 +107,7 @@ public class LogUserToAPI extends AsyncTask<Void, Void, JSONObject> {
                     jObj = UApi.prepareJson(responseCode, inputStream, jObj, 500);
                     break;
             }
+
         } catch (ClientProtocolException e) {
             try {
                jObj = UApi.prepareJson(408, null, jObj, 408);
@@ -125,8 +127,15 @@ public class LogUserToAPI extends AsyncTask<Void, Void, JSONObject> {
         this._task_finished_event.OnTaskFihishedEvent(jObj);
     }
 
-    public static void LogUserSaveLocalParams(String lFirstname, String lSurname, String lEmail, String lPhone, Context context)
+    public static void LogUserSaveLocalParams(String lFirstname, String lSurname, String lEmail, String lPhone, final Context context)
     {
+        new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                UDownload.downloadFile("http://test-ta-key.lizz.fr/pub.der", "ped.pub", context);
+            }
+        }).start();
         String firstname, surname, email, phone;
         firstname = lFirstname;
         surname = lSurname;

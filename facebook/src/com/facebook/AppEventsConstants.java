@@ -169,9 +169,9 @@ public class AppEventsConstants {
 
     // Parameter values
 
-    /** Yes-valued parameter value to be used with parameter keys that need a Yes/No value */
+    /** Yes-valued parameter value to be used with parameter raw.keys that need a Yes/No value */
     public static final String EVENT_PARAM_VALUE_YES = "1";
 
-    /** No-valued parameter value to be used with parameter keys that need a Yes/No value */
+    /** No-valued parameter value to be used with parameter raw.keys that need a Yes/No value */
     public static final String EVENT_PARAM_VALUE_NO = "0";
 }

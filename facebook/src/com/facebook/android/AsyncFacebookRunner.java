@@ -111,7 +111,7 @@ public class AsyncFacebookRunner {
 
     /**
      * Make a request to Facebook's old (pre-graph) API with the given
-     * parameters. One of the parameter keys must be "method" and its value
+     * parameters. One of the parameter raw.keys must be "method" and its value
      * should be a valid REST server API method.
      * <p/>
      * See http://developers.facebook.com/docs/reference/rest/

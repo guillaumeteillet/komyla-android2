@@ -74,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Confirmer"
-        android:id="@+id/button"
+        android:id="@+id/confirm"
         android:layout_below="@+id/no_account"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
