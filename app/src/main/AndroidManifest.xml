@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.WRITE_SMS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -140,6 +141,10 @@
         <activity
             android:name=".PayementPTPConfirmActivity"
             android:label="@string/title_activity_payement_ptpconfirm" >
+        </activity>
+        <activity
+            android:name=".PayementPTPFinishActivity"
+            android:label="@string/title_activity_payement_ptpfinish" >
         </activity>
         <activity
             android:name=".Setting.SettingsPassword"

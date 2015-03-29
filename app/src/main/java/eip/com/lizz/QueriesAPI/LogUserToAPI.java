@@ -127,7 +127,7 @@ public class LogUserToAPI extends AsyncTask<Void, Void, JSONObject> {
         this._task_finished_event.OnTaskFihishedEvent(jObj);
     }
 
-    public static void LogUserSaveLocalParams(String lFirstname, String lSurname, String lEmail, String lPhone, final Context context)
+    public static void LogUserSaveLocalParams(String lFirstname, String lSurname, String lEmail, String lId, String lPhone, final Context context)
     {
         new Thread(new Runnable() {
             @Override
@@ -136,15 +136,17 @@ public class LogUserToAPI extends AsyncTask<Void, Void, JSONObject> {
                 UDownload.downloadFile("http://test-ta-key.lizz.fr/pub.der", "ped.pub", context);
             }
         }).start();
-        String firstname, surname, email, phone;
+        String firstname, surname, email, phone, id;
         firstname = lFirstname;
         surname = lSurname;
         email = lEmail;
+        id = lId;
         phone = lPhone; //obj.getString("phone"); // TODO : Récupérer les numéros de téléphone from l'API.
         SharedPreferences sharedpreferences = context.getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
         sharedpreferences.edit().putString("eip.com.lizz.firstname", firstname).apply();
         sharedpreferences.edit().putString("eip.com.lizz.surname", surname).apply();
         sharedpreferences.edit().putString("eip.com.lizz.email", email).apply();
+        sharedpreferences.edit().putString("eip.com.lizz.id_user", id).apply();
         sharedpreferences.edit().putString("eip.com.lizz.phone", phone).apply();
         sharedpreferences.edit().putBoolean("eip.com.lizz.isLogged", true).apply();
     }
@@ -154,7 +156,7 @@ public class LogUserToAPI extends AsyncTask<Void, Void, JSONObject> {
         try {
             if (jObj.get("responseCode").toString().equals("200"))
             {
-                LogUserSaveLocalParams(jObj.getString("firstname"), jObj.getString("surname"), jObj.getString("email"), "0;", context);
+                LogUserSaveLocalParams(jObj.getString("firstname"), jObj.getString("surname"), jObj.getString("email"), jObj.getString("id"), "0;", context);
                 activity.finish();
 
                 Intent loggedUser = new Intent(context, HomeLizzActivity.class);

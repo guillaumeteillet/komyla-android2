@@ -1,23 +1,37 @@
 package eip.com.lizz;
 
+import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import eip.com.lizz.Protocols.PED;
+import eip.com.lizz.QueriesAPI.SendSMSToAPI;
+import eip.com.lizz.Utils.UAlertBox;
+import eip.com.lizz.Utils.UNetwork;
+import eip.com.lizz.Utils.UPhoneBook;
+import eip.com.lizz.Utils.USaveParams;
 
 
 public class PayementPTPConfirmActivity extends ActionBarActivity {
@@ -28,7 +42,7 @@ public class PayementPTPConfirmActivity extends ActionBarActivity {
         setContentView(R.layout.activity_payement_ptpconfirm);
 
         boolean api = false;
-
+        final Bundle bundle = getIntent().getExtras();
         // On check si le contact est associé à un compte lizz ou pas. Si oui, on set le nom du contact de l'API sur le label.
 
         TextView name_label = (TextView) findViewById(R.id.name_destinataire);
@@ -36,21 +50,7 @@ public class PayementPTPConfirmActivity extends ActionBarActivity {
         TextView contact_label = (TextView) findViewById(R.id.contactLabel);
         TextView no_account_label = (TextView) findViewById(R.id.no_account);
         ImageView profil_picture = (ImageView) findViewById(R.id.profil_picture);
-        Button confirm = (Button) findViewById(R.id.confirm);
-        confirm.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String id_payement_method = "3";
-                String PIN = "8274";
-                String email_sender = "jean.dupont@gmail.com";
-                String receiver = "barack@obama.com";
-                String id_user = "132";
-                String amount = "15.23";
-                String token = PED.cryptped(id_payement_method, PIN, email_sender, receiver, id_user, amount, getBaseContext());
-                Log.d("TOKEN CRYPT", ">>" + token + "<<");
-            }
-        });
 
-        Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             if (bundle.getString("contact") != null) {
 
@@ -65,51 +65,28 @@ public class PayementPTPConfirmActivity extends ActionBarActivity {
                 }
                 else
                 {
-                    ContentResolver cr = getContentResolver();
-                    String contactName = "", id = "";
+                    String contactName = "", uri = "";
                     if (isPhone)
                     {
-                        Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(contact));
-                        String[] projection = new String[] {ContactsContract.PhoneLookup.DISPLAY_NAME, ContactsContract.PhoneLookup._ID};
-                        Cursor cursor =
-                                cr.query(
-                                        uri,
-                                        projection,
-                                        null,
-                                        null,
-                                        null);
-
-                        if(cursor!=null) {
-                            if(cursor.moveToFirst()) {
-                                contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
-                                id = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.PhoneLookup._ID));
-                            }
-                            cursor.close();
-                        }
+                        String[] array = UPhoneBook.infosByPhone(getContentResolver(), contact);
+                        contactName = array[0];
+                        uri = array[1];
                     }
                     else if (isEmail)
                     {
-                        String[] projection = new String[] {ContactsContract.PhoneLookup.DISPLAY_NAME, ContactsContract.CommonDataKinds.Email.CONTACT_ID};
-                        Cursor emailCur = cr.query(
-                                ContactsContract.CommonDataKinds.Email.CONTENT_URI,
-                                projection,
-                                ContactsContract.CommonDataKinds.Email.DATA
-                                        + " = '" + contact+"'", null, null);
-                        while (emailCur.moveToNext()) {
-                            contactName = emailCur.getString(emailCur.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
-                           id = emailCur.getString(emailCur.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Email.CONTACT_ID));
-                        }
-                        emailCur.close();
+                        String[] array = UPhoneBook.infosByEmail(getContentResolver(), contact);
+                        contactName = array[0];
+                        uri = array[1];
                     }
                     if (contactName.equals(""))
-                        {
-                            name_label.setText(contact);
-                             contact_label.setVisibility(View.GONE);
-                            if (isEmail)
-                                no_account_label.setText(contact+" "+getResources().getString(R.string.label_no_account_email));
-                            else if (isPhone)
-                                no_account_label.setText(contact+" "+getResources().getString(R.string.label_no_account_sms));
-                        }
+                    {
+                        name_label.setText(contact);
+                        contact_label.setVisibility(View.GONE);
+                        if (isEmail)
+                            no_account_label.setText(contact+" "+getResources().getString(R.string.label_no_account_email));
+                        else if (isPhone)
+                            no_account_label.setText(contact+" "+getResources().getString(R.string.label_no_account_sms));
+                    }
                     else
                     {
                         name_label.setText(contactName);
@@ -118,8 +95,8 @@ public class PayementPTPConfirmActivity extends ActionBarActivity {
                         else if (isPhone)
                             no_account_label.setText(contactName+" ("+contact+") "+getResources().getString(R.string.label_no_account_sms));
                     }
-                    if (!id.equals(""))
-                        profil_picture.setImageURI(Uri.parse(getPhotoUri(id).toString()));
+                    if (!uri.equals(""))
+                        profil_picture.setImageURI(Uri.parse(uri));
                     else
                         profil_picture.setImageResource(R.drawable.ic_launcher);
                     if(profil_picture.getDrawable() == null)
@@ -131,31 +108,85 @@ public class PayementPTPConfirmActivity extends ActionBarActivity {
                 somme_label.setText(somme+" €");
             }
         }
+
+
+        Button confirm = (Button) findViewById(R.id.confirm);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                TelephonyManager tMgr = (TelephonyManager)getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
+                if ((tMgr.getLine1Number() == null || tMgr.getLine1Number().equals("")))
+                    UAlertBox.alertOk(PayementPTPConfirmActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.error_sim_card));
+                else if (!UNetwork.isMobileAvailable(getBaseContext()))
+                    UAlertBox.alertOk(PayementPTPConfirmActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.error_network_phone));
+                else
+                {
+                    popUpPIN(bundle);
+                }
+            }
+        });
     }
 
-    public Uri getPhotoUri(String id) {
-        try {
-            Cursor cur = getContentResolver().query(
-                    ContactsContract.Data.CONTENT_URI,
-                    null,
-                    ContactsContract.Data.CONTACT_ID + "=" + id + " AND "
-                            + ContactsContract.Data.MIMETYPE + "='"
-                            + ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE + "'", null,
-                    null);
-            if (cur != null) {
-                if (!cur.moveToFirst()) {
-                    return null; // no photo
-                }
-            } else {
-                return null; // error in cursor process
+    public void popUpPIN(Bundle bundle)
+    {
+        final SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+
+        String id_payement_method = bundle.getString("idPayment");
+        final String PIN = sharedpreferences.getString("eip.com.lizz.codepinlizz", "");
+        String email_sender = sharedpreferences.getString("eip.com.lizz.email", "");
+        String receiver = bundle.getString("contact");
+        String id_user = sharedpreferences.getString("eip.com.lizz.id_user", "");
+        String amount = bundle.getString("somme");
+        final String token = PED.cryptped(id_payement_method, PIN, email_sender, receiver, id_user, amount, getBaseContext());
+        final Intent paiement = new Intent(getBaseContext(), PayementPTPFinishActivity.class);
+        paiement.putExtra("somme", amount);
+        paiement.putExtra("contact", bundle.getString("contact"));
+        paiement.putExtra("isEmail", bundle.getBoolean("isEmail"));
+        paiement.putExtra("isPhone", bundle.getBoolean("isPhone"));
+        final EditText input = new EditText(getBaseContext());
+        input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        input.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        input.setTextColor(Color.BLACK);
+        final AlertDialog.Builder alert = UAlertBox.alertInputOk(PayementPTPConfirmActivity.this, getResources().getString(R.string.dialog_title_confirm), getResources().getString(R.string.dialog_confirm_pin), input);
+        alert.setPositiveButton(getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                confirmTransaction(input, token, paiement, PIN, sharedpreferences);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+
+        });
+        alert.setNegativeButton(getResources().getString(R.string.dialog_cancel), null);
+        alert.show();
+    }
+
+    public void confirmTransaction(EditText input, String token, Intent paiement, String PIN, SharedPreferences sharedpreferences)
+    {
+        if (input.getText().toString().equals(PIN))
+        {
+            sharedpreferences.edit().putInt("eip.com.lizz.tentativePin", 0).apply();
+            if (getResources().getString(R.string.debugOrProd).equals("PROD"))
+            {
+                int err = SendSMSToAPI.send(token);
+                if (err == 0)
+                {
+                    startActivity(paiement);
+                    finish();
+                }
+                else
+                {
+                    UAlertBox.alertOk(PayementPTPConfirmActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_send_sms));
+                }
+            }
+            else
+            {
+                Log.d("DEBUG MODE", "PAIEMENT PED SMS >>>>"+token);
+                startActivity(paiement);
+                finish();
+            }
         }
-        Uri person = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long
-                .parseLong(id));
-        return Uri.withAppendedPath(person, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
+        else
+        {
+            USaveParams.tentativeCheck(PayementPTPConfirmActivity.this, sharedpreferences);
+        }
     }
 
 

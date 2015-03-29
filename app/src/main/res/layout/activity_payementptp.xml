@@ -51,10 +51,24 @@
         android:id="@+id/somme"
         android:layout_gravity="center_horizontal" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/labelPayementMethod"
+        android:id="@+id/textView6"
+        android:layout_gravity="left" />
+
+    <Spinner
+        android:id="@+id/payementMethod"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/labelnext"
         android:id="@+id/next"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"/>
 </LinearLayout>

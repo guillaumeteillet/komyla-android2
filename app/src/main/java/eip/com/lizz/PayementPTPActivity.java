@@ -15,8 +15,13 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import eip.com.lizz.Utils.UAlertBox;
 
@@ -35,6 +40,9 @@ public class PayementPTPActivity extends ActionBarActivity {
 
         if (isLogged) {
 
+            Spinner payement = (Spinner) findViewById(R.id.payementMethod);
+            payementMethod(true, payement);
+
             Button select = (Button) findViewById(R.id.select);
             select.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -50,6 +58,7 @@ public class PayementPTPActivity extends ActionBarActivity {
                     EditText somme_input = (EditText) findViewById(R.id.somme);
                     String contact_a_check = contact_input.getText().toString();
                     String somme = somme_input.getText().toString();
+                    String id_payement = payementMethod(false, null);
                     boolean isEmail = LoginActivity.isEmailValid(contact_a_check);
                     boolean isPhone = isPhoneValid(contact_a_check);
                     if (contact_a_check.isEmpty())
@@ -58,6 +67,8 @@ public class PayementPTPActivity extends ActionBarActivity {
                         UAlertBox.alertOk(PayementPTPActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_somme_empty));
                     else if (!isEmail && !isPhone)
                         UAlertBox.alertOk(PayementPTPActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_contact_ptp));
+                    else if (id_payement.isEmpty())
+                        UAlertBox.alertOk(PayementPTPActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_id_payement));
                     else
                     {
                         Intent paiement = new Intent(getBaseContext(), PayementPTPConfirmActivity.class);
@@ -65,6 +76,7 @@ public class PayementPTPActivity extends ActionBarActivity {
                         paiement.putExtra("somme", somme);
                         paiement.putExtra("isEmail", isEmail);
                         paiement.putExtra("isPhone", isPhone);
+                        paiement.putExtra("idPayment", id_payement);
                         startActivity(paiement);
                     }
                 }
@@ -80,6 +92,26 @@ public class PayementPTPActivity extends ActionBarActivity {
                 startActivity(loggedUser);
             }
         }
+
+    private String payementMethod(Boolean isDisplay, Spinner spinner) {
+
+        if (isDisplay)
+        {
+            List<String> list = new ArrayList<String>();
+            list.add("Carte Bleu Visa");
+            list.add("Paypal Account pdg@lizz.fr");
+            list.add("Compte chèque restaurant");
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, list);
+            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(dataAdapter);
+            return "";
+        }
+        else
+        {
+            return "ID231KE2";
+        }
+    }
 
     private boolean isPhoneValid(String contact_a_check) {
 

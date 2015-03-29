@@ -3,6 +3,7 @@ package eip.com.lizz.Utils;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.util.Base64;
+import android.util.Log;
 
 import java.io.DataInputStream;
 import java.io.File;
@@ -62,14 +63,14 @@ public class UCrypt {
     public static String RSAEncrypt(final String plain, Context context, String Protocol) throws NoSuchAlgorithmException, NoSuchPaddingException,
             InvalidKeyException, IllegalBlockSizeException, BadPaddingException, IOException, InvalidKeySpecException, PackageManager.NameNotFoundException, NoSuchProviderException {
 
-        String s = context.getFilesDir().getPath();
+        String filepath = context.getFilesDir().getPath();
         File f;
 
         if (Protocol.equals("PCC")) {
-            f = new File(s + "/pcc.pub");
+            f = new File(filepath + "/pcc.pub");
         }
         else {
-            f = new File(s + "/ped.pub");
+            f = new File(filepath + "/ped.pub");
         }
         FileInputStream fis = new FileInputStream(f);
         DataInputStream dis = new DataInputStream(fis);

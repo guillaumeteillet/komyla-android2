@@ -290,7 +290,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
     private void API_200(JSONObject jObj, String sso) throws JSONException {
 
-        LogUserToAPI.LogUserSaveLocalParams(jObj.getString("firstname"), jObj.getString("surname"), jObj.getString("email"), "0;", HomeActivity.this);
+        LogUserToAPI.LogUserSaveLocalParams(jObj.getString("firstname"), jObj.getString("surname"), jObj.getString("email"), jObj.getString("id"), "0;", HomeActivity.this);
 
         if (sso.equals("fb"))
         {

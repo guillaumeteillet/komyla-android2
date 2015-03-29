@@ -3,7 +3,7 @@
 
     <string name="app_name">Lizz</string>
     <string name="app_id">377638892395189</string>
-    <string name="debugOrProd">DEBUG</string> <!-- DEBUG OR PROD -->
+    <string name="debugOrProd">PROD</string> <!-- DEBUG OR PROD -->
 
     <string name="action_params">Paramètres</string>
     <string name="action_signout">Déconnexion</string>
@@ -18,6 +18,7 @@
     <string name="phone">Numéro de téléphone</string>
     <string name="labelenterPhoneNumberOrMail">Entrez un numéro de téléphone portable ou une adresse email :</string>
     <string name="labelSelectContact">Séléctionnez un contact</string>
+    <string name="labelPayementMethod">Votre moyen de paiement :</string>
     <string name="labelnext">Suivant</string>
     <string name="labelCardName">Numéro de carte</string>
     <string name="labelExpirationDate">Date d\'expiration</string>
@@ -37,6 +38,8 @@
     <string name="label_email"> :\nChoisir un email</string>
     <string name="labelyourphonesecurity">Pour la sécurité de votre compte Lizz, merci de supprimer les numéros de téléphone obsolètes.</string>
     <string name="label_recap">Récapitulatif</string>
+    <string name="label_paiementok">Paiement envoyé !</string>
+    <string name="label_back_to_menu">Retour au menu principal</string>
     <string name="label_receive_money">va recevoir</string>
     <string name="label_no_account_sms">n\'a pas encore de compte Lizz. Il va recevoir un SMS pour l\'inviter à créer un compte Lizz pour récupérer son argent.</string>
     <string name="label_no_account_email">n\'a pas encore de compte Lizz. Il va recevoir un email pour l\'inviter à créer un compte Lizz pour récupérer son argent.</string>
@@ -94,6 +97,7 @@
     <string name="dialog_confirm_mdp">Confirmer votre mot de passe</string>
     <string name="dialog_confirm_hint_pin_change">Entrez votre ANCIEN code PIN Lizz pour enregistrer ce paramètre.</string>
     <string name="dialog_confirm_hint_pwd_change">Entrez votre ANCIEN mot de passe Lizz pour enregistrer ce paramètre.</string>
+    <string name="dialog_confirm_pin">Entrez votre code PIN Lizz pour confirmer la transaction :</string>
     <string name="dialog_info_flash_unavialable">Impossible de démarrer le flash.</string>
     <string name="dialog_scan_qr_code">Scan a Lizz QRCode</string>
     <string name="dialog_new_phone_number">Nouveau numéro de téléphone</string>
@@ -103,6 +107,7 @@
     <string name="dialog_numberAddTxt">Le numéro de votre carte SIM actuelle a été ajouté à votre compte.</string>
 
     <string name="confirm">Confirmation</string>
+    <string name="warning">Avertissement</string>
     <string name="logout">Êtes-vous sûr de vouloir vous déconnecter ?</string>
     <string name="connectwithlizzaccount">Se connecter avec un compte Lizz</string>
     <string name="createnewlizzaccount">Créer un nouveau compte Lizz</string>
@@ -115,6 +120,7 @@
     <string name="title_activity_PayementActivity">Paiement</string>
     <string name="title_activity_payement_ptp">Paiement à un particulier</string>
     <string name="title_activity_payement_ptpconfirm">Récapitulatif</string>
+    <string name="title_activity_payement_ptpfinish">C\'est terminé !</string>
     <string name="title_activity_payement_with_unique_code">Saisissez le code unique Lizz</string>
     <string name="title_activity_settings_scanner">Scanner</string>
 
@@ -183,6 +189,7 @@
     <string name="error_new_pincode">Les codes PIN saisies ne sont pas identique.</string>
     <string name="error_contact">Le contact que vous avez séléctionné ne possède ni numéro de téléphone, ni adresse e-mail.</string>
     <string name="error_contact_ptp">Le numéro de téléphone ou l\'adresse email que vous avez saisie est invalide. Assurez-vous d\'avoir saisie un numéro de portable Français.</string>
+    <string name="error_id_payement">Aucun moyen de paiement séléctionné.</string>
     <string name="error_contact_empty">Le numéro de téléphone ou l\'adresse email du destinataire est vide.</string>
     <string name="error_somme_empty">La somme a envoyer au destinataire est vide.</string>
     <string name="wrong_card_infos">Certains champs n\'ont pas été remplis ou comportent des erreurs.</string>
@@ -208,6 +215,9 @@
     <string name="error_400_sso_google_token_empty">Impossible de créer votre compte ou de vous connecter via Google Plus : Les tokens de Google Plus est vide. Contacter le support.</string>
     <string name="error_400_sso_fb_token_expire">Impossible de créer votre compte ou de vous connecter via Facebook : L\'adresse email de votre compte Facebook existe déjà sur Lizz avec une autre méthode d\'authentification ou l\'access token de Facebook est expiré. Contacter le support.</string>
     <string name="error_400_sso_google_token_expire">Impossible de créer votre compte ou de vous connecter via Google Plus : L\'adresse email de votre compte Google existe déjà sur Lizz avec une autre méthode d\'authentification ou les tokens de Google Plus sont expirés. Contacter le support.</string>
+    <string name="error_send_sms">Impossible d\'envoyer votre paiement par sms pour une raison inconnue. Veuillez réessayer ultérieurement ou contacter le support.</string>
+    <string name="error_network_phone">Le réseau mobile ne semble pas disponible (zone non couverte ou mode avion activé). Veillez réessayer ultérieurement.</string>
+    <string name="error_sim_card">La carte SIM de votre téléphone n\'est pas détecté. Insérez une carte SIM, redémarrez votre téléphone et réessayez.</string>
 
     <string name="api_change_password_old">oldPassword</string>
     <string name="api_change_password_new">newPassword</string>

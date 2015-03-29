@@ -31,14 +31,15 @@ public class HomeLizzActivity extends ActionBarActivity {
        SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
         isLogged = sharedpreferences.getBoolean("eip.com.lizz.isLogged", false);
         sharedpreferences.edit().putBoolean("eip.com.lizz.flash", false).apply(); // flash off
-        String firstname, surname, email, phone;
+        String firstname, surname, email, phone, id_user;
 
         firstname = sharedpreferences.getString("eip.com.lizz.firstname", "");
         surname = sharedpreferences.getString("eip.com.lizz.surname", "");
         email = sharedpreferences.getString("eip.com.lizz.email", "");
+        id_user = sharedpreferences.getString("eip.com.lizz.id_user", "");
         phone = sharedpreferences.getString("eip.com.lizz.phone", "");
 
-        Log.d("DEBUG LOL", ">>>> "+firstname+ " -- "+ surname + "-- "+ email +"---"+phone+"--");
+        Log.d("DEBUG LOL", ">>>> "+id_user+" ----- "+firstname+ " -- "+ surname + "-- "+ email +"---"+phone+"--");
 
         if (isLogged)
         {
@@ -101,23 +102,26 @@ public class HomeLizzActivity extends ActionBarActivity {
     private void checkSIMNumber() {
 
         final TelephonyManager tMgr = (TelephonyManager)getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
-        if (!tMgr.getLine1Number().equals("") && tMgr.getLine1Number() != null)
+        int simState = tMgr.getSimState();
+        if (simState == TelephonyManager.SIM_STATE_READY)
         {
-            final SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
-            String phoneNever = sharedpreferences.getString("eip.com.lizz.phonenever", "");
-            boolean foundNever = false;
-            int i = 0;
-            if (!phoneNever.equals(""))
+            if (!tMgr.getLine1Number().equals("") && tMgr.getLine1Number() != null)
             {
-                String[] values;
-                values = phoneNever.split(";");
-                while (i < values.length)
+                final SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+                String phoneNever = sharedpreferences.getString("eip.com.lizz.phonenever", "");
+                boolean foundNever = false;
+                int i = 0;
+                if (!phoneNever.equals(""))
                 {
-                    if (values[i].equals(tMgr.getLine1Number()+sharedpreferences.getString("eip.com.lizz.email", "")))
-                        foundNever = true;
-                    i++;
+                    String[] values;
+                    values = phoneNever.split(";");
+                    while (i < values.length)
+                    {
+                        if (values[i].equals(tMgr.getLine1Number()+sharedpreferences.getString("eip.com.lizz.email", "")))
+                            foundNever = true;
+                        i++;
+                    }
                 }
-            }
                 if (!foundNever)
                 {
                     String phone;
@@ -158,6 +162,7 @@ public class HomeLizzActivity extends ActionBarActivity {
                         });
                         alert.show();
                     }
+                }
             }
         }
     }
