@@ -39,7 +39,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import eip.com.lizz.QueriesAPI.AddUserToApi;
+import eip.com.lizz.QueriesAPI.AddUserToAPI;
 import eip.com.lizz.QueriesAPI.GetCsrfFromAPI;
 import eip.com.lizz.QueriesAPI.LogUserToAPI;
 import eip.com.lizz.Utils.UAlertBox;
@@ -49,7 +49,7 @@ import eip.com.lizz.Utils.USaveParams;
 public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor>{
 
     private GetCsrfFromAPI mAuthTask = null;
-    private AddUserToApi mAuthTask2 = null;
+    private AddUserToAPI mAuthTask2 = null;
     private LogUserToAPI mAuthTask3 = null;
     private AutoCompleteTextView mEmailView;
     private EditText mSurnameView;
@@ -205,8 +205,8 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
                     }
                     else
                     {
-                        mAuthTask2 = new AddUserToApi(firstname, surname, email, password, tokenCSFR, RegisterActivity.this, cookies);
-                        mAuthTask2.setOnTaskFinishedEvent(new AddUserToApi.OnTaskExecutionFinished() {
+                        mAuthTask2 = new AddUserToAPI(firstname, surname, email, password, tokenCSFR, RegisterActivity.this, cookies);
+                        mAuthTask2.setOnTaskFinishedEvent(new AddUserToAPI.OnTaskExecutionFinished() {
                             @Override
                             public void OnTaskFihishedEvent(JSONObject jObj) {
                                 showProgress(false);
