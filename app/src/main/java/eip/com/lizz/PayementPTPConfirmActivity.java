@@ -28,19 +28,31 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.HttpResponse;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.concurrent.ExecutionException;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 import eip.com.lizz.Protocols.PED;
+import eip.com.lizz.QueriesAPI.AddCreditCardToAPI;
+import eip.com.lizz.QueriesAPI.AddUserToAPI;
+import eip.com.lizz.QueriesAPI.LogUserToAPI;
 import eip.com.lizz.QueriesAPI.SendSMSToAPI;
+import eip.com.lizz.QueriesAPI.SendTransactionToAPI;
+import eip.com.lizz.QueriesAPI.UserChangePasswordAPI;
 import eip.com.lizz.Utils.UAlertBox;
+import eip.com.lizz.Utils.UApi;
 import eip.com.lizz.Utils.UDownload;
 import eip.com.lizz.Utils.UNetwork;
 import eip.com.lizz.Utils.UPhoneBook;
@@ -239,6 +251,7 @@ public class PayementPTPConfirmActivity extends ActionBarActivity {
                 if (isInternet)
                 {
                     Log.d("DEBUG MODE", "PAIEMENT INTERNET");
+                    sendTransactionToAPI(token, sharedpreferences, paiement);
                 }
                 else
                 {
@@ -259,17 +272,66 @@ public class PayementPTPConfirmActivity extends ActionBarActivity {
                 if (isInternet)
                 {
                     Log.d("DEBUG MODE", "PAIEMENT PED INTERNET >>>>" + token);
+                    sendTransactionToAPI(token, sharedpreferences, paiement);
                 }
                 else {
                     Log.d("DEBUG MODE", "PAIEMENT PED SMS >>>>" + token);
+                    startActivity(paiement);
+                    finish();
                 }
-                startActivity(paiement);
-                finish();
             }
         }
         else
         {
             USaveParams.tentativeCheck(PayementPTPConfirmActivity.this, sharedpreferences);
+        }
+    }
+
+    private void sendTransactionToAPI(final String token, final SharedPreferences sharedpreferences, final Intent paiement) {
+        final ProgressDialog progress = ProgressDialog.show(PayementPTPConfirmActivity.this, getResources().getString(R.string.pleasewait), getResources().getString(R.string.pleasewaitTransaction), true);
+        new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        SendTransactionToAPI mAuthTask = new SendTransactionToAPI(sharedpreferences.getString("eip.com.lizz._csrf", ""), getBaseContext(), token);
+                        mAuthTask.setOnTaskFinishedEvent(new SendTransactionToAPI.OnTaskExecutionFinished() {
+
+                            @Override
+                            public void OnTaskFihishedEvent(HttpResponse httpResponse) {
+                                dataAPI(progress, httpResponse, paiement);
+                            }
+                        });
+                        mAuthTask.execute();
+                    }
+                });
+            }
+        }).start();
+    }
+
+    private void dataAPI(ProgressDialog progress, HttpResponse httpResponse, Intent paiement)
+    {
+        InputStream inputStream = null;
+        try {
+            progress.dismiss();
+            inputStream = httpResponse.getEntity().getContent();
+            String jString =  UApi.convertStreamToString(inputStream);
+            JSONObject jObj = new JSONObject(jString);
+
+            int responseCode = httpResponse.getStatusLine().getStatusCode();
+
+            Log.d("RETOUR API", ">>>"+responseCode+"---");
+            startActivity(paiement);
+            finish();
+        } catch (IOException e) {
+            progress.dismiss();
+            e.printStackTrace();
+        } catch (Exception e) {
+            progress.dismiss();
+            e.printStackTrace();
         }
     }
 

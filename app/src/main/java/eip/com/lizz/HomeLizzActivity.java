@@ -63,7 +63,7 @@ public class HomeLizzActivity extends ActionBarActivity {
                     @Override
                     public void run()
                     {
-                        UDownload.downloadFile("http://test-ta-key.lizz.fr/ped.der", "ped.pub", getBaseContext());
+                        UDownload.downloadFile("http://test-ta-key.lizz.fr/lastKey.key", "ped.pub", getBaseContext());
                         progress.dismiss();
                     }
                 }).start();

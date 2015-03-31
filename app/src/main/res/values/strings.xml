@@ -74,6 +74,7 @@
     <string name="urllizzcode">http://lizz.fr/code/</string>
     <string name="url_api_get_paymentMethods">user/getPaymentCards</string>
     <string name="url_api_user_update_password">user/updatePassword</string>
+    <string name="url_api_user_transaction">transaction/secure</string>
     <string name="url_api_user_session_ssofb">session/ssofacebook</string>
     <string name="url_api_user_session_ssogoogle">session/ssogoogle</string>
     <string name="url_api_add_creditCard">paymentcard/create</string>
@@ -248,6 +249,7 @@
     <string name="pwdsave">Le mot de passe a été enregistré avec succès !</string>
     <string name="pleasewait">Veuillez patienter</string>
     <string name="pleasewaitsave">Enregistrement de votre changement de mot passe...</string>
+    <string name="pleasewaitTransaction">Envoi de votre ordre de paiement...</string>
     <string name="pleasewaitproofaddress">Envoi de votre justificatif de domicile au support, veuillez patienter...</string>
     <string name="pleasewaitidcardrecto">Envoi du recto de votre carte d\'identité au support, veuillez patienter...</string>
     <string name="pleasewaitidcardverso">Envoi du verso de votre carte d\'identité au support, veuillez patienter...</string>
