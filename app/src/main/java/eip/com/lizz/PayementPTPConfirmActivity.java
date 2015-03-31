@@ -1,12 +1,14 @@
 package eip.com.lizz;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -26,9 +28,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.spec.InvalidKeySpecException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 import eip.com.lizz.Protocols.PED;
 import eip.com.lizz.QueriesAPI.SendSMSToAPI;
 import eip.com.lizz.Utils.UAlertBox;
+import eip.com.lizz.Utils.UDownload;
 import eip.com.lizz.Utils.UNetwork;
 import eip.com.lizz.Utils.UPhoneBook;
 import eip.com.lizz.Utils.USaveParams;
@@ -107,42 +120,100 @@ public class PayementPTPConfirmActivity extends ActionBarActivity {
                 String somme = bundle.getString("somme");
                 somme_label.setText(somme+" €");
             }
+            if (bundle.getBoolean("isForced"))
+            {
+                checkSimCARD(bundle);
+            }
         }
 
 
         Button confirm = (Button) findViewById(R.id.confirm);
         confirm.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-                TelephonyManager tMgr = (TelephonyManager)getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
-                if ((tMgr.getLine1Number() == null || tMgr.getLine1Number().equals("")))
-                    UAlertBox.alertOk(PayementPTPConfirmActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.error_sim_card));
-                else if (!UNetwork.isMobileAvailable(getBaseContext()))
-                    UAlertBox.alertOk(PayementPTPConfirmActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.error_network_phone));
-                else
-                {
-                    popUpPIN(bundle);
-                }
+                 checkSimCARD(bundle);
             }
         });
     }
 
-    public void popUpPIN(Bundle bundle)
+    private void checkSimCARD(Bundle bundle) {
+        TelephonyManager tMgr = (TelephonyManager)getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
+        if ((tMgr.getLine1Number() == null || tMgr.getLine1Number().equals("")))
+            UAlertBox.alertOk(PayementPTPConfirmActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.error_sim_card));
+        else if (!UNetwork.isMobileAvailable(getBaseContext()))
+            UAlertBox.alertOk(PayementPTPConfirmActivity.this, getResources().getString(R.string.warning), getResources().getString(R.string.error_network_phone));
+        else
+        {
+            popUpPIN(bundle);
+        }
+    }
+
+    public void popUpPIN(final Bundle bundle)
     {
         final SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
 
-        String id_payement_method = bundle.getString("idPayment");
+        final String id_payement_method = bundle.getString("idPayment");
         final String PIN = sharedpreferences.getString("eip.com.lizz.codepinlizz", "");
-        String email_sender = sharedpreferences.getString("eip.com.lizz.email", "");
-        String receiver = bundle.getString("contact");
-        String id_user = sharedpreferences.getString("eip.com.lizz.id_user", "");
-        String amount = bundle.getString("somme");
-        final String token = PED.cryptped(id_payement_method, PIN, email_sender, receiver, id_user, amount, getBaseContext());
+        final String email_sender = sharedpreferences.getString("eip.com.lizz.email", "");
+        final String receiver = bundle.getString("contact");
+        final String id_user = sharedpreferences.getString("eip.com.lizz.id_user", "");
+        final String amount = bundle.getString("somme");
+        try {
+            tryToSecureMsg(id_payement_method, PIN, email_sender, receiver, id_user, amount, bundle, sharedpreferences);
+        } catch (IOException | NoSuchAlgorithmException | InvalidKeyException | PackageManager.NameNotFoundException | InvalidKeySpecException | NoSuchPaddingException | BadPaddingException | NoSuchProviderException | IllegalBlockSizeException e) {
+            AlertDialog.Builder alert;
+            alert = UAlertBox.alert(PayementPTPConfirmActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_rsa_key));
+            final ProgressDialog progress = new ProgressDialog(PayementPTPConfirmActivity.this);
+            alert.setPositiveButton(getResources().getString(R.string.dialog_yes), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run()
+                        {
+                           runOnUiThread(new Runnable() {
+                                public void run() {
+
+                                    progress.setTitle(getResources().getString(R.string.dialog_download));
+                                    progress.setMessage(getResources().getString(R.string.dialog_download_rsa_key));
+                                    progress.setCancelable(false);
+                                    progress.show();
+                                }
+                            });
+                            String isOk;
+                            isOk = UDownload.downloadFile("http://test-ta-key.lizz.fr/ped.der", "ped.pub", getBaseContext());
+                            if (isOk.equals("ok"))
+                            {
+                                progress.dismiss();
+                                finish();
+                                Intent paiement = new Intent(getBaseContext(), PayementPTPConfirmActivity.class);
+                                paiement.putExtra("contact", receiver);
+                                paiement.putExtra("somme", amount);
+                                paiement.putExtra("isEmail", bundle.getBoolean("isEmail"));
+                                paiement.putExtra("isPhone", bundle.getBoolean("isPhone"));
+                                paiement.putExtra("idPayment", id_payement_method);
+                                paiement.putExtra("isForced", true);
+                                startActivity(paiement);
+                            }
+                        }
+                    }).start();
+                }
+            });
+            alert.setNegativeButton(getResources().getString(R.string.dialog_cancel), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    UAlertBox.alertOk(PayementPTPConfirmActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_rsa_key_cancel));
+                }
+            });
+            alert.show();
+        }
+    }
+
+    public void tryToSecureMsg(String id_payement_method, final String PIN, String email_sender, String receiver, String id_user, String amount, final Bundle bundle, final SharedPreferences sharedpreferences) throws IOException, NoSuchAlgorithmException, NoSuchProviderException, InvalidKeyException, PackageManager.NameNotFoundException, NoSuchPaddingException, BadPaddingException, InvalidKeySpecException, IllegalBlockSizeException {
+        final String token = PED.cryptped(id_payement_method, PIN, email_sender, receiver, id_user, amount, getBaseContext(), PayementPTPConfirmActivity.this);
         final Intent paiement = new Intent(getBaseContext(), PayementPTPFinishActivity.class);
         paiement.putExtra("somme", amount);
         paiement.putExtra("contact", bundle.getString("contact"));
         paiement.putExtra("isEmail", bundle.getBoolean("isEmail"));
         paiement.putExtra("isPhone", bundle.getBoolean("isPhone"));
+        paiement.putExtra("isInternet", bundle.getBoolean("isInternet"));
         final EditText input = new EditText(getBaseContext());
         input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         input.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -150,7 +221,7 @@ public class PayementPTPConfirmActivity extends ActionBarActivity {
         final AlertDialog.Builder alert = UAlertBox.alertInputOk(PayementPTPConfirmActivity.this, getResources().getString(R.string.dialog_title_confirm), getResources().getString(R.string.dialog_confirm_pin), input);
         alert.setPositiveButton(getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                confirmTransaction(input, token, paiement, PIN, sharedpreferences);
+                confirmTransaction(input, token, paiement, PIN, sharedpreferences, bundle.getBoolean("isInternet"));
             }
 
         });
@@ -158,27 +229,40 @@ public class PayementPTPConfirmActivity extends ActionBarActivity {
         alert.show();
     }
 
-    public void confirmTransaction(EditText input, String token, Intent paiement, String PIN, SharedPreferences sharedpreferences)
+    public void confirmTransaction(EditText input, String token, Intent paiement, String PIN, SharedPreferences sharedpreferences, Boolean isInternet)
     {
         if (input.getText().toString().equals(PIN))
         {
             sharedpreferences.edit().putInt("eip.com.lizz.tentativePin", 0).apply();
             if (getResources().getString(R.string.debugOrProd).equals("PROD"))
             {
-                int err = SendSMSToAPI.send(token);
-                if (err == 0)
+                if (isInternet)
                 {
-                    startActivity(paiement);
-                    finish();
+                    Log.d("DEBUG MODE", "PAIEMENT INTERNET");
                 }
                 else
                 {
-                    UAlertBox.alertOk(PayementPTPConfirmActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_send_sms));
+                    int err = SendSMSToAPI.send(token);
+                    if (err == 0)
+                    {
+                        startActivity(paiement);
+                        finish();
+                    }
+                    else
+                    {
+                        UAlertBox.alertOk(PayementPTPConfirmActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_send_sms));
+                    }
                 }
             }
             else
             {
-                Log.d("DEBUG MODE", "PAIEMENT PED SMS >>>>"+token);
+                if (isInternet)
+                {
+                    Log.d("DEBUG MODE", "PAIEMENT PED INTERNET >>>>" + token);
+                }
+                else {
+                    Log.d("DEBUG MODE", "PAIEMENT PED SMS >>>>" + token);
+                }
                 startActivity(paiement);
                 finish();
             }

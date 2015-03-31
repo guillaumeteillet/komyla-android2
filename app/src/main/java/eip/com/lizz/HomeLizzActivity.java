@@ -1,6 +1,7 @@
 package eip.com.lizz;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,12 +17,13 @@ import android.widget.Button;
 
 import eip.com.lizz.Setting.SettingsCoordonnees;
 import eip.com.lizz.Utils.UAlertBox;
+import eip.com.lizz.Utils.UDownload;
 
 
 public class HomeLizzActivity extends ActionBarActivity {
 
     boolean scannerStatus;
-    boolean isLogged;
+    boolean isLogged, isLoginJustNow = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,12 @@ public class HomeLizzActivity extends ActionBarActivity {
 
        SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
         isLogged = sharedpreferences.getBoolean("eip.com.lizz.isLogged", false);
+        final Bundle bundle = getIntent().getExtras();
+        if (bundle != null)
+        {
+            isLoginJustNow = bundle.getBoolean("isLoginJustNow");
+        }
+
         sharedpreferences.edit().putBoolean("eip.com.lizz.flash", false).apply(); // flash off
         String firstname, surname, email, phone, id_user;
 
@@ -43,6 +51,23 @@ public class HomeLizzActivity extends ActionBarActivity {
 
         if (isLogged)
         {
+
+            if (isLoginJustNow)
+            {
+                final ProgressDialog progress = new ProgressDialog(HomeLizzActivity.this);
+                progress.setTitle(getResources().getString(R.string.dialog_download));
+                progress.setMessage(getResources().getString(R.string.dialog_download_rsa_key));
+                progress.setCancelable(false);
+                progress.show();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        UDownload.downloadFile("http://test-ta-key.lizz.fr/ped.der", "ped.pub", getBaseContext());
+                        progress.dismiss();
+                    }
+                }).start();
+            }
             if (getResources().getString(R.string.debugOrProd).equals("PROD"))
                 checkSIMNumber();
 

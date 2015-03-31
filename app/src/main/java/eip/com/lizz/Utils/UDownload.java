@@ -1,10 +1,12 @@
 package eip.com.lizz.Utils;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.apache.http.util.ByteArrayBuffer;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +18,7 @@ import java.net.URLConnection;
  */
 public class UDownload {
 
-    public static void downloadFile(String DownloadUrl, String fileName, Context context) {
+    public static String downloadFile(String DownloadUrl, String fileName, Context context) {
         try {
             URL url = new URL(DownloadUrl);
 
@@ -26,13 +28,15 @@ public class UDownload {
 
             InputStream is = uconn.getInputStream();
             BufferedInputStream bufferinstream = new BufferedInputStream(is);
-
             ByteArrayBuffer baf = new ByteArrayBuffer(5000);
             int current = 0;
             while ((current = bufferinstream.read()) != -1) {
                 baf.append((byte) current);
             }
-
+            String filepath = context.getFilesDir().getPath();
+            File f = new File(fileName);
+            if (f.exists())
+                f.delete();
             FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
             fos.write(baf.toByteArray());
             fos.flush();
@@ -41,9 +45,10 @@ public class UDownload {
             if (dotindex >= 0) {
                 fileName = fileName.substring(0, dotindex);
             }
+            return "ok";
         }
             catch(IOException e){
             }
-
+        return "";
     }
 }

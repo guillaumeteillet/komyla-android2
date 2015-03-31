@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eip.com.lizz.Utils.UAlertBox;
+import eip.com.lizz.Utils.UNetwork;
 
 
 public class PayementPTPActivity extends ActionBarActivity {
@@ -54,13 +55,13 @@ public class PayementPTPActivity extends ActionBarActivity {
             Button next = (Button) findViewById(R.id.next);
             next.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    EditText contact_input = (EditText) findViewById(R.id.contact);
+                    final EditText contact_input = (EditText) findViewById(R.id.contact);
                     EditText somme_input = (EditText) findViewById(R.id.somme);
-                    String contact_a_check = contact_input.getText().toString();
-                    String somme = somme_input.getText().toString();
-                    String id_payement = payementMethod(false, null);
-                    boolean isEmail = LoginActivity.isEmailValid(contact_a_check);
-                    boolean isPhone = isPhoneValid(contact_a_check);
+                    final String contact_a_check = contact_input.getText().toString();
+                    final String somme = somme_input.getText().toString();
+                    final String id_payement = payementMethod(false, null);
+                    final boolean isEmail = LoginActivity.isEmailValid(contact_a_check);
+                    final boolean isPhone = isPhoneValid(contact_a_check);
                     if (contact_a_check.isEmpty())
                         UAlertBox.alertOk(PayementPTPActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_contact_empty));
                     else if (somme.isEmpty())
@@ -71,13 +72,53 @@ public class PayementPTPActivity extends ActionBarActivity {
                         UAlertBox.alertOk(PayementPTPActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_id_payement));
                     else
                     {
-                        Intent paiement = new Intent(getBaseContext(), PayementPTPConfirmActivity.class);
-                        paiement.putExtra("contact", contact_a_check);
-                        paiement.putExtra("somme", somme);
-                        paiement.putExtra("isEmail", isEmail);
-                        paiement.putExtra("isPhone", isPhone);
-                        paiement.putExtra("idPayment", id_payement);
-                        startActivity(paiement);
+                        final CharSequence[] choice = new CharSequence[2];
+                        final boolean isInternet = UNetwork.checkInternetConnection(getBaseContext());
+                        final boolean isMobile = UNetwork.isMobileAvailable(getBaseContext());
+                        if (isInternet)
+                            choice[0] = "Par Internet";
+                        else
+                            choice[0] = "Par Internet (Réseau indisponible)";
+                        if (isMobile)
+                            choice[1] = "Par SMS";
+                        else
+                            choice[1] = "Par SMS (Réseau indisponible)";
+                        AlertDialog.Builder builder2 = new AlertDialog.Builder(PayementPTPActivity.this);
+                        builder2.setTitle("Comment souhaitez-vous régler ?");
+                        builder2.setItems(choice, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent paiement = new Intent(getBaseContext(), PayementPTPConfirmActivity.class);
+                                paiement.putExtra("contact", contact_a_check);
+                                paiement.putExtra("somme", somme);
+                                paiement.putExtra("isEmail", isEmail);
+                                paiement.putExtra("isPhone", isPhone);
+                                paiement.putExtra("idPayment", id_payement);
+                                paiement.putExtra("isForced", false);
+                                if (which == 0)
+                                {
+                                    if (isInternet) {
+                                        paiement.putExtra("isInternet", true);
+                                        startActivity(paiement);
+                                    }
+                                    else
+                                        UAlertBox.alertOk(PayementPTPActivity.this, getResources().getString(R.string.dialog_title_no_internet), getResources().getString(R.string.dialog_no_internet));
+                                }
+                                else
+                                {
+                                    if (isMobile) {
+                                        paiement.putExtra("isInternet", false);
+                                        startActivity(paiement);
+                                    }
+                                    else
+                                        UAlertBox.alertOk(PayementPTPActivity.this, getResources().getString(R.string.dialog_no_network), getResources().getString(R.string.error_network_phone));
+                                }
+
+                            }
+                        });
+                        AlertDialog alert = builder2.create();
+                        alert.setOwnerActivity(PayementPTPActivity.this);
+                        alert.show();
                     }
                 }
             });

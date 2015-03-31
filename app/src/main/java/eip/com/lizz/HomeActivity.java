@@ -118,7 +118,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         {
             gplus.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Log.d("API", "CLICK");
                     mSignInClicked = true;
                     resolveSignInError();
                 }
@@ -290,7 +289,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
     private void API_200(JSONObject jObj, String sso) throws JSONException {
 
-        LogUserToAPI.LogUserSaveLocalParams(jObj.getString("firstname"), jObj.getString("surname"), jObj.getString("email"), jObj.getString("id"), "0;", HomeActivity.this);
+        LogUserToAPI.LogUserSaveLocalParams(jObj.getString("firstname"), jObj.getString("surname"), jObj.getString("email"), jObj.getString("id"), "0;", getBaseContext(), HomeActivity.this);
 
         if (sso.equals("fb"))
         {
@@ -301,6 +300,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         }
 
         Intent loggedUser = new Intent(getBaseContext(), HomeLizzActivity.class);
+        loggedUser.putExtra("isLoginJustNow", true);
         loggedUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);// On supprime les vues précédentes, l'utilisateur est connecté.
         startActivity(loggedUser);
     }

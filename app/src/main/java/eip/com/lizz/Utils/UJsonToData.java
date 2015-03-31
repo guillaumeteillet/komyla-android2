@@ -24,7 +24,7 @@ public class UJsonToData {
             creditCards.add(new CreditCard(
                     oneObject.getString("id"),
                     "************" + oneObject.getString("cardNumberHidden"),
-                    oneObject.getString("cardExpireMounth"),
+                    oneObject.getString("cardExpireMonth"),
                     oneObject.getString("cardExpireYear"),
                     "***",
                     oneObject.getString("cardHolder"),

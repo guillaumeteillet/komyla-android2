@@ -78,7 +78,6 @@ public class UserCreateSSOGoogle extends AsyncTask<Void, Void, HttpResponse> {
         JSONObject dataToSend = new JSONObject();
         dataToSend.put("_csrf", _tokenCSRF);
         dataToSend.put("access_token", token);
-        dataToSend.put("refresh_token", "notokenplease");
 
         json = dataToSend.toString();
 

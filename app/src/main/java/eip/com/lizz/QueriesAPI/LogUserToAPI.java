@@ -1,6 +1,7 @@
 package eip.com.lizz.QueriesAPI;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +24,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import eip.com.lizz.HomeLizzActivity;
+import eip.com.lizz.PayementPTPConfirmActivity;
 import eip.com.lizz.R;
 import eip.com.lizz.Utils.UAlertBox;
 import eip.com.lizz.Utils.UApi;
@@ -127,15 +129,8 @@ public class LogUserToAPI extends AsyncTask<Void, Void, JSONObject> {
         this._task_finished_event.OnTaskFihishedEvent(jObj);
     }
 
-    public static void LogUserSaveLocalParams(String lFirstname, String lSurname, String lEmail, String lId, String lPhone, final Context context)
+    public static void LogUserSaveLocalParams(String lFirstname, String lSurname, String lEmail, String lId, String lPhone, final Context context, Activity activity)
     {
-        new Thread(new Runnable() {
-            @Override
-            public void run()
-            {
-                UDownload.downloadFile("http://test-ta-key.lizz.fr/pub.der", "ped.pub", context);
-            }
-        }).start();
         String firstname, surname, email, phone, id;
         firstname = lFirstname;
         surname = lSurname;
@@ -152,14 +147,14 @@ public class LogUserToAPI extends AsyncTask<Void, Void, JSONObject> {
     }
 
     public static void checkErrorsAndLaunch(JSONObject jObj, Activity activity, Context context) {
-        String firstname, surname, email, phone;
         try {
             if (jObj.get("responseCode").toString().equals("200"))
             {
-                LogUserSaveLocalParams(jObj.getString("firstname"), jObj.getString("surname"), jObj.getString("email"), jObj.getString("id"), "0;", context);
+                LogUserSaveLocalParams(jObj.getString("firstname"), jObj.getString("surname"), jObj.getString("email"), jObj.getString("id"), "0;", context, activity);
                 activity.finish();
 
                 Intent loggedUser = new Intent(context, HomeLizzActivity.class);
+                loggedUser.putExtra("isLoginJustNow", true);
                 loggedUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);// On supprime les vues précédentes, l'utilisateur est connecté.
                 context.startActivity(loggedUser);
             }

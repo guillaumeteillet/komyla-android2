@@ -198,7 +198,7 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
         if (edittextCardNumber.getText().toString().compareTo(oldCreditCard.get_cardNumber()) != 0)
             modifiedFields.put("cardNumber", edittextCardNumber.getText().toString());
         if (edittextExpirationDateMonth.getText().toString().compareTo(oldCreditCard.get_expirationDateMonth()) != 0)
-            modifiedFields.put("cardExpireMounth", edittextExpirationDateMonth.getText().toString());
+            modifiedFields.put("cardExpireMonth", edittextExpirationDateMonth.getText().toString());
         if (edittextExpirationDateYear.getText().toString().compareTo(oldCreditCard.get_expirationDateYear()) != 0)
             modifiedFields.put("cardExpireYear", edittextExpirationDateYear.getText().toString());
         if (edittextCryptogram.getText().toString().compareTo(oldCreditCard.get_cryptogram()) != 0)
@@ -214,7 +214,7 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
             if (key.compareTo("cardNumber") == 0)
                 if (!isCardNumberIsValide())
                     return false;
-            if (key.compareTo("cardExpireMounth") == 0)
+            if (key.compareTo("cardExpireMonth") == 0)
                 if (!checkExpirationMonth())
                     return false;
                 else

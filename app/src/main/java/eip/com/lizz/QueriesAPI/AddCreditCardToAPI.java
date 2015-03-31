@@ -57,9 +57,9 @@ public class                    AddCreditCardToAPI extends AsyncTask<CreditCard,
         dataToSend.put("cardHolder", creditCard.get_cardHolder());
         dataToSend.put("cardNumber", creditCard.get_cardNumber());
         dataToSend.put("cardVerificationValue", creditCard.get_cryptogram());
-        dataToSend.put("cardExpireMounth", creditCard.get_expirationDateMonth());
+        dataToSend.put("cardExpireMonth", creditCard.get_expirationDateMonth());
         dataToSend.put("cardExpireYear", creditCard.get_expirationDateYear());
-        dataToSend.put("cardMounthLimit", "0");
+        dataToSend.put("cardMonthLimit", "0");
 
         json = dataToSend.toString();
 

@@ -1,6 +1,10 @@
 package eip.com.lizz.Utils;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.util.Base64;
 import android.util.Log;
@@ -24,6 +28,9 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+
+import eip.com.lizz.R;
+import eip.com.lizz.Setting.SettingsCoordonnees;
 
 /**
  * Created by guillaume on 26/03/15.
@@ -49,18 +56,17 @@ public class UCrypt {
     }
 
     public static String random(int size) {
-        Random generator = new Random();
-        StringBuilder randomStringBuilder = new StringBuilder();
-        int randomLength = generator.nextInt(size);
-        char tempChar;
-        for (int i = 0; i < randomLength; i++){
-            tempChar = (char) (generator.nextInt(96) + 32);
-            randomStringBuilder.append(tempChar);
+        Random rng = new Random();
+        String characters = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        char[] text = new char[size];
+        for (int i = 0; i < size; i++)
+        {
+            text[i] = characters.charAt(rng.nextInt(characters.length()));
         }
-        return randomStringBuilder.toString();
+        return new String(text);
     }
 
-    public static String RSAEncrypt(final String plain, Context context, String Protocol) throws NoSuchAlgorithmException, NoSuchPaddingException,
+    public static String RSAEncrypt(String plain, final Context context, String Protocol, final Activity activity) throws NoSuchAlgorithmException, NoSuchPaddingException,
             InvalidKeyException, IllegalBlockSizeException, BadPaddingException, IOException, InvalidKeySpecException, PackageManager.NameNotFoundException, NoSuchProviderException {
 
         String filepath = context.getFilesDir().getPath();
@@ -81,11 +87,10 @@ public class UCrypt {
         X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
         KeyFactory kf = KeyFactory.getInstance("RSA");
 
-        PublicKey publicKey = kf.generatePublic(spec);
-
-        Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA1AndMGF1Padding");
-        cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-        byte[] encryptedBytes = cipher.doFinal(plain.getBytes());
+            PublicKey publicKey = kf.generatePublic(spec);
+            Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA1AndMGF1Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+            byte[] encryptedBytes = cipher.doFinal(plain.getBytes());
 
         return Base64.encodeToString(encryptedBytes, Base64.DEFAULT);
     }
