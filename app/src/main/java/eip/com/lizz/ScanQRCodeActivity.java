@@ -1,36 +1,48 @@
 package eip.com.lizz;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.media.MediaPlayer;
+import android.hardware.Camera;
+import android.hardware.Camera.AutoFocusCallback;
+import android.hardware.Camera.Parameters;
+import android.hardware.Camera.PreviewCallback;
+import android.hardware.Camera.Size;
 import android.os.Bundle;
 import android.os.Handler;
-
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 import android.widget.Button;
-
-import android.hardware.Camera;
-import android.hardware.Camera.PreviewCallback;
-import android.hardware.Camera.AutoFocusCallback;
-import android.hardware.Camera.Parameters;
-import android.hardware.Camera.Size;
-
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/* Import ZBar Class files */
-import net.sourceforge.zbar.ImageScanner;
+import net.sourceforge.zbar.Config;
 import net.sourceforge.zbar.Image;
+import net.sourceforge.zbar.ImageScanner;
 import net.sourceforge.zbar.Symbol;
 import net.sourceforge.zbar.SymbolSet;
-import net.sourceforge.zbar.Config;
+
+import org.apache.http.HttpResponse;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import eip.com.lizz.QueriesAPI.GetTransactionFromAPI;
+import eip.com.lizz.Utils.UAlertBox;
+import eip.com.lizz.Utils.UApi;
+
+/* Import ZBar Class files */
 
 public class ScanQRCodeActivity extends Activity
 {
@@ -113,7 +125,7 @@ public class ScanQRCodeActivity extends Activity
     PreviewCallback previewCb = new PreviewCallback() {
         public void onPreviewFrame(byte[] data, Camera camera) {
             Camera.Parameters parameters = camera.getParameters();
-            SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+            final SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
             Boolean flash = sharedpreferences.getBoolean("eip.com.lizz.flash", false);
             if (flash) {
                 parameters.setFlashMode(Parameters.FLASH_MODE_TORCH);
@@ -141,7 +153,7 @@ public class ScanQRCodeActivity extends Activity
                             if (contents.length() >= 20) {
                                 String urlLizzOrNot = contents.substring(0, 20);
                                 if (urlLizzOrNot.equals(getResources().getString(R.string.urllizzcode))) {
-                                    MediaPlayer mp = MediaPlayer.create(ScanQRCodeActivity.this, R.raw.beep);
+                                   /* MediaPlayer mp = MediaPlayer.create(ScanQRCodeActivity.this, R.raw.beep);
                                     mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
                                         @Override
@@ -151,13 +163,29 @@ public class ScanQRCodeActivity extends Activity
                                         }
 
                                     });
-                                    mp.start();
-                                    String unique_code = contents.replace(getResources().getString(R.string.urllizzcode), "");
-                                    Intent payement = new Intent(getBaseContext(), PayementActivity.class);
-                                    payement.putExtra("unique_code", unique_code);
-                                    payement.putExtra("sms_active", true);
-                                    startActivity(payement);
-                                    finish();
+                                    mp.start(); */
+                                    final String unique_code = contents.replace(getResources().getString(R.string.urllizzcode), "");
+                                    final ProgressDialog progress = ProgressDialog.show(ScanQRCodeActivity.this, getResources().getString(R.string.pleasewait), getResources().getString(R.string.pleasewaitgetTransaction), true);
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run()
+                                        {
+                                            GetTransactionFromAPI mAuthTask = new GetTransactionFromAPI(sharedpreferences.getString("eip.com.lizz._csrf", ""), getBaseContext(), unique_code);
+                                            mAuthTask.setOnTaskFinishedEvent(new GetTransactionFromAPI.OnTaskExecutionFinished() {
+
+                                                @Override
+                                                public void OnTaskFihishedEvent(final HttpResponse httpResponse) {
+                                                    new Thread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            dataAPI(progress, httpResponse);
+                                                        }
+                                                        }).start();
+                                                }
+                                            });
+                                            mAuthTask.execute();
+                                        }
+                                    }).start();
                                 } else {
                                     errorQRCode();
                                 }
@@ -174,6 +202,106 @@ public class ScanQRCodeActivity extends Activity
             }
         }
     };
+
+    private void dataAPI(ProgressDialog progress, HttpResponse httpResponse) {
+        InputStream inputStream = null;
+        try {
+            progress.dismiss();
+            inputStream = httpResponse.getEntity().getContent();
+            String jString =  UApi.convertStreamToString(inputStream);
+            JSONObject jObj = new JSONObject(jString);
+
+            int responseCode = httpResponse.getStatusLine().getStatusCode();
+
+            Log.d("RETOUR API", ">>>" + responseCode);
+            Log.d("RETOUR API", ">>>"+jObj.toString());
+            Log.d("RETOUR API", ">>>"+jObj);
+
+            if (responseCode == 200)
+                API_200(jString);
+            else if (responseCode == 400)
+                API_400(jObj);
+            else if (responseCode == 403 || responseCode == 401)
+                API_401_403();
+
+        } catch (IOException e) {
+            progress.dismiss();
+            e.printStackTrace();
+        } catch (Exception e) {
+            progress.dismiss();
+            e.printStackTrace();
+        }
+    }
+
+    private void API_401_403() {
+        Toast.makeText(getBaseContext(), getResources().getString(R.string.error_403_token_expire) + getResources().getString(R.string.error_403_passwordChange), Toast.LENGTH_LONG).show();
+        MenuLizz.logout(ScanQRCodeActivity.this);
+    }
+
+    private void API_400(JSONObject jObj) throws JSONException {
+        if (jObj.has(getResources().getString(R.string.api_error_checkout_error)))
+        {
+            Log.d("API400", ">"+jObj.getString(getResources().getString(R.string.api_error_checkout_error)));
+            if (jObj.getString(getResources().getString(R.string.api_error_checkout_error)).equals(getResources().getString(R.string.api_error_no_pending_ticket)))
+            {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+
+                                final AlertDialog.Builder alert = UAlertBox.alert(ScanQRCodeActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_400_transaction_empty));
+                                alert.setPositiveButton(getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        finish();
+                                    }
+                                });
+                                alert.show();
+                            }
+                        });
+                    }
+                }).start();
+            }
+            else
+            {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+
+                                final AlertDialog.Builder alert = UAlertBox.alert(ScanQRCodeActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_400_checkout_empty));
+                                alert.setPositiveButton(getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        finish();
+                                    }
+                                });
+                                alert.show();
+                            }
+                        });
+                    }
+                }).start();
+            }
+
+        }
+        else if (jObj.has(getResources().getString(R.string.api_error_qrcode_empty)))
+        {
+            final AlertDialog.Builder alert = UAlertBox.alert(ScanQRCodeActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_400_qrcode_empty));
+            alert.setPositiveButton(getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    finish();
+                }
+            });
+            alert.show();
+        }
+    }
+
+    private void API_200(String jObjString) {
+        Intent payement = new Intent(getBaseContext(), PayementActivity.class);
+        payement.putExtra("jObjString", jObjString);
+        startActivity(payement);
+        finish();
+    }
 
     private void errorQRCode()
     {

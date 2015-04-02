@@ -2,19 +2,15 @@ package eip.com.lizz;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
-import android.provider.ContactsContract;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.telephony.TelephonyManager;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
@@ -26,10 +22,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -38,19 +32,14 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.concurrent.ExecutionException;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 import eip.com.lizz.Protocols.PED;
-import eip.com.lizz.QueriesAPI.AddCreditCardToAPI;
-import eip.com.lizz.QueriesAPI.AddUserToAPI;
-import eip.com.lizz.QueriesAPI.LogUserToAPI;
 import eip.com.lizz.QueriesAPI.SendSMSToAPI;
-import eip.com.lizz.QueriesAPI.SendTransactionToAPI;
-import eip.com.lizz.QueriesAPI.UserChangePasswordAPI;
+import eip.com.lizz.QueriesAPI.SendTransactionPTPToAPI;
 import eip.com.lizz.Utils.UAlertBox;
 import eip.com.lizz.Utils.UApi;
 import eip.com.lizz.Utils.UDownload;
@@ -297,8 +286,8 @@ public class PayementPTPConfirmActivity extends ActionBarActivity {
                     @Override
                     public void run()
                     {
-                        SendTransactionToAPI mAuthTask = new SendTransactionToAPI(sharedpreferences.getString("eip.com.lizz._csrf", ""), getBaseContext(), token);
-                        mAuthTask.setOnTaskFinishedEvent(new SendTransactionToAPI.OnTaskExecutionFinished() {
+                        SendTransactionPTPToAPI mAuthTask = new SendTransactionPTPToAPI(sharedpreferences.getString("eip.com.lizz._csrf", ""), getBaseContext(), token);
+                        mAuthTask.setOnTaskFinishedEvent(new SendTransactionPTPToAPI.OnTaskExecutionFinished() {
 
                             @Override
                             public void OnTaskFihishedEvent(HttpResponse httpResponse) {

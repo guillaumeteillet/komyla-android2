@@ -23,7 +23,7 @@ import eip.com.lizz.Models.CreditCard;
 import eip.com.lizz.R;
 
 
-public class SendTransactionToAPI extends AsyncTask<Void, Void, HttpResponse> {
+public class SendTransactionPTPToAPI extends AsyncTask<Void, Void, HttpResponse> {
     private final String        _tokenCSRF;
     private final Context       _context;
     private List<Cookie>        _cookies;
@@ -44,7 +44,7 @@ public class SendTransactionToAPI extends AsyncTask<Void, Void, HttpResponse> {
         }
     }
 
-    public SendTransactionToAPI(String _tokenCSRF, Context _context, String token) {
+    public SendTransactionPTPToAPI(String _tokenCSRF, Context _context, String token) {
         this._tokenCSRF = _tokenCSRF;
         this._context = _context;
         mToken = token;
@@ -52,7 +52,7 @@ public class SendTransactionToAPI extends AsyncTask<Void, Void, HttpResponse> {
 
 
 
-    private HttpResponse changePassword() throws Exception {
+    private HttpResponse send() throws Exception {
 
         String url = _context.getResources().getString(R.string.url_api_final_v1)
                 + _context.getResources().getString(R.string.url_api_user_transaction);
@@ -89,7 +89,7 @@ public class SendTransactionToAPI extends AsyncTask<Void, Void, HttpResponse> {
     @Override
     protected HttpResponse doInBackground(Void... params) {
         try {
-            return changePassword();
+            return send();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -63,6 +63,7 @@
     <string name="label_id_card_verso_wait">Nous avons reçu le verso de votre carte d\'identité. Nous allons l\'examiner sous 48 heures ouvrés. Si vous nous soumettez un nouveau verso de carte d\'identité, l\'ancien sera supprimé.</string>
     <string name="label_id_card_verso_ok">Nous avons reçu le verso de votre carte d\'identité.</string>
     <string name="label_id_card_ok">Nous avons reçu votre carte d\'identité. Votre situation est régulière.</string>
+    <string name="label_payer">Payer</string>
 
     <string name="buttonSaveCardData">Enregistrer</string>
     <string name="buttonDeleteCardData">Supprimer</string>
@@ -75,6 +76,7 @@
     <string name="url_api_get_paymentMethods">user/getPaymentCards</string>
     <string name="url_api_user_update_password">user/updatePassword</string>
     <string name="url_api_user_transaction">transaction/secure</string>
+    <string name="url_api_user_get_transaction_from_cashregister">checkout/getTicket</string>
     <string name="url_api_user_session_ssofb">session/ssofacebook</string>
     <string name="url_api_user_session_ssogoogle">session/ssogoogle</string>
     <string name="url_api_add_creditCard">paymentcard/create</string>
@@ -121,7 +123,7 @@
     <string name="title_activity_home_lizz">Lizz</string>
     <string name="title_activity_settings_code_pin">Code PIN Lizz</string>
     <string name="title_activity_scan_QR_CODE">Scannez un QRCode Lizz</string>
-    <string name="title_activity_PayementActivity">Paiement</string>
+    <string name="title_activity_PayementActivity">Récapitulatif</string>
     <string name="title_activity_payement_ptp">Paiement à un particulier</string>
     <string name="title_activity_payement_ptpconfirm">Récapitulatif</string>
     <string name="title_activity_payement_ptpfinish">C\'est terminé !</string>
@@ -212,6 +214,9 @@
     <string name="error_403_token_expire">Erreur : La session a expiré. </string>
     <string name="error_403_passwordChange"> Votre mot de passe n\'a pas été modifié.</string>
     <string name="error_400_old_password_dont_match">Une erreur dans votre mot de passe actuel nous empêche d\'enregistrer votre nouveau mot de passe</string>
+    <string name="error_400_checkout_empty">Cette caisse n\'existe pas ou plus.</string>
+    <string name="error_400_transaction_empty">Il n\'y a pas de transaction en cours sur cette caisse.</string>
+    <string name="error_400_qrcode_empty">Notre serveur n\'a pas reçu le numéro unique de la caisse. Veuillez réessayer de scanner le QRCode.</string>
     <string name="error_400_old_password_empty">L\'ancien mot de passe ne peut pas être vide !</string>
     <string name="error_400_new_password_empty">Le nouveau mot de passe ne peut pas être vide !</string>
     <string name="error_400_new_old_same">Votre nouveau mot de passe est identique à l\'ancien !</string>
@@ -225,6 +230,9 @@
     <string name="error_rsa_key">Le fichier de votre clé sécurisée Lizz est corrompue. Pour terminer la transaction, la clé sécurisée va être télécharger.</string>
     <string name="error_rsa_key_cancel">La transaction ne peut pas être terminé car vous avez annuler le téléchargement de votre clé sécurisée Lizz.</string>
 
+    <string name="api_error_checkout_error">error</string>
+    <string name="api_error_no_pending_ticket">no pending ticket</string>
+    <string name="api_error_qrcode_empty">qrcode</string>
     <string name="api_change_password_old">oldPassword</string>
     <string name="api_change_password_new">newPassword</string>
     <string name="api_change_password_dontmatch">don\'t match</string>
@@ -236,6 +244,12 @@
     <string name="api_user_sso_fb_access_token_empty">no access_token provided</string>
     <string name="api_user_sso_google_access_token_empty">no access_token provided</string>
     <string name="api_user_sso_fb_access_token_expire">Invalid OAuth access token.</string>
+    <string name="api_checkout_shopname">shopName</string>
+    <string name="api_checkout_transaction">transaction</string>
+    <string name="api_checkout_amount">amount</string>
+    <string name="api_checkout_picture">picture</string>
+    <string name="api_checkout_products">products</string>
+    <string name="api_checkout_date">createdAt</string>
 
     <string name="email_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-0123456789@.!#$%\'*+/=?^_`{|}~</string>
     <string name="name_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ \'-</string>
@@ -250,8 +264,26 @@
     <string name="pleasewait">Veuillez patienter</string>
     <string name="pleasewaitsave">Enregistrement de votre changement de mot passe...</string>
     <string name="pleasewaitTransaction">Envoi de votre ordre de paiement...</string>
+    <string name="pleasewaitgetTransaction">Récupération de la transaction</string>
     <string name="pleasewaitproofaddress">Envoi de votre justificatif de domicile au support, veuillez patienter...</string>
     <string name="pleasewaitidcardrecto">Envoi du recto de votre carte d\'identité au support, veuillez patienter...</string>
     <string name="pleasewaitidcardverso">Envoi du verso de votre carte d\'identité au support, veuillez patienter...</string>
+
+    <string name="ticket_designation">Désignation</string>
+    <string name="ticket_prix">Prix</string>
+    <string name="ticket_total">Total</string>
+    <string name="ticket_total_maj">TOTAL</string>
+    <string name="ticket_by">Vous avez été servi par</string>
+    <string name="ticket_moyen_de_paiement">Mode de paiement</string>
+    <string name="ticket_sous_total">Sous-total</string>
+    <string name="ticket_total_ttc">Total TTC</string>
+    <string name="ticket_taux">Taux</string>
+    <string name="ticket_ht">HT</string>
+    <string name="ticket_tva">TVA</string>
+    <string name="ticket_ttc">TTC</string>
+    <string name="ticket_date">Date</string>
+    <string name="ticket_heure">Heure</string>
+    <string name="ticket_ticket">Ticket</string>
+    <string name="ticket_magasin">Magasin</string>
 
 </resources>
