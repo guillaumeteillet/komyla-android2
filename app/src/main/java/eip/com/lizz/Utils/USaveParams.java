@@ -27,29 +27,17 @@ public class USaveParams {
         input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         input.setTransformationMethod(PasswordTransformationMethod.getInstance());
         input.setTextColor(Color.BLACK);
-        final AlertDialog.Builder alert = UAlertBox.alertInputOk(context, context.getResources().getString(R.string.dialog_title_confirm), context.getResources().getString(R.string.dialog_confirm_hint_pin_change), input);
+        final AlertDialog.Builder alert;
+        if (isForChangePIN)
+            alert = UAlertBox.alertInputOk(context, context.getResources().getString(R.string.dialog_title_confirm), context.getResources().getString(R.string.dialog_confirm_hint_pin_change), input);
+        else
+            alert = UAlertBox.alertInputOk(context, context.getResources().getString(R.string.dialog_title_confirm), context.getResources().getString(R.string.dialog_confirm_hint_pin), input);
         alert.setPositiveButton(context.getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 if (input.getText().toString().equals(codePin))
                 {
-                    final EditText input2 = new EditText(context);
-                    input2.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    input2.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    input2.setTextColor(Color.BLACK);
-                    final AlertDialog.Builder alertnew = UAlertBox.alertInputOk(context, context.getResources().getString(R.string.dialog_title_confirm), context.getResources().getString(R.string.dialog_confirm_hint_newpin), input2);
-                    alertnew.setPositiveButton(context.getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            if (input2.getText().toString().equals(params))
-                            {
-                                saveParamsString(context, key, params);
-                                sharedpreferences.edit().putInt("eip.com.lizz.tentativePin", 0).apply();
-                            }
-                            else
-                                displayError(1, context, params, key, true);
-                        }
-                    });
-                    alertnew.setNegativeButton(context.getResources().getString(R.string.dialog_cancel), null);
-                    alertnew.show();
+                     saveParamsString(context, key, params);
+                     sharedpreferences.edit().putInt("eip.com.lizz.tentativePin", 0).apply();
                 }
                 else
                     tentativeCheck(context, sharedpreferences);
@@ -57,27 +45,7 @@ public class USaveParams {
 
         });
         alert.setNegativeButton(context.getResources().getString(R.string.dialog_cancel), null);
-
-        final AlertDialog.Builder alert2 = UAlertBox.alertInputOk(context, context.getResources().getString(R.string.dialog_title_confirm), context.getResources().getString(R.string.dialog_confirm_hint_pin), input);
-        alert2.setPositiveButton(context.getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                if (input.getText().toString().equals(codePin))
-                {
-                    saveParamsString(context, key, params);
-                    sharedpreferences.edit().putInt("eip.com.lizz.tentativePin", 0).apply();
-                }
-                else
-                    tentativeCheck(context, sharedpreferences);
-            }
-
-        });
-        alert2.setNegativeButton(context.getResources().getString(R.string.dialog_cancel), null);
-
-
-        if(isForChangePIN)
-            alert.show();
-        else
-            alert2.show();
+        alert.show();
     }
 
     public static void tentativeCheck(Activity context, SharedPreferences sharedpreferences)

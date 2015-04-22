@@ -1,34 +1,65 @@
 package eip.com.lizz;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.telephony.TelephonyManager;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.HttpResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.spec.InvalidKeySpecException;
 import java.text.DecimalFormat;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
+import eip.com.lizz.Protocols.PCC;
+import eip.com.lizz.Protocols.PED;
+import eip.com.lizz.QueriesAPI.SendSMSToAPI;
+import eip.com.lizz.QueriesAPI.SendTransactionPTPToAPI;
+import eip.com.lizz.Utils.UAlertBox;
+import eip.com.lizz.Utils.UApi;
+import eip.com.lizz.Utils.UDownload;
+import eip.com.lizz.Utils.UNetwork;
+import eip.com.lizz.Utils.USaveParams;
 
 
 public class PayementActivity extends ActionBarActivity {
+
+    String shopNameString = "", amount = "0", unique_code = "";
+    double total = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +71,7 @@ public class PayementActivity extends ActionBarActivity {
 
         if (isLogged) {
 
-            Bundle bundle = getIntent().getExtras();
+            final Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
                 if (bundle.getString("jObjString") != null) {
                     String jObjString = bundle.getString("jObjString");
@@ -51,6 +82,12 @@ public class PayementActivity extends ActionBarActivity {
                     }
 
                 } else {
+                    Toast.makeText(getBaseContext(), getResources().getString(R.string.error_serveur_return_payement), Toast.LENGTH_LONG).show();
+                    finish();
+                }
+                if (bundle.getString("unique_code") != null) {
+                    unique_code = bundle.getString("unique_code");
+                } else {
                     Toast.makeText(getBaseContext(), getResources().getString(R.string.no_unique_code), Toast.LENGTH_LONG).show();
                     finish();
                 }
@@ -59,11 +96,222 @@ public class PayementActivity extends ActionBarActivity {
                 Toast.makeText(getBaseContext(), getResources().getString(R.string.no_unique_code), Toast.LENGTH_LONG).show();
                 finish();
             }
+
+            final Button payementMethod = (Button) findViewById(R.id.paiementmethod);
+            payementMethod.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    showPaiementMethodDialog(payementMethod);
+                }
+            });
+
+            Button next = (Button) findViewById(R.id.payer);
+            next.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+
+                   /* if (contact_a_check.isEmpty())
+                        UAlertBox.alertOk(PayementPTPActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_contact_empty));
+                    else if (somme.isEmpty())
+                        UAlertBox.alertOk(PayementPTPActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_somme_empty));
+                    else if (!isEmail && !isPhone)
+                        UAlertBox.alertOk(PayementPTPActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_contact_ptp));
+                    else if (id_payement.isEmpty())
+                        UAlertBox.alertOk(PayementPTPActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_id_payement));
+                    else
+                    {*/
+
+                        String id_payement = "12";
+                        String PIN = "4825";
+                        String email_user = "jean.dupont@gmail.com";
+                        unique_code = "3JS2B43N21";
+                        String id_user = "132";
+
+                    checkNetwork(bundle);
+                    Log.d("PAIEMENT OK", "Paiement okk");
+                    //}
+                }
+            });
         } else {
             Intent loggedUser = new Intent(getBaseContext(), HomeActivity.class);
             loggedUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(loggedUser);
         }
+    }
+
+    private void checkNetwork(Bundle bundle) {
+        if (!UNetwork.checkInternetConnection(getBaseContext()))
+        {
+            final AlertDialog.Builder alert = UAlertBox.alert(PayementActivity.this, getResources().getString(R.string.dialog_no_internet), getResources().getString(R.string.dialog_no_internet_label_sms));
+            alert.setPositiveButton(getResources().getString(R.string.dialog_bysms), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    Intent payement = new Intent(getBaseContext(), PayementSMSActivity.class);
+                    payement.putExtra("unique_code", unique_code);
+                    startActivity(payement);
+                    finish();
+                }
+            });
+            alert.setNegativeButton(getResources().getString(R.string.dialog_cancel), new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getBaseContext(), getResources().getString(R.string.error_transaction_cancel), Toast.LENGTH_LONG).show();
+                    finish();
+                }
+            });
+            alert.show();
+        }
+        else
+        {
+            popUpPIN(bundle);
+        }
+    }
+
+    public void popUpPIN(final Bundle bundle)
+    {
+        final SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+
+        final String id_payement_method = payementMethodId();
+        final String PIN = sharedpreferences.getString("eip.com.lizz.codepinlizz", "");
+        final String email_sender = sharedpreferences.getString("eip.com.lizz.email", "");
+        final String receiver = unique_code;
+        final String id_user = sharedpreferences.getString("eip.com.lizz.id_user", "");
+        try {
+            tryToSecureMsg(id_payement_method, PIN, email_sender, receiver, id_user, amount, bundle, sharedpreferences);
+        } catch (IOException | NoSuchAlgorithmException | InvalidKeyException | PackageManager.NameNotFoundException | InvalidKeySpecException | NoSuchPaddingException | BadPaddingException | NoSuchProviderException | IllegalBlockSizeException e) {
+            AlertDialog.Builder alert;
+            alert = UAlertBox.alert(PayementActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_rsa_key));
+            final ProgressDialog progress = new ProgressDialog(PayementActivity.this);
+            alert.setPositiveButton(getResources().getString(R.string.dialog_yes), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run()
+                        {
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+
+                                    progress.setTitle(getResources().getString(R.string.dialog_download));
+                                    progress.setMessage(getResources().getString(R.string.dialog_download_rsa_key));
+                                    progress.setCancelable(false);
+                                    progress.show();
+                                }
+                            });
+                            String isOk;
+                            isOk = UDownload.downloadFile("http://test-ta-key.lizz.fr/lastKey.key", "keyrsa.pub", getBaseContext());
+                            if (isOk.equals("ok"))
+                            {
+                                progress.dismiss();
+                                finish();
+                                /*Intent paiement = new Intent(getBaseContext(), PayementPTPConfirmActivity.class);
+                                paiement.putExtra("contact", receiver);
+                                paiement.putExtra("somme", amount);
+                                paiement.putExtra("isEmail", bundle.getBoolean("isEmail"));
+                                paiement.putExtra("isPhone", bundle.getBoolean("isPhone"));
+                                paiement.putExtra("idPayment", id_payement_method);
+                                paiement.putExtra("isForced", true);
+                                startActivity(paiement);*/
+                                Log.d("FINISH", "FINISH PAYER");
+                            }
+                        }
+                    }).start();
+                }
+            });
+            alert.setNegativeButton(getResources().getString(R.string.dialog_cancel), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    UAlertBox.alertOk(PayementActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_rsa_key_cancel));
+                }
+            });
+            alert.show();
+        }
+    }
+
+    public void tryToSecureMsg(String id_payement_method, final String PIN, String email_sender, String unique_code, String id_user, String amount, final Bundle bundle, final SharedPreferences sharedpreferences) throws IOException, NoSuchAlgorithmException, NoSuchProviderException, InvalidKeyException, PackageManager.NameNotFoundException, NoSuchPaddingException, BadPaddingException, InvalidKeySpecException, IllegalBlockSizeException {
+        final String token = PCC.cryptped(id_payement_method, PIN, email_sender, unique_code, id_user, amount, getBaseContext(), PayementActivity.this);
+        final Intent paiement = new Intent(getBaseContext(), PayementPTPFinishActivity.class);
+        paiement.putExtra("somme", amount);
+        paiement.putExtra("contact", bundle.getString("contact"));
+        paiement.putExtra("isEmail", bundle.getBoolean("isEmail"));
+        paiement.putExtra("isPhone", bundle.getBoolean("isPhone"));
+        paiement.putExtra("isInternet", bundle.getBoolean("isInternet"));
+        final EditText input = new EditText(getBaseContext());
+        input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        input.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        input.setTextColor(Color.BLACK);
+        final AlertDialog.Builder alert = UAlertBox.alertInputOk(PayementActivity.this, getResources().getString(R.string.dialog_title_confirm), getResources().getString(R.string.dialog_confirm_pin), input);
+        alert.setPositiveButton(getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                confirmTransaction(input, token, paiement, PIN, sharedpreferences);
+            }
+
+        });
+        alert.setNegativeButton(getResources().getString(R.string.dialog_cancel), null);
+        alert.show();
+    }
+
+    public void confirmTransaction(EditText input, String token, Intent paiement, String PIN, SharedPreferences sharedpreferences)
+    {
+        if (input.getText().toString().equals(PIN))
+        {
+            sharedpreferences.edit().putInt("eip.com.lizz.tentativePin", 0).apply();
+            Log.d("DEBUG MODE", "PAIEMENT INTERNET");
+            sendTransactionToAPI(token, sharedpreferences, paiement);
+        }
+        else
+        {
+            USaveParams.tentativeCheck(PayementActivity.this, sharedpreferences);
+        }
+    }
+
+    private void sendTransactionToAPI(final String token, final SharedPreferences sharedpreferences, final Intent paiement) {
+        final ProgressDialog progress = ProgressDialog.show(PayementActivity.this, getResources().getString(R.string.pleasewait), getResources().getString(R.string.pleasewaitTransaction), true);
+        new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        SendTransactionPTPToAPI mAuthTask = new SendTransactionPTPToAPI(sharedpreferences.getString("eip.com.lizz._csrf", ""), getBaseContext(), token);
+                        mAuthTask.setOnTaskFinishedEvent(new SendTransactionPTPToAPI.OnTaskExecutionFinished() {
+
+                            @Override
+                            public void OnTaskFihishedEvent(HttpResponse httpResponse) {
+                                dataAPI(progress, httpResponse, paiement);
+                            }
+                        });
+                        mAuthTask.execute();
+                    }
+                });
+            }
+        }).start();
+    }
+
+
+    private void dataAPI(ProgressDialog progress, HttpResponse httpResponse, Intent paiement)
+    {
+        InputStream inputStream = null;
+        try {
+            progress.dismiss();
+            inputStream = httpResponse.getEntity().getContent();
+            String jString =  UApi.convertStreamToString(inputStream);
+            JSONObject jObj = new JSONObject(jString);
+
+            int responseCode = httpResponse.getStatusLine().getStatusCode();
+
+            Log.d("RETOUR API", ">>>"+responseCode+"---");
+            startActivity(paiement);
+            finish();
+        } catch (IOException e) {
+            progress.dismiss();
+            e.printStackTrace();
+        } catch (Exception e) {
+            progress.dismiss();
+            e.printStackTrace();
+        }
+    }
+
+    private String payementMethodId() {
+        return "12";
     }
 
     void dataAPI(String jObjString) throws JSONException {
@@ -75,7 +323,8 @@ public class PayementActivity extends ActionBarActivity {
         if (jObj.has(getResources().getString(R.string.api_checkout_shopname)))
         {
             TextView shopName = (TextView) findViewById(R.id.name_shop);
-            shopName.setText(jObj.getString(getResources().getString(R.string.api_checkout_shopname)));
+            shopNameString = jObj.getString(getResources().getString(R.string.api_checkout_shopname));
+            shopName.setText(shopNameString);
         }
         if (jObj.has(getResources().getString(R.string.api_checkout_transaction)))
         {
@@ -83,14 +332,14 @@ public class PayementActivity extends ActionBarActivity {
             if (jObj2.has(getResources().getString(R.string.api_checkout_amount)))
             {
                 Button payer = (Button) findViewById(R.id.payer);
-                payer.setText(getResources().getString(R.string.label_payer)+ " " + jObj2.getString(getResources().getString(R.string.api_checkout_amount)) +" €");
+                amount = jObj2.getString(getResources().getString(R.string.api_checkout_amount));
+                payer.setText(getResources().getString(R.string.label_payer)+ " " + amount +" €");
             }
         }
         if (jObj.has(getResources().getString(R.string.api_checkout_products)))
         {
             JSONArray jObj2 = new JSONArray(jObj.getString(getResources().getString(R.string.api_checkout_products)));
             createPreviewTicket(jObj2, jObj);
-            Log.d("JOBJ2", ">>>"+jObj2);
         }
     }
 
@@ -101,7 +350,7 @@ public class PayementActivity extends ActionBarActivity {
 
         DecimalFormat df = new DecimalFormat("###.##");
         double sousTotal = 0;
-        double total = 0;
+        total = 0;
         double reduction = 0;
         String devise = "€";
         for(int i=0; i<jObj2.length(); i++){
@@ -156,6 +405,25 @@ public class PayementActivity extends ActionBarActivity {
             }
         });
         ticket.setLongClickable(false);
+    }
+
+    private void showPaiementMethodDialog(final Button payementMethod)
+    {
+        final CharSequence[] choice = new CharSequence[3];
+        choice[0] = "Mastercard Guillaume Teillet 2345";
+        choice[1] = "Paypal guillaume@lizz.com";
+        choice[2] = "Chèque restaurant 10 euros";
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(PayementActivity.this);
+        builder2.setTitle("Séléctionner un moyen de paiement");
+        builder2.setItems(choice, new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                payementMethod.setText(choice[which]);
+            }
+        });
+        AlertDialog alert = builder2.create();
+        alert.setOwnerActivity(PayementActivity.this);
+        alert.show();
     }
 
     @Override

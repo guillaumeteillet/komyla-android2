@@ -32,6 +32,7 @@ public class AddUserToAPI extends AsyncTask<Void, Void, JSONObject> {
     private String mFirstname;
     private String mSurname;
     private String mEmail;
+    private String mPhone;
     private String mPassword;
     private String mtokenCSFR;
     private Activity contextHere;
@@ -52,10 +53,11 @@ public class AddUserToAPI extends AsyncTask<Void, Void, JSONObject> {
         }
     }
 
-    public AddUserToAPI(String firstname, String surname, String email, String password, String tokenCSFR, Activity context, List<Cookie> cookies) {
+    public AddUserToAPI(String firstname, String surname, String email, String phone, String password, String tokenCSFR, Activity context, List<Cookie> cookies) {
         mFirstname = firstname;
         mSurname = surname;
         mEmail = email;
+        mPhone = phone;
         mPassword = password;
         contextHere = context;
         mtokenCSFR = tokenCSFR;
@@ -81,6 +83,7 @@ public class AddUserToAPI extends AsyncTask<Void, Void, JSONObject> {
                 data.put("firstname", mFirstname);
                 data.put("surname", mSurname);
                 data.put("email", mEmail);
+                data.put("phoneNumber", mPhone);
                 data.put("password", mPassword);
                 data.put("passwordConfirmation", mPassword);
 

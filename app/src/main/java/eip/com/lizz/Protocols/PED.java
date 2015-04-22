@@ -51,7 +51,7 @@ public class PED {
     }
 
     private static String print_secure(String key, String id_user, String amount, String id_payement, String receiver, final Context context, final Activity activity) throws IOException, NoSuchAlgorithmException, NoSuchProviderException, InvalidKeyException, PackageManager.NameNotFoundException, NoSuchPaddingException, BadPaddingException, InvalidKeySpecException, IllegalBlockSizeException {
-        key = UCrypt.RSAEncrypt(id_user + "-" + amount + "-" + key, context, "PED", activity);
+        key = UCrypt.RSAEncrypt(id_user + "-" + amount + "-" + key, context);
 
         return rsa_secure_format(key, id_payement, receiver, id_user);
     }

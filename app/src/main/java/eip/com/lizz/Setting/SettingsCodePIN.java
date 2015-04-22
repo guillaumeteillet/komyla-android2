@@ -14,6 +14,7 @@ import android.widget.EditText;
 
 import eip.com.lizz.MenuLizz;
 import eip.com.lizz.R;
+import eip.com.lizz.Utils.UAlertBox;
 import eip.com.lizz.Utils.USaveParams;
 
 
@@ -24,22 +25,35 @@ public class SettingsCodePIN extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_code_pin);
 
-        final EditText codePinEditText = (EditText) findViewById(R.id.code_pin);
+        final EditText codePinEditText = (EditText) findViewById(R.id.codepin);
+        final EditText confirmCodePinEditText = (EditText) findViewById(R.id.confirmcodepin);
 
         SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
-        String codePinSave = sharedpreferences.getString("eip.com.lizz.codepinlizz", "");
 
-        codePinEditText.setText(codePinSave);
         codePinEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         codePinEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+        confirmCodePinEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        confirmCodePinEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
         final Button save = (Button) findViewById(R.id.save);
         save.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
                 if (codePinEditText.getText().toString().equals(""))
                     USaveParams.displayError(6, SettingsCodePIN.this, null, null, false);
                 else
-                    USaveParams.checkIsForChangePinOrNot(true, SettingsCodePIN.this, "eip.com.lizz.codepinlizz", codePinEditText.getText().toString());
+                {
+                    if (codePinEditText.getText().toString().equals(confirmCodePinEditText.getText().toString())) {
+                        if (codePinEditText.getText().toString().length() == 4) {
+                            USaveParams.checkIsForChangePinOrNot(true, SettingsCodePIN.this, "eip.com.lizz.codepinlizz", codePinEditText.getText().toString());
+                        }
+                        else
+                            UAlertBox.alertOk(SettingsCodePIN.this, getResources().getString(R.string.error), getResources().getString(R.string.pinInvalid));
+                    }
+                    else
+                        UAlertBox.alertOk(SettingsCodePIN.this, getResources().getString(R.string.error), getResources().getString(R.string.wrongPINConfirm));
+                }
             }
         });
 

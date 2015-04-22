@@ -86,9 +86,13 @@
     <string name="dialog_title_no_internet">Erreur de connectivité</string>
     <string name="dialog_no_network">Hors de portée GSM</string>
     <string name="dialog_no_internet">Votre connexion internet ne semble pas fonctionner</string>
+    <string name="dialog_no_internet_label_sms">Votre connexion internet ne semble pas fonctionner. Souhaite-vous régler par SMS sécurisé ou annuler la transaction ?</string>
+    <string name="dialog_no_internet_label">Vous allez régler ce commerçant par SMS Sécurisé.</string>
+    <string name="dialog_no_network_pay">Votre téléphone est hors de portée des réseaux GSM et internet. Le réglement via Lizz est impossible actuellement, veuillez réessayer ultérieurement.</string>
     <string name="dialog_save">Enregistrer</string>
     <string name="dialog_cancel">Annuler</string>
     <string name="dialog_ok">Okay</string>
+    <string name="dialog_bysms">Régler par SMS</string>
     <string name="dialog_yes">Oui</string>
     <string name="dialog_notnow">Pas maintenant</string>
     <string name="dialog_never">Jamais</string>
@@ -124,6 +128,7 @@
     <string name="title_activity_settings_code_pin">Code PIN Lizz</string>
     <string name="title_activity_scan_QR_CODE">Scannez un QRCode Lizz</string>
     <string name="title_activity_PayementActivity">Récapitulatif</string>
+    <string name="title_activity_PayementActivitySMS">Récapitulatif via SMS Sécurisé</string>
     <string name="title_activity_payement_ptp">Paiement à un particulier</string>
     <string name="title_activity_payement_ptpconfirm">Récapitulatif</string>
     <string name="title_activity_payement_ptpfinish">C\'est terminé !</string>
@@ -144,8 +149,10 @@
 
     <string name="hint_paiement_limit">Vous pouvez enregistrer une alerte de dépense mensuelle. L\'application vous avertira lorsque vous approcherez de votre seuil d\'alerte.</string>
     <string name="hint_paiement_limit_edittext">Montant en euros</string>
-    <string name="hint_code_pin">Vous pouvez entrer votre code PIN Lizz</string>
+    <string name="hint_code_pin">Entrez votre nouveau code PIN Lizz</string>
+    <string name="hint_confirm_codepin">Vous pouvez entrer votre code PIN Lizz</string>
     <string name="hint_code_pin_edittext">Code PIN Lizz</string>
+    <string name="hint_confirm_code_pin_edittext">Confirmation de votre Code PIN Lizz</string>
     <string name="hint_scanner">Si la caméra de votre smartphone est endommagé, vous pouvez désactivé le Scanner de QRCode et utiliser uniquement la saisie de l\'identifiant unique Lizz. Voulez-vous activer le scanner ?</string>
     <string name="hint_payement_with_unique_code">Vous n\'arrivez pas à scanner le QR Code de la caisse ? Vous pouvez saisir ici le code unique de la caisse qui est inscrit en dessous du QRCode :</string>
     <string name="hint_iban">Entrez le numéro de compte sur lequel vous souhaitez recevoir votre argent.</string>
@@ -180,9 +187,13 @@
     <string name="emptyPasswordParental">Si vous activez le control parental, vous devez saisir le mot de passe !</string>
     <string name="emptyPasswordPIN">Le code PIN ne peut pas être vide.</string>
     <string name="wrongPasswordConfirm">Les mots de passes saisies ne sont pas identique.</string>
-    <string name="passwordTooShort">Le nouveau mot de passe est trop court : 6 caractères minimum sont attendus.</string>
+    <string name="wrongPINConfirm">Les codes PIN saisies ne sont pas identique.</string>
+    <string name="passwordTooShort">Le nouveau mot de passe est trop court : 8 caractères minimum sont attendus (1 lettre et 1 chiffre minimum).</string>
+    <string name="pinInvalid">Le code PIN est incorrect : 4 chiffres uniquement.</string>
+    <string name="passwordPoliticInvalid">Le nouveau mot de passe est invalide : 8 caractères minimum sont attendus avec 1 lettre et 1 chiffre minimum.</string>
     <string name="wrongOldPassword">Le nouveau mot de passe n\'a pas été enregistré car vous n\'avez pas saisi l\'ancien correctement</string>
     <string name="no_unique_code">Une erreur est survenue : Le code unique Lizz n\'a pas été détécté.</string>
+    <string name="error_serveur_return_payement">Une erreur est survenue : Nous n\'avons pas reçu la réponse du serveur Lizz.</string>
     <string name="error_camera_txt">Aucune appareil photo n\'a été détécté sur votre téléphone : Le scanner est inutilisable.</string>
     <string name="error_server_ok_but_fail">Le serveur d\'authentification Lizz est joignable mais la création de votre compte a échoué. Veuillez réessayer ultérieurement. </string>
     <string name="error_server_ok_but_fail_login">Le serveur d\'authentification Lizz est joignable mais la connexion a échouée. Veuillez réessayer ultérieurement. </string>
@@ -205,6 +216,7 @@
     <string name="code003">Description : Le serveur n\'a pas reçu le nom. Code d\'erreur Lizz : 003. Code HTTP : 400</string>
     <string name="code004">Description : Le serveur n\'a pas reçu l\'email. Code d\'erreur Lizz : 004. Code HTTP : 400</string>
     <string name="code005">Description : Le serveur n\'a pas reçu le mot de passe. Code d\'erreur Lizz : 005. Code HTTP : 400</string>
+    <string name="code008">Description : Le serveur n\'a pas reçu le numéro de téléphone. Code d\'erreur Lizz : 008. Code HTTP : 400</string>
     <string name="code006">Description : Erreur interne au serveur, veuillez réessayer. Code d\'erreur Lizz : 006. Code HTTP : 500</string>
     <string name="code007">Vous ne pouvez pas créer de compte Lizz sans carte SIM. Insérez une carte SIM valide et réessayer. Code d\'erreur Lizz : 007</string>
     <string name="code051">Code d\'erreur Lizz : 051. Code HTTP : 403</string>
@@ -229,6 +241,7 @@
     <string name="error_sim_card">La carte SIM de votre téléphone n\'est pas détecté. Insérez une carte SIM, redémarrez votre téléphone et réessayez.</string>
     <string name="error_rsa_key">Le fichier de votre clé sécurisée Lizz est corrompue. Pour terminer la transaction, la clé sécurisée va être télécharger.</string>
     <string name="error_rsa_key_cancel">La transaction ne peut pas être terminé car vous avez annuler le téléchargement de votre clé sécurisée Lizz.</string>
+    <string name="error_transaction_cancel">Transaction annulée</string>
 
     <string name="api_error_checkout_error">error</string>
     <string name="api_error_no_pending_ticket">no pending ticket</string>

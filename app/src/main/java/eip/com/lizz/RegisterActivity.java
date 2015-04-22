@@ -21,6 +21,7 @@ import android.provider.ContactsContract;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -171,6 +172,11 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
             focusView = mPasswordView;
             cancel = true;
         }
+        else if (isPasswordNotValidPolitic(password)) {
+            mPasswordView.setError(getString(R.string.error_password_politic));
+            focusView = mPasswordView;
+            cancel = true;
+        }
 
         if (cancel) {
             focusView.requestFocus();
@@ -205,7 +211,7 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
                     }
                     else
                     {
-                        mAuthTask2 = new AddUserToAPI(firstname, surname, email, password, tokenCSFR, RegisterActivity.this, cookies);
+                        mAuthTask2 = new AddUserToAPI(firstname, surname, email, phoneNumber, password, tokenCSFR, RegisterActivity.this, cookies);
                         mAuthTask2.setOnTaskFinishedEvent(new AddUserToAPI.OnTaskExecutionFinished() {
                             @Override
                             public void OnTaskFihishedEvent(JSONObject jObj) {
@@ -232,6 +238,7 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
                                         boolean surnameIsMissing = array.has("surname");
                                         boolean emailIsMissing = array.has("email");
                                         boolean passwordIsMissing = array.has("password");
+                                        boolean phone = array.has("phoneNumber");
                                         if (firstnameIsMissing)
                                             UAlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail) + getResources().getString(R.string.code002));
                                         else if (surnameIsMissing)
@@ -240,6 +247,8 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
                                             UAlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail) + getResources().getString(R.string.code004));
                                         else if (passwordIsMissing)
                                             UAlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail) + getResources().getString(R.string.code005));
+                                        else if (phone)
+                                            UAlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail) + getResources().getString(R.string.code008));
                                     }
                                     else if(jObj.get("responseCode").toString().equals("403"))
                                     {
@@ -250,6 +259,10 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
                                         UAlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code000));
                                     }
                                     else if (jObj.get("responseCode").toString().equals("500"))
+                                    {
+                                        UAlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail) + getResources().getString(R.string.code006));
+                                    }
+                                    else
                                     {
                                         UAlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.error_server_ok_but_fail) + getResources().getString(R.string.code006));
                                     }
@@ -287,7 +300,40 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
     }
 
     private boolean isPasswordValid(String password) {
-        return password.length() > 5;
+        if (password.length() > 7)
+            return true;
+        else
+            return false;
+    }
+
+    public static boolean isPasswordNotValidPolitic(String password) {
+
+
+        boolean letters = false;
+        boolean numbers = false;
+
+        char[] stringArray;
+        int i = 0;
+        stringArray = password.toCharArray();
+        while (i < stringArray.length)
+        {
+            if (letters == false)
+            {
+                if(Character.isLetter(stringArray[i]))
+                    letters = true;
+            }
+            if (numbers == false)
+            {
+                if(Character.isDigit(stringArray[i]))
+                    numbers = true;
+            }
+            i++;
+        }
+
+        if (letters == true && numbers == true)
+            return false;
+        else
+            return true;
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)

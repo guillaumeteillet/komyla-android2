@@ -41,8 +41,12 @@ public class PayementPTPActivity extends ActionBarActivity {
 
         if (isLogged) {
 
-            Spinner payement = (Spinner) findViewById(R.id.payementMethod);
-            payementMethod(true, payement);
+            final Button payementMethod = (Button) findViewById(R.id.paiementmethod);
+            payementMethod.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    showPaiementMethodDialog(payementMethod);
+                }
+            });
 
             Button select = (Button) findViewById(R.id.select);
             select.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +63,7 @@ public class PayementPTPActivity extends ActionBarActivity {
                     EditText somme_input = (EditText) findViewById(R.id.somme);
                     final String contact_a_check = contact_input.getText().toString();
                     final String somme = somme_input.getText().toString();
-                    final String id_payement = payementMethod(false, null);
+                    final String id_payement = payementMethod();
                     final boolean isEmail = LoginActivity.isEmailValid(contact_a_check);
                     final boolean isPhone = isPhoneValid(contact_a_check);
                     if (contact_a_check.isEmpty())
@@ -134,24 +138,27 @@ public class PayementPTPActivity extends ActionBarActivity {
             }
         }
 
-    private String payementMethod(Boolean isDisplay, Spinner spinner) {
-
-        if (isDisplay)
-        {
-            List<String> list = new ArrayList<String>();
-            list.add("Carte Bleu Visa");
-            list.add("Paypal Account pdg@lizz.fr");
-            list.add("Compte chèque restaurant");
-            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_spinner_item, list);
-            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinner.setAdapter(dataAdapter);
-            return "";
-        }
-        else
-        {
+    private String payementMethod() {
             return "ID231KE2";
-        }
+    }
+
+    private void showPaiementMethodDialog(final Button payementMethod)
+    {
+        final CharSequence[] choice = new CharSequence[3];
+        choice[0] = "Mastercard Guillaume Teillet 2345";
+        choice[1] = "Paypal guillaume@lizz.com";
+        choice[2] = "Chèque restaurant 10 euros";
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(PayementPTPActivity.this);
+        builder2.setTitle("Séléctionner un moyen de paiement");
+        builder2.setItems(choice, new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                payementMethod.setText(choice[which]);
+            }
+        });
+        AlertDialog alert = builder2.create();
+        alert.setOwnerActivity(PayementPTPActivity.this);
+        alert.show();
     }
 
     private boolean isPhoneValid(String contact_a_check) {

@@ -66,18 +66,11 @@ public class UCrypt {
         return new String(text);
     }
 
-    public static String RSAEncrypt(String plain, final Context context, String Protocol, final Activity activity) throws NoSuchAlgorithmException, NoSuchPaddingException,
+    public static String RSAEncrypt(String plain, final Context context) throws NoSuchAlgorithmException, NoSuchPaddingException,
             InvalidKeyException, IllegalBlockSizeException, BadPaddingException, IOException, InvalidKeySpecException, PackageManager.NameNotFoundException, NoSuchProviderException {
 
         String filepath = context.getFilesDir().getPath();
-        File f;
-
-        if (Protocol.equals("PCC")) {
-            f = new File(filepath + "/pcc.pub");
-        }
-        else {
-            f = new File(filepath + "/ped.pub");
-        }
+        File f = new File(filepath + "/keyrsa.pub");
         FileInputStream fis = new FileInputStream(f);
         DataInputStream dis = new DataInputStream(fis);
         byte[] keyBytes = new byte[(int)f.length()];

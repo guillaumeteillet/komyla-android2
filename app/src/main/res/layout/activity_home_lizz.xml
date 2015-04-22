@@ -12,7 +12,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="PAYER"
+        android:text="Payer"
         android:id="@+id/payer"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -21,7 +21,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="PAYER UN PARTICULIER"
+        android:text="Envoyer de l'argent"
         android:id="@+id/payerpap"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/payer"

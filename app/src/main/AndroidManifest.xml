@@ -100,6 +100,10 @@
             android:label="@string/title_activity_PayementActivity" >
         </activity>
         <activity
+            android:name=".PayementSMSActivity"
+            android:label="@string/title_activity_PayementActivitySMS" >
+        </activity>
+        <activity
             android:name=".PayementPTPActivity"
             android:label="@string/title_activity_payement_ptp" >
         </activity>

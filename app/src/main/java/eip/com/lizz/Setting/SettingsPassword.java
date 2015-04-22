@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import eip.com.lizz.QueriesAPI.UserChangePasswordAPI;
+import eip.com.lizz.RegisterActivity;
 import eip.com.lizz.Utils.UAlertBox;
 import eip.com.lizz.MenuLizz;
 import eip.com.lizz.R;
@@ -61,21 +62,26 @@ public class SettingsPassword extends ActionBarActivity {
     {
         if (mdp.getText().toString().equals(mdpConfirm.getText().toString()))
         {
-            if (mdp.getText().toString().length() >= 6)
+            if (mdp.getText().toString().length() >= 8)
             {
-                final EditText input = new EditText(getBaseContext());
-                input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                input.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                input.setTextColor(Color.BLACK);
-                final AlertDialog.Builder alert = UAlertBox.alertInputOk(SettingsPassword.this, getResources().getString(R.string.dialog_title_confirm), getResources().getString(R.string.dialog_confirm_hint_pwd_change), input);
-                alert.setPositiveButton(getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        confirmPassword(input, mdp);
-                    }
+                if (!RegisterActivity.isPasswordNotValidPolitic(mdp.getText().toString()))
+                {
+                    final EditText input = new EditText(getBaseContext());
+                    input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    input.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    input.setTextColor(Color.BLACK);
+                    final AlertDialog.Builder alert = UAlertBox.alertInputOk(SettingsPassword.this, getResources().getString(R.string.dialog_title_confirm), getResources().getString(R.string.dialog_confirm_hint_pwd_change), input);
+                    alert.setPositiveButton(getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            confirmPassword(input, mdp);
+                        }
 
-                });
-                alert.setNegativeButton(getResources().getString(R.string.dialog_cancel), null);
-                alert.show();
+                    });
+                    alert.setNegativeButton(getResources().getString(R.string.dialog_cancel), null);
+                    alert.show();
+                }
+                else
+                    UAlertBox.alertOk(SettingsPassword.this, getResources().getString(R.string.error), getResources().getString(R.string.passwordPoliticInvalid));
             }
             else
                 UAlertBox.alertOk(SettingsPassword.this, getResources().getString(R.string.error), getResources().getString(R.string.passwordTooShort));

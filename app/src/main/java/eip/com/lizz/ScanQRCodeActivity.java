@@ -16,6 +16,7 @@ import android.hardware.Camera.PreviewCallback;
 import android.hardware.Camera.Size;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -41,10 +42,11 @@ import java.io.InputStream;
 import eip.com.lizz.QueriesAPI.GetTransactionFromAPI;
 import eip.com.lizz.Utils.UAlertBox;
 import eip.com.lizz.Utils.UApi;
+import eip.com.lizz.Utils.UNetwork;
 
 /* Import ZBar Class files */
 
-public class ScanQRCodeActivity extends Activity
+public class ScanQRCodeActivity extends ActionBarActivity
 {
     private Camera mCamera;
     private CameraPreview mPreview;
@@ -153,6 +155,8 @@ public class ScanQRCodeActivity extends Activity
                             if (contents.length() >= 20) {
                                 String urlLizzOrNot = contents.substring(0, 20);
                                 if (urlLizzOrNot.equals(getResources().getString(R.string.urllizzcode))) {
+                                    final boolean isInternet = UNetwork.checkInternetConnection(getBaseContext());
+                                    final boolean isMobile = UNetwork.isMobileAvailable(getBaseContext());
                                    /* MediaPlayer mp = MediaPlayer.create(ScanQRCodeActivity.this, R.raw.beep);
                                     mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
@@ -165,27 +169,53 @@ public class ScanQRCodeActivity extends Activity
                                     });
                                     mp.start(); */
                                     final String unique_code = contents.replace(getResources().getString(R.string.urllizzcode), "");
-                                    final ProgressDialog progress = ProgressDialog.show(ScanQRCodeActivity.this, getResources().getString(R.string.pleasewait), getResources().getString(R.string.pleasewaitgetTransaction), true);
-                                    new Thread(new Runnable() {
-                                        @Override
-                                        public void run()
-                                        {
-                                            GetTransactionFromAPI mAuthTask = new GetTransactionFromAPI(sharedpreferences.getString("eip.com.lizz._csrf", ""), getBaseContext(), unique_code);
-                                            mAuthTask.setOnTaskFinishedEvent(new GetTransactionFromAPI.OnTaskExecutionFinished() {
+                                    if (isInternet)
+                                    {
+                                        final ProgressDialog progress = ProgressDialog.show(ScanQRCodeActivity.this, getResources().getString(R.string.pleasewait), getResources().getString(R.string.pleasewaitgetTransaction), true);
+                                        new Thread(new Runnable() {
+                                            @Override
+                                            public void run()
+                                            {
+                                                GetTransactionFromAPI mAuthTask = new GetTransactionFromAPI(sharedpreferences.getString("eip.com.lizz._csrf", ""), getBaseContext(), unique_code);
+                                                mAuthTask.setOnTaskFinishedEvent(new GetTransactionFromAPI.OnTaskExecutionFinished() {
 
-                                                @Override
-                                                public void OnTaskFihishedEvent(final HttpResponse httpResponse) {
-                                                    new Thread(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            dataAPI(progress, httpResponse);
-                                                        }
+                                                    @Override
+                                                    public void OnTaskFihishedEvent(final HttpResponse httpResponse) {
+                                                        new Thread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                dataAPI(progress, httpResponse, unique_code);
+                                                            }
                                                         }).start();
-                                                }
-                                            });
-                                            mAuthTask.execute();
-                                        }
-                                    }).start();
+                                                    }
+                                                });
+                                                mAuthTask.execute();
+                                            }
+                                        }).start();
+                                    }
+                                    else if (isMobile)
+                                    {
+                                        final AlertDialog.Builder alert = UAlertBox.alert(ScanQRCodeActivity.this, getResources().getString(R.string.dialog_no_internet), getResources().getString(R.string.dialog_no_internet_label));
+                                        alert.setPositiveButton(getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+                                                Intent payement = new Intent(getBaseContext(), PayementSMSActivity.class);
+                                                payement.putExtra("unique_code", unique_code);
+                                                startActivity(payement);
+                                                finish();
+                                            }
+                                        });
+                                        alert.show();
+                                    }
+                                    else
+                                    {
+                                        final AlertDialog.Builder alert = UAlertBox.alert(ScanQRCodeActivity.this, getResources().getString(R.string.dialog_title_no_internet), getResources().getString(R.string.dialog_no_network_pay));
+                                        alert.setPositiveButton(getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+                                                finish();
+                                            }
+                                        });
+                                        alert.show();
+                                    }
                                 } else {
                                     errorQRCode();
                                 }
@@ -203,7 +233,7 @@ public class ScanQRCodeActivity extends Activity
         }
     };
 
-    private void dataAPI(ProgressDialog progress, HttpResponse httpResponse) {
+    private void dataAPI(ProgressDialog progress, HttpResponse httpResponse, String unique_code) {
         InputStream inputStream = null;
         try {
             progress.dismiss();
@@ -218,7 +248,7 @@ public class ScanQRCodeActivity extends Activity
             Log.d("RETOUR API", ">>>"+jObj);
 
             if (responseCode == 200)
-                API_200(jString);
+                API_200(jString, unique_code);
             else if (responseCode == 400)
                 API_400(jObj);
             else if (responseCode == 403 || responseCode == 401)
@@ -296,9 +326,10 @@ public class ScanQRCodeActivity extends Activity
         }
     }
 
-    private void API_200(String jObjString) {
+    private void API_200(String jObjString, String unique_code) {
         Intent payement = new Intent(getBaseContext(), PayementActivity.class);
         payement.putExtra("jObjString", jObjString);
+        payement.putExtra("unique_code", unique_code);
         startActivity(payement);
         finish();
     }
