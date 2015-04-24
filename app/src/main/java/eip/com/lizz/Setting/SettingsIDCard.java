@@ -161,10 +161,10 @@ public class SettingsIDCard extends ActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == REQUEST_TAKE_PHOTO_RECTO && resultCode == RESULT_OK) {
-            UThread.send(SettingsIDCard.this, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/lizzTMP/id_card_recto.jpg", getResources().getString(R.string.pleasewaitidcardrecto), getResources().getString(R.string.labelMessageIDCardRecto));
+            UThread.send(SettingsIDCard.this, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/lizzTMP/id_card_recto.jpg", getResources().getString(R.string.pleasewaitidcardrecto), getResources().getString(R.string.labelMessageIDCardRecto), "idCardrecto");
         }
         else if (requestCode == REQUEST_TAKE_PHOTO_VERSO && resultCode == RESULT_OK) {
-            UThread.send(SettingsIDCard.this, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/lizzTMP/id_card_verso.jpg", getResources().getString(R.string.pleasewaitidcardverso), getResources().getString(R.string.labelMessageIDCardVerso));
+            UThread.send(SettingsIDCard.this, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/lizzTMP/id_card_verso.jpg", getResources().getString(R.string.pleasewaitidcardverso), getResources().getString(R.string.labelMessageIDCardVerso),"idCardVerso");
         }
         else if ( (requestCode == RESULT_LOAD_IMG_RECTO || requestCode == RESULT_LOAD_IMG_VERSO) && resultCode == RESULT_OK && null != data) {
             try {
@@ -175,9 +175,9 @@ public class SettingsIDCard extends ActionBarActivity {
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 imgDecodableString = cursor.getString(columnIndex);
                 if (requestCode == RESULT_LOAD_IMG_RECTO)
-                    UThread.send(SettingsIDCard.this, imgDecodableString, getResources().getString(R.string.pleasewaitidcardrecto), getResources().getString(R.string.labelMessageIDCardRecto));
+                    UThread.send(SettingsIDCard.this, imgDecodableString, getResources().getString(R.string.pleasewaitidcardrecto), getResources().getString(R.string.labelMessageIDCardRecto), "idCardrecto");
                 else if (requestCode == RESULT_LOAD_IMG_VERSO)
-                    UThread.send(SettingsIDCard.this, imgDecodableString, getResources().getString(R.string.pleasewaitidcardverso), getResources().getString(R.string.labelMessageIDCardVerso));
+                    UThread.send(SettingsIDCard.this, imgDecodableString, getResources().getString(R.string.pleasewaitidcardverso), getResources().getString(R.string.labelMessageIDCardVerso), "idCardVerso");
                 cursor.close();
 
             } catch (Exception e) {

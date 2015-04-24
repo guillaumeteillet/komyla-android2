@@ -65,6 +65,11 @@
     <string name="label_id_card_ok">Nous avons reçu votre carte d\'identité. Votre situation est régulière.</string>
     <string name="label_payer">Payer</string>
 
+    <string name="error_connexion_csrf">Erreur : Vous n\'êtes plus connecté.</string>
+    <string name="error_file_400">Erreur : Le serveur n\'a pas reçu le document. Veuillez réessayer ultérieurement.</string>
+    <string name="error_file_500">Erreur du serveur. Veuillez réessayer ultérieurement ou contacter le support.</string>
+    <string name="error_file_upload">0 file(s) uploaded successfully!</string>
+
     <string name="buttonSaveCardData">Enregistrer</string>
     <string name="buttonDeleteCardData">Supprimer</string>
 
@@ -82,6 +87,7 @@
     <string name="url_api_add_creditCard">paymentcard/create</string>
     <string name="url_api_update_creditCard">paymentcard/update/</string>
     <string name="url_api_delete_creditCard">paymentcard/delete/</string>
+    <string name="url_api_upload">file/upload</string>
 
     <string name="dialog_title_no_internet">Erreur de connectivité</string>
     <string name="dialog_no_network">Hors de portée GSM</string>

@@ -16,6 +16,13 @@
         <dex dex="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/pre-dexed/debug/classes-665bb5769f066bd93418cf651bab49b7e3708969.jar" />
     </item>
     <item
+        jar="/Users/guillaume/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpmime/4.3.6/cf8bacbf0d476c7f2221f861269365b66447f7ec/httpmime-4.3.6.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="cf8bacbf0d476c7f2221f861269365b66447f7ec">
+        <dex dex="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/pre-dexed/debug/httpmime-4.3.6-779c1eb867e93b35cd3c3817e53625ce009777e0.jar" />
+    </item>
+    <item
         jar="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/exploded-aar/com.facebook.android/facebook/3.20.0/classes.jar"
         jumboMode="false"
         revision="20.0.0"
@@ -112,6 +119,13 @@
         revision="20.0.0"
         sha1="0a7b88ba1496a0b4af76069ad40dacd3897149e0">
         <dex dex="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/pre-dexed/debug/zbar-400db3990ea0b5a50fd01abb1037c93efa6d90b0.jar" />
+    </item>
+    <item
+        jar="/Users/guillaume/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient-android/4.3.5/82edcaec6c7b4599eaeaaf11167ceea41db42f33/httpclient-android-4.3.5.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="82edcaec6c7b4599eaeaaf11167ceea41db42f33">
+        <dex dex="/Users/guillaume/Desktop/Applis_mobiles/Lizz/app/build/intermediates/pre-dexed/debug/httpclient-android-4.3.5-1b1e0aa99a7bf14a1d00fb56bfd4213d1d11719d.jar" />
     </item>
 
 </items>

@@ -88,7 +88,7 @@ public class SettingsProofAddress extends ActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-            UThread.send(SettingsProofAddress.this, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/lizzTMP/proof_address.jpg", getResources().getString(R.string.pleasewaitproofaddress), getResources().getString(R.string.labelMessageProofAddress));
+            UThread.send(SettingsProofAddress.this, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/lizzTMP/proof_address.jpg", getResources().getString(R.string.pleasewaitproofaddress), getResources().getString(R.string.labelMessageProofAddress), "proofOfAdress");
         }
        else if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK && null != data) {
             try {
@@ -98,7 +98,7 @@ public class SettingsProofAddress extends ActionBarActivity {
                 cursor.moveToFirst();
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 imgDecodableString = cursor.getString(columnIndex);
-                UThread.send(SettingsProofAddress.this, imgDecodableString, getResources().getString(R.string.pleasewaitproofaddress), getResources().getString(R.string.labelMessageProofAddress));
+                UThread.send(SettingsProofAddress.this, imgDecodableString, getResources().getString(R.string.pleasewaitproofaddress), getResources().getString(R.string.labelMessageProofAddress), "proofOfAdress");
                 cursor.close();
 
             } catch (Exception e) {
