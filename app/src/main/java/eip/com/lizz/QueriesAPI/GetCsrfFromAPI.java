@@ -58,7 +58,8 @@ public class GetCsrfFromAPI extends AsyncTask<Void, Void, JSONObject> {
     public GetCsrfFromAPI(Activity context) {
 
         contextHere = context;
-        url_token = contextHere.getResources().getString(R.string.url_api_final)+"csrfToken";
+        url_token = contextHere.getResources().getString(R.string.url_api_komyla_no_suffix)
+                + contextHere.getResources().getString(R.string.url_api_csrfToken);
     }
 
     @Override

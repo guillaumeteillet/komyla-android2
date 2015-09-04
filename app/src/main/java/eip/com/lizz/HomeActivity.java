@@ -91,7 +91,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         Button lizzNewAccount = (Button) findViewById(R.id.btnNewAccountLizz);
         lizzNewAccount.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                TelephonyManager tMgr = (TelephonyManager)getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
+                /*TelephonyManager tMgr = (TelephonyManager)getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
                 if ((tMgr.getLine1Number() == null || tMgr.getLine1Number().equals(""))&& getResources().getString(R.string.debugOrProd).equals("PROD"))
                 {
                     UAlertBox.alertOk(HomeActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code007));
@@ -100,7 +100,9 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 {
                     Intent intent = new Intent(HomeActivity.this, RegisterActivity.class);
                     startActivity(intent);
-                }
+                }*/
+                Intent intent = new Intent(HomeActivity.this, RegisterActivity.class);
+                startActivity(intent);
             }
         });
 

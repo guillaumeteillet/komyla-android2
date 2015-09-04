@@ -73,15 +73,15 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
         mAuthTask2 = null;
 
         TelephonyManager tMgr = (TelephonyManager)getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
-        phoneNumber = tMgr.getLine1Number();
+        //phoneNumber = tMgr.getLine1Number();
         mFirstnameView = (EditText) findViewById(R.id.firstname);
         mSurnameView = (EditText) findViewById(R.id.name);
         mPhoneNumber = (EditText) findViewById(R.id.phone);
-        if (getResources().getString(R.string.debugOrProd).equals("DEBUG"))
+        /*if (getResources().getString(R.string.debugOrProd).equals("DEBUG"))
             phoneNumber = "0";
 
         if (phoneNumber != null)
-            mPhoneNumber.setText(phoneNumber);
+            mPhoneNumber.setText(phoneNumber);*/
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -101,10 +101,10 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
             public void onClick(View view) {
                 mAuthTask = null;
                 mAuthTask2 = null;
-                            if (UApi.isOnline(RegisterActivity.this))
-                                attemptLogin();
-                            else
-                                UAlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code000));
+                if (UApi.isOnline(RegisterActivity.this))
+                    attemptLogin();
+                else
+                    UAlertBox.alertOk(RegisterActivity.this, getResources().getString(R.string.error), getResources().getString(R.string.code000));
             }
         });
 
@@ -134,6 +134,7 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
         final String surname = mSurnameView.getText().toString();
         final String email = mEmailView.getText().toString();
         final String password = mPasswordView.getText().toString();
+        final String phoneNumber = mPhoneNumber.getText().toString();
 
         boolean cancel = false;
         View focusView = null;

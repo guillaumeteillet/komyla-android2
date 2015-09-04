@@ -3,7 +3,7 @@
 
     <string name="app_name">Lizz</string>
     <string name="app_id">377638892395189</string>
-    <string name="debugOrProd">DEBUG</string> <!-- DEBUG OR PROD -->
+    <string name="debugOrProd">PROD</string> <!-- DEBUG OR PROD -->
 
     <string name="action_params">Paramètres</string>
     <string name="action_signout">Déconnexion</string>
@@ -78,6 +78,12 @@
     <string name="url_api_final">http://163.5.84.225:8000/</string>
     <string name="url_api_final_v1">http://163.5.84.225:8000/api/v1/</string>
     <string name="urllizzcode">http://lizz.fr/code/</string>
+
+    <string name="url_api_komyla_no_suffix">http://api.komyla.com:8000/</string>
+    <string name="url_api_suffix">api/v1/</string>
+    <string name="url_api_csrfToken">csrfToken</string>
+    <string name="url_api_createUser">user/create</string>
+    <string name="url_api_createSession">session/create</string>
     <string name="url_api_get_paymentMethods">user/getPaymentCards</string>
     <string name="url_api_user_update_password">user/updatePassword</string>
     <string name="url_api_user_transaction">transaction/secure</string>

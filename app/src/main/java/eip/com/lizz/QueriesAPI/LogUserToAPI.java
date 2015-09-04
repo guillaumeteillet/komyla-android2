@@ -67,7 +67,9 @@ public class LogUserToAPI extends AsyncTask<Void, Void, JSONObject> {
     @Override
     protected JSONObject doInBackground(Void... params) {
         JSONObject jObj = null;
-        String url_api = contextHere.getResources().getString(R.string.url_api_final_v1)+"session/create";
+        String url_api = contextHere.getResources().getString(R.string.url_api_komyla_no_suffix)
+                + contextHere.getResources().getString(R.string.url_api_suffix)
+                + contextHere.getResources().getString(R.string.url_api_createSession);
         DefaultHttpClient httpClient = new DefaultHttpClient();
         httpClient.getParams().setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.BROWSER_COMPATIBILITY);
         httpClient.setCookieStore(new BasicCookieStore());
