@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Lizz</string>
+    <string name="app_name">Komyla</string>
     <string name="app_id">377638892395189</string>
     <string name="debugOrProd">PROD</string> <!-- DEBUG OR PROD -->
 
