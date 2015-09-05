@@ -12,6 +12,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 
 import eip.com.lizz.Fragments.ParametersListFragment;
@@ -175,6 +177,24 @@ public class MainMenuActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return null;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return MenuLizz.main_menu(item, getBaseContext(), MainMenuActivity.this);
+    }
+
+    public void onResume()
+    {
+        super.onResume();
+        SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+        sharedpreferences.edit().putBoolean("eip.com.lizz.flash", false).apply();
     }
 
 }
