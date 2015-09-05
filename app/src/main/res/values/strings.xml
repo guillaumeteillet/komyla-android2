@@ -310,5 +310,9 @@
     <string name="ticket_heure">Heure</string>
     <string name="ticket_ticket">Ticket</string>
     <string name="ticket_magasin">Magasin</string>
+    <string name="title_activity_main_menu">MainMenuActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

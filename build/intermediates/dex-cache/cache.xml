@@ -2,34 +2,6 @@
 <items version="2" >
 
     <item
-        jar="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/21.0.3/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="4b8945fc23a7461c6fdde15753456d64b0a9358b">
-        <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/classes-53b0e2746b71a533f13db206ca562334a571083e.jar" />
-    </item>
-    <item
-        jar="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/libs/iban4j-2.1.1.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="5e5d0611870fb4733fb2fcf8834318960068d901">
-        <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/iban4j-2.1.1-5bb01d2f5908e9a62c06af5b2ab9cd6af753a8a1.jar" />
-    </item>
-    <item
-        jar="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/libs/internal_impl-22.2.1.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="c471eaaba13ff64f6e0383d1c30a9cdc9a97efeb">
-        <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/internal_impl-22.2.1-13557d41acdaad1d911afd8e6e92c04c78f287ca.jar" />
-    </item>
-    <item
-        jar="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/libs/card.io.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="6871955c5f3c7b8488036dd8308225d57b7dabee">
-        <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/card.io-08a03904cad4f23b1d9a721f1b9bafe4297ce5e5.jar" />
-    </item>
-    <item
         jar="/Users/roblin_m/.gradle/caches/modules-2/files-2.1/com.google.api-client/google-api-client/1.18.0-rc/45b0d00b78197d8a3047751443c09538117d188b/google-api-client-1.18.0-rc.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -37,18 +9,39 @@
         <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/google-api-client-1.18.0-rc-75b18f335ba2d4c2a91cb59fd14ea18328fd6a9d.jar" />
     </item>
     <item
-        jar="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/exploded-aar/com.facebook.android/facebook/3.20.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="51a1124760ae7f69cb3842f0348ef9f3dea08bdd">
-        <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/classes-3394cfa00b9df1919e690c468f130401795ffe6d.jar" />
-    </item>
-    <item
         jar="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/libs/zbar.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="0a7b88ba1496a0b4af76069ad40dacd3897149e0">
         <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/zbar-451258c62b1b288b3f8dd8cb2d07882bb961e6fa.jar" />
+    </item>
+    <item
+        jar="/Users/roblin_m/.gradle/caches/modules-2/files-2.1/com.google.oauth-client/google-oauth-client/1.18.0-rc/30281a66559f60a491748974ac17cec3483b873/google-oauth-client-1.18.0-rc.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="030281a66559f60a491748974ac17cec3483b873">
+        <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/google-oauth-client-1.18.0-rc-aab6eaf31cc1c261d722689ab2036589afea6c4a.jar" />
+    </item>
+    <item
+        jar="/Users/roblin_m/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client/1.18.0-rc/880ad30d2b249a7591c195c2392646f1b146c139/google-http-client-1.18.0-rc.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="880ad30d2b249a7591c195c2392646f1b146c139">
+        <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/google-http-client-1.18.0-rc-78fe7e8320c193b49e2a74605fbfa115ff449d59.jar" />
+    </item>
+    <item
+        jar="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4486e953d1f35f8ccab098b1dd67146366d5f731">
+        <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/classes-8d6387fb922c37ebf033ee218ac46c10e3358473.jar" />
+    </item>
+    <item
+        jar="/Users/roblin_m/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpmime/4.3.6/cf8bacbf0d476c7f2221f861269365b66447f7ec/httpmime-4.3.6.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="cf8bacbf0d476c7f2221f861269365b66447f7ec">
+        <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/httpmime-4.3.6-52a6fbdc00cbcc94083c0ff68698529c7f52fd83.jar" />
     </item>
     <item
         jar="/Users/roblin_m/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-android/1.1.2/91c20388c9a45f62b5ed8fe0502bb76ff6251fc7/bolts-android-1.1.2.jar"
@@ -65,32 +58,39 @@
         <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/httpclient-android-4.3.5-2bd50b9ba96661d3b74e04196868ef5e18ae7dcf.jar" />
     </item>
     <item
-        jar="/Users/roblin_m/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpmime/4.3.6/cf8bacbf0d476c7f2221f861269365b66447f7ec/httpmime-4.3.6.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="cf8bacbf0d476c7f2221f861269365b66447f7ec">
-        <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/httpmime-4.3.6-52a6fbdc00cbcc94083c0ff68698529c7f52fd83.jar" />
-    </item>
-    <item
-        jar="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="4486e953d1f35f8ccab098b1dd67146366d5f731">
-        <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/classes-8d6387fb922c37ebf033ee218ac46c10e3358473.jar" />
-    </item>
-    <item
-        jar="/Users/roblin_m/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client/1.18.0-rc/880ad30d2b249a7591c195c2392646f1b146c139/google-http-client-1.18.0-rc.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="880ad30d2b249a7591c195c2392646f1b146c139">
-        <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/google-http-client-1.18.0-rc-78fe7e8320c193b49e2a74605fbfa115ff449d59.jar" />
-    </item>
-    <item
         jar="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/classes.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="f8efd0096475e0daf054267b61544e10dc776503">
         <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/classes-6f43e79d87c9b3ecc89883e2b802a26ac2ba6a0b.jar" />
+    </item>
+    <item
+        jar="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/libs/iban4j-2.1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="5e5d0611870fb4733fb2fcf8834318960068d901">
+        <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/iban4j-2.1.1-5bb01d2f5908e9a62c06af5b2ab9cd6af753a8a1.jar" />
+    </item>
+    <item
+        jar="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/libs/card.io.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="6871955c5f3c7b8488036dd8308225d57b7dabee">
+        <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/card.io-08a03904cad4f23b1d9a721f1b9bafe4297ce5e5.jar" />
+    </item>
+    <item
+        jar="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/exploded-aar/com.facebook.android/facebook/3.20.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="2721dbe8fc0278cacb967af712ea45f89a46c055">
+        <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/classes-3394cfa00b9df1919e690c468f130401795ffe6d.jar" />
+    </item>
+    <item
+        jar="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/22.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="e1fa5e1123997a55e3ed65b44892993ff4b58cfe">
+        <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/classes-11afb62663b72202e002217782b48f0475c50a6f.jar" />
     </item>
     <item
         jar="/Users/roblin_m/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/1.3.9/40719ea6961c0cb6afaeb6a921eaa1f6afd4cfdf/jsr305-1.3.9.jar"
@@ -100,18 +100,18 @@
         <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/jsr305-1.3.9-3c7b3ab192da2ae834aca12b824c66634c654451.jar" />
     </item>
     <item
-        jar="/Users/roblin_m/.gradle/caches/modules-2/files-2.1/com.google.oauth-client/google-oauth-client/1.18.0-rc/30281a66559f60a491748974ac17cec3483b873/google-oauth-client-1.18.0-rc.jar"
+        jar="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/22.2.1/jars/classes.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="030281a66559f60a491748974ac17cec3483b873">
-        <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/google-oauth-client-1.18.0-rc-aab6eaf31cc1c261d722689ab2036589afea6c4a.jar" />
+        sha1="3abb4b88f5a8a0584a9b01d3170d7165f12f8588">
+        <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/classes-13ca31541f1c9475acee7651aeb520f89721099d.jar" />
     </item>
     <item
-        jar="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.3/jars/classes.jar"
+        jar="/Users/roblin_m/SDKs/Android SDK/extras/android/m2repository/com/android/support/support-annotations/22.2.1/support-annotations-22.2.1.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="00b0b7233e1ec64acebfac40d4983d32d4712426">
-        <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/classes-b29aa0b291088386e3a6f862fc2bc34388a81562.jar" />
+        sha1="61a0ff5c29295ec56d7e0bd3d25d95dbf71b4b2b">
+        <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/support-annotations-22.2.1-f163e2819ff788f443f74aea1a3d7c64179ec1fa.jar" />
     </item>
     <item
         jar="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.5.87/jars/classes.jar"
@@ -121,11 +121,18 @@
         <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/classes-45e3d2da6a28347f340025b34200cdd086b3c7e8.jar" />
     </item>
     <item
-        jar="/Users/roblin_m/SDKs/Android SDK/extras/android/m2repository/com/android/support/support-annotations/22.2.1/support-annotations-22.2.1.jar"
+        jar="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/libs/internal_impl-22.2.1.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="61a0ff5c29295ec56d7e0bd3d25d95dbf71b4b2b">
-        <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/support-annotations-22.2.1-f163e2819ff788f443f74aea1a3d7c64179ec1fa.jar" />
+        sha1="c471eaaba13ff64f6e0383d1c30a9cdc9a97efeb">
+        <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/internal_impl-22.2.1-13557d41acdaad1d911afd8e6e92c04c78f287ca.jar" />
+    </item>
+    <item
+        jar="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/exploded-aar/com.android.support/design/22.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="1821601ddbec5ff125653097812823388700af74">
+        <dex dex="/Users/roblin_m/Desktop/Projets/Android/komyla-android/app/build/intermediates/pre-dexed/debug/classes-e4061c62dfbcbc5debda343c7c7e1d1e7638818a.jar" />
     </item>
 
 </items>

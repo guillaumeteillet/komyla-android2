@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import eip.com.lizz.HomeLizzActivity;
+import eip.com.lizz.MainMenuActivity;
 import eip.com.lizz.PayementPTPConfirmActivity;
 import eip.com.lizz.R;
 import eip.com.lizz.Utils.UAlertBox;
@@ -155,7 +156,9 @@ public class LogUserToAPI extends AsyncTask<Void, Void, JSONObject> {
                 LogUserSaveLocalParams(jObj.getString("firstname"), jObj.getString("surname"), jObj.getString("email"), jObj.getString("id"), "0;", context, activity);
                 activity.finish();
 
-                Intent loggedUser = new Intent(context, HomeLizzActivity.class);
+                //Intent loggedUser = new Intent(context, HomeLizzActivity.class);
+                Intent loggedUser = new Intent(context, MainMenuActivity.class);
+
                 loggedUser.putExtra("isLoginJustNow", true);
                 loggedUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);// On supprime les vues précédentes, l'utilisateur est connecté.
                 context.startActivity(loggedUser);
