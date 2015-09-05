@@ -52,7 +52,8 @@ public class ParametersListFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_parameters_list, container, false);
 
-        String[] placeholderParameters = {"Param 1", "Param 2", "Param 3"};
+        String[] placeholderParameters = {"Adresses de livraison", "Moyens de paiement",
+                "Alerte de dépense", "Code PIN", "Mot de passe", "Scanner"};
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.parameters_recycler_view);
 
