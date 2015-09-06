@@ -61,29 +61,35 @@
         </activity>
         <activity
             android:name=".HomeLizzActivity"
-            android:label="@string/title_activity_home_lizz" >
+            android:label="@string/title_activity_home_lizz"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings" >
+            android:label="@string/title_activity_settings"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".Setting.SettingsPayementLimit"
-            android:label="@string/title_activity_settings_payement_limit" >
+            android:label="@string/title_activity_settings_payement_limit"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".Setting.SettingsProfil"
             android:label="@string/title_activity_settings_profil"
-            android:windowSoftInputMode="stateHidden" >
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".Setting.SettingsCoordonnees"
             android:label="@string/title_activity_settings_coordonnees"
-            android:windowSoftInputMode="stateHidden" >
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".Setting.SettingsCodePIN"
-            android:label="@string/title_activity_settings_code_pin" >
+            android:label="@string/title_activity_settings_code_pin"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ScanQRCodeActivity"
@@ -92,27 +98,33 @@
         </activity>
         <activity
             android:name=".PayementActivity"
-            android:label="@string/title_activity_PayementActivity" >
+            android:label="@string/title_activity_PayementActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".PayementSMSActivity"
-            android:label="@string/title_activity_PayementActivitySMS" >
+            android:label="@string/title_activity_PayementActivitySMS"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".PayementPTPActivity"
-            android:label="@string/title_activity_payement_ptp" >
+            android:label="@string/title_activity_payement_ptp"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".PayementWithUniqueCodeActivity"
-            android:label="@string/title_activity_payement_with_unique_code" >
+            android:label="@string/title_activity_payement_with_unique_code"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".Setting.SettingsScanner"
-            android:label="@string/title_activity_settings_scanner" >
+            android:label="@string/title_activity_settings_scanner"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".Setting.SettingsRIB"
-            android:label="@string/title_activity_settings_rib" >
+            android:label="@string/title_activity_settings_rib"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="io.card.payment.CardIOActivity"
@@ -139,27 +151,33 @@
         </activity>
         <activity
             android:name=".PayementPTPConfirmActivity"
-            android:label="@string/title_activity_payement_ptpconfirm" >
+            android:label="@string/title_activity_payement_ptpconfirm"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".PayementPTPFinishActivity"
-            android:label="@string/title_activity_payement_ptpfinish" >
+            android:label="@string/title_activity_payement_ptpfinish"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".Setting.SettingsPassword"
-            android:label="@string/title_activity_settings_password" >
+            android:label="@string/title_activity_settings_password"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".Setting.SettingsIDCard"
-            android:label="@string/title_activity_settings_idcard" >
+            android:label="@string/title_activity_settings_idcard"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".Setting.SettingsProofAddress"
-            android:label="@string/title_activity_settings_proof_address" >
+            android:label="@string/title_activity_settings_proof_address"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".MainMenuActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
