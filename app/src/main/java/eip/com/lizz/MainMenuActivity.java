@@ -26,10 +26,10 @@ public class MainMenuActivity extends AppCompatActivity {
     private ViewPager mViewPager;
 
     private String tabTitles[] = new String[] { "Paramètres", "Panier", "Historique" };
-    private int[] blackIconResId = { R.drawable.icon_settings_black, R.drawable.icon_panier_black,
-            R.drawable.icon_historique_black };
-    private int[] whiteIconResId = { R.drawable.icon_settings_white, R.drawable.icon_panier_white,
-            R.drawable.icon_historique_white };
+    private int[] blackIconResId = { R.drawable.ic_settings_black_24dp, R.drawable.ic_shopping_basket_black_24dp,
+            R.drawable.ic_history_black_24dp };
+    private int[] whiteIconResId = { R.drawable.ic_settings_white_24dp, R.drawable.ic_shopping_basket_white_24dp,
+            R.drawable.ic_history_white_24dp };
 
     boolean scannerStatus;
     boolean isLogged, isLoginJustNow = false;
@@ -94,9 +94,9 @@ public class MainMenuActivity extends AppCompatActivity {
             final TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
             tabLayout.setupWithViewPager(mViewPager);
 
-            tabLayout.getTabAt(0).setIcon(R.drawable.icon_settings_black);
-            tabLayout.getTabAt(1).setIcon(R.drawable.icon_panier_white);
-            tabLayout.getTabAt(2).setIcon(R.drawable.icon_historique_black);
+            tabLayout.getTabAt(0).setIcon(R.drawable.ic_settings_black_24dp);
+            tabLayout.getTabAt(1).setIcon(R.drawable.ic_shopping_basket_white_24dp);
+            tabLayout.getTabAt(2).setIcon(R.drawable.ic_history_black_24dp);
 
             getSupportActionBar().setTitle(tabTitles[1]);
 
@@ -129,9 +129,9 @@ public class MainMenuActivity extends AppCompatActivity {
 
                 @Override
                 public void onPageSelected(int position) {
-                    tabLayout.getTabAt(0).setIcon(R.drawable.icon_settings_black);
-                    tabLayout.getTabAt(1).setIcon(R.drawable.icon_panier_black);
-                    tabLayout.getTabAt(2).setIcon(R.drawable.icon_historique_black);
+                    tabLayout.getTabAt(0).setIcon(R.drawable.ic_settings_black_24dp);
+                    tabLayout.getTabAt(1).setIcon(R.drawable.ic_shopping_basket_black_24dp);
+                    tabLayout.getTabAt(2).setIcon(R.drawable.ic_history_black_24dp);
                     tabLayout.getTabAt(position).setIcon(whiteIconResId[position]);
                     getSupportActionBar().setTitle(tabTitles[position]);
                 }
