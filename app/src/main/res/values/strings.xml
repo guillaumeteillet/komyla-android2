@@ -90,7 +90,7 @@
     <string name="url_api_user_get_transaction_from_cashregister">checkout/getTicket</string>
     <string name="url_api_user_session_ssofb">session/ssofacebook</string>
     <string name="url_api_user_session_ssogoogle">session/ssogoogle</string>
-    <string name="url_api_add_creditCard">paymentcard/create</string>
+    <string name="url_api_add_creditCard">wallet/createWallet</string>
     <string name="url_api_update_creditCard">paymentcard/update/</string>
     <string name="url_api_delete_creditCard">paymentcard/delete/</string>
     <string name="url_api_upload">file/upload</string>

@@ -12,6 +12,7 @@ import org.apache.http.cookie.Cookie;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.InputStream;
@@ -37,8 +38,9 @@ public class                    AddCreditCardToAPI extends AsyncTask<CreditCard,
 
     private String uploadCreditCard(CreditCard creditCard) throws Exception {
 
-        String url = _context.getResources().getString(R.string.url_api_final_v1)
-                + _context.getResources().getString(R.string.url_api_add_creditCard);
+        String url = _context.getResources().getString(R.string.url_api_komyla_no_suffix) +
+                _context.getResources().getString(R.string.url_api_suffix) +
+                _context.getResources().getString(R.string.url_api_add_creditCard);
         DefaultHttpClient httpClient = new DefaultHttpClient();
         httpClient.getParams().setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.BROWSER_COMPATIBILITY);
         httpClient.setCookieStore(new BasicCookieStore());
@@ -52,14 +54,16 @@ public class                    AddCreditCardToAPI extends AsyncTask<CreditCard,
 
         JSONObject dataToSend = new JSONObject();
         dataToSend.put("_csrf", _tokenCSRF);
-        dataToSend.put("cardName", creditCard.get_displayName());
-        dataToSend.put("cardType", "PlaceHolder");
-        dataToSend.put("cardHolder", creditCard.get_cardHolder());
-        dataToSend.put("cardNumber", creditCard.get_cardNumber());
-        dataToSend.put("cardVerificationValue", creditCard.get_cryptogram());
-        dataToSend.put("cardExpireMonth", creditCard.get_expirationDateMonth());
-        dataToSend.put("cardExpireYear", creditCard.get_expirationDateYear());
-        dataToSend.put("cardMonthLimit", "0");
+
+        JSONObject cardData = new JSONObject();
+        cardData.put("number", creditCard.get_cardNumber());
+        cardData.put("type", "CB");
+        cardData.put("expirationDate", creditCard.get_expirationDateMonth()
+                + creditCard.get_expirationDateYear());
+        cardData.put("cvx", creditCard.get_cryptogram());
+        cardData.put("default", "false");
+
+        dataToSend.put("cardData", cardData);
 
         json = dataToSend.toString();
 

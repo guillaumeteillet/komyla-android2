@@ -54,6 +54,7 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
     private int monthInput = 0;
     private int yearInput = 0;
     private eip.com.lizz.Models.CreditCard oldCreditCard;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,10 +153,12 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
                         edittextCryptogram.getText().toString(),
                         edittextOwnerName.getText().toString(),
                         edittextDisplayName.getText().toString())).get();
-                // IL FAUT TRAITER LE RETOUR DE L'API ICI
                 if (responseCode.compareTo("200") == 0) {
                     Toast.makeText(context, getResources().getString(R.string.toast_valid_card_infos), Toast.LENGTH_LONG).show();
                     finish();
+                }
+                else {
+                    Toast.makeText(context, "L'api a retourné le code d'erreur " + responseCode, Toast.LENGTH_LONG).show();
                 }
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
