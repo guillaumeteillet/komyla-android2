@@ -36,7 +36,7 @@ public class PaymentMethodsActivity extends ActionBarActivity {
 
     /* Attributes */
     private RecyclerView                mRecyclerView;
-    private PaymentMethodsAdapter mAdapter;
+    private PaymentMethodsAdapter       mAdapter;
     private LinearLayoutManager         mLayoutManager;
     private SwipeRefreshLayout          mSwipeRefreshLayout;
 
@@ -167,7 +167,8 @@ public class PaymentMethodsActivity extends ActionBarActivity {
             try // TODO Gérer les codes d'erreurs autre que dans les logs
             {
 
-                String url = _context.getResources().getString(R.string.url_api_final_v1)
+                String url = _context.getResources().getString(R.string.url_api_komyla_no_suffix)
+                        + _context.getResources().getString(R.string.url_api_suffix)
                         + _context.getResources().getString(R.string.url_api_get_paymentMethods);
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 httpClient.getParams().setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.BROWSER_COMPATIBILITY);

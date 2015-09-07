@@ -86,7 +86,7 @@ public class        CreditCard extends APaymentMethod {
     }
 
     public void set_cryptogram(String _cryptogram) {
-        if (_cryptogram.length() == 0)
+        if (_cryptogram.isEmpty())
             this._cryptogram = "***";
         this._cryptogram = _cryptogram;
     }

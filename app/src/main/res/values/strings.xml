@@ -84,7 +84,7 @@
     <string name="url_api_csrfToken">csrfToken</string>
     <string name="url_api_createUser">user/create</string>
     <string name="url_api_createSession">session/create</string>
-    <string name="url_api_get_paymentMethods">user/getPaymentCards</string>
+    <string name="url_api_get_paymentMethods">wallet/getCards</string>
     <string name="url_api_user_update_password">user/updatePassword</string>
     <string name="url_api_user_transaction">transaction/secure</string>
     <string name="url_api_user_get_transaction_from_cashregister">checkout/getTicket</string>

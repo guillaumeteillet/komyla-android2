@@ -12,7 +12,6 @@ import org.apache.http.cookie.Cookie;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.InputStream;
@@ -77,8 +76,8 @@ public class                    AddCreditCardToAPI extends AsyncTask<CreditCard,
         inputStream = httpResponse.getEntity().getContent();
 
         int responseCode = httpResponse.getStatusLine().getStatusCode();
-        Log.d("GetPaymentMethods", "Le code de retour est: " + responseCode +
-                " et le contenu est: " + UApi.convertStreamToString(inputStream));
+        /*Log.d("GetPaymentMethods", "Le code de retour est: " + responseCode +
+                " et le contenu est: " + UApi.convertStreamToString(inputStream));*/
 
         return Integer.toString(responseCode);
     }

@@ -39,7 +39,7 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
         Drawable myDrawable = mContext.getResources().getDrawable(R.drawable.facebook);
 
         paymentMethodViewHolder.paymentMethod = mCreditCards.get(i);
-        paymentMethodViewHolder.paymentMethodName.setText(mCreditCards.get(i).get_displayName());
+        paymentMethodViewHolder.paymentMethodName.setText(mCreditCards.get(i).get_cardNumber());
         paymentMethodViewHolder.paymentMethodImage.setImageDrawable(myDrawable);
     }
 
@@ -70,7 +70,7 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(context, "L'id de la carte bleue est : " + this.paymentMethod.get_id(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "L'id de la carte bleue est : " + this.paymentMethod.get_id(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, AddEditPaymentMethodActivity.class);
             intent.putExtra("EXTRA_CREDIT_CARD", this.paymentMethod);
             context.startActivity(intent);
