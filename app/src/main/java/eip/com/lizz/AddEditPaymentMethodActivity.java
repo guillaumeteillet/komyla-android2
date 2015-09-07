@@ -92,6 +92,10 @@ public class AddEditPaymentMethodActivity extends ActionBarActivity {
             this.setTitle(getResources().getString(R.string.title_activity_add_edit_card_edition));
         }
 
+        if (inputMode == E_MODE.EDITION) {
+            saveCard.setVisibility(View.GONE);
+        }
+
         if (inputMode == E_MODE.ADDITION) {
             deleteCard.setVisibility(View.GONE);
         }
