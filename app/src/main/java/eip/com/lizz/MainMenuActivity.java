@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
+import eip.com.lizz.Fragments.CartFragment;
 import eip.com.lizz.Fragments.ParametersListFragment;
 import eip.com.lizz.Utils.UDownload;
 
@@ -170,6 +171,14 @@ public class MainMenuActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return ParametersListFragment.newInstance(context);
+                case 1:
+                    return CartFragment.newInstance(context);
+                case 2:
+                    return ParametersListFragment.newInstance(context);
+            }
             return ParametersListFragment.newInstance(context);
         }
 
