@@ -139,6 +139,7 @@
                         android:id="@+id/password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:imeActionId="@+id/login"
                         android:imeOptions="actionDone"
                         android:focusable="true"
                         android:inputType="textPassword"
