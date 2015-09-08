@@ -54,6 +54,13 @@ public class PaymentMethodsActivity extends ActionBarActivity {
         configureSwipeRefreshLayout(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSwipeRefreshLayout.setEnabled(true);
+        new GetPaymentMethodsFromAPI(getApplication()).execute();
+    }
+
     private void Bindings() {
         mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipePaymentMethods);
         mRecyclerView = (RecyclerView)findViewById(R.id.my_recycler_view);
@@ -66,7 +73,7 @@ public class PaymentMethodsActivity extends ActionBarActivity {
         mAdapter = new PaymentMethodsAdapter(mCreditCards, this);
         mRecyclerView.setAdapter(mAdapter);
 
-        new GetPaymentMethodsFromAPI(this).execute();
+        //new GetPaymentMethodsFromAPI(this).execute();
     }
 
     private void configureSwipeRefreshLayout(final Context context) {
