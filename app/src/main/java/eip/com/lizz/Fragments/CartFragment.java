@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import eip.com.lizz.CameraPreview;
 import eip.com.lizz.PayementWithUniqueCodeActivity;
@@ -18,7 +18,7 @@ import eip.com.lizz.ScanQRCodeActivity;
 
 public class CartFragment extends Fragment {
 
-    private Button mCameraButton;
+    private ImageButton mCameraButton;
     private boolean scannerStatus;
 
     public CartFragment() {
@@ -38,7 +38,7 @@ public class CartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
 
-        mCameraButton = (Button) view.findViewById(R.id.cart_camera_button);
+        mCameraButton = (ImageButton) view.findViewById(R.id.cart_camera_button);
 
         mCameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
