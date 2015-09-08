@@ -16,6 +16,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.telephony.TelephonyManager;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +35,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -49,6 +51,7 @@ import eip.com.lizz.Protocols.PCC;
 import eip.com.lizz.Protocols.PED;
 import eip.com.lizz.QueriesAPI.SendSMSToAPI;
 import eip.com.lizz.QueriesAPI.SendTransactionPTPToAPI;
+import eip.com.lizz.QueriesAPI.SendTransactionToAPI;
 import eip.com.lizz.Utils.UAlertBox;
 import eip.com.lizz.Utils.UApi;
 import eip.com.lizz.Utils.UDownload;
@@ -58,7 +61,7 @@ import eip.com.lizz.Utils.USaveParams;
 
 public class PayementActivity extends ActionBarActivity {
 
-    String shopNameString = "", amount = "0", unique_code = "";
+    String shopNameString = "", amount = "0", unique_code = "", data = "", type_qrcode = "";
     double total = 0;
 
     @Override
@@ -73,22 +76,32 @@ public class PayementActivity extends ActionBarActivity {
 
             final Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
-                if (bundle.getString("jObjString") != null) {
-                    String jObjString = bundle.getString("jObjString");
-                    try {
-                        dataAPI(jObjString);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                } else {
-                    Toast.makeText(getBaseContext(), getResources().getString(R.string.error_serveur_return_payement), Toast.LENGTH_LONG).show();
-                    finish();
-                }
                 if (bundle.getString("unique_code") != null) {
                     unique_code = bundle.getString("unique_code");
                 } else {
                     Toast.makeText(getBaseContext(), getResources().getString(R.string.no_unique_code), Toast.LENGTH_LONG).show();
+                    finish();
+                }
+                if (bundle.getString("data") != null) {
+                    data = bundle.getString("data");
+                    Log.d("TEST", data);
+                    try {
+                        byte[] data_bytes = Base64.decode(data, Base64.DEFAULT);
+                        String url = new String(data_bytes, "UTF-8");
+                        Log.d(">>>>", url);
+                        String[] params = url.split("&");
+
+                        String[] nom = params[0].split("=");
+
+                        TextView shopName = (TextView) findViewById(R.id.name_shop);
+                        shopName.setText(nom[1]);
+
+
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(getBaseContext(), getResources().getString(R.string.no_data), Toast.LENGTH_LONG).show();
                     finish();
                 }
             }
@@ -101,6 +114,13 @@ public class PayementActivity extends ActionBarActivity {
             payementMethod.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     showPaiementMethodDialog(payementMethod);
+                }
+            });
+
+            final Button address = (Button) findViewById(R.id.address);
+            address.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    showAddressDialog(address);
                 }
             });
 
@@ -119,11 +139,11 @@ public class PayementActivity extends ActionBarActivity {
                     else
                     {*/
 
-                        String id_payement = "12";
+                        /*String id_payement = "12";
                         String PIN = "4825";
                         String email_user = "jean.dupont@gmail.com";
-                        unique_code = "3JS2B43N21";
-                        String id_user = "132";
+                      //  unique_code = "3JS2B43N21";
+                        String id_user = "132";*/
 
                     checkNetwork(bundle);
                     Log.d("PAIEMENT OK", "Paiement okk");
@@ -161,8 +181,40 @@ public class PayementActivity extends ActionBarActivity {
         }
         else
         {
-            popUpPIN(bundle);
+          //  popUpPIN(bundle);
+            pay(bundle);
         }
+    }
+
+    public void pay(final Bundle bundle)
+    {
+        final SharedPreferences sharedpreferences = getSharedPreferences("eip.com.lizz", Context.MODE_PRIVATE);
+
+        final String id_payement_method = "1"; //payementMethodId();
+        final String PIN = sharedpreferences.getString("eip.com.lizz.codepinlizz", "");
+        final String receiver = bundle.getString("unique_code");
+
+        Log.d("DEBUG", "-->"+id_payement_method+"--"+PIN+"--"+receiver);
+        final Intent paiement = new Intent(getBaseContext(), PayementPTPFinishActivity.class);
+        paiement.putExtra("somme", amount);
+        paiement.putExtra("contact", bundle.getString("contact"));
+        paiement.putExtra("isEmail", bundle.getBoolean("isEmail"));
+        paiement.putExtra("isPhone", bundle.getBoolean("isPhone"));
+        paiement.putExtra("isInternet", bundle.getBoolean("isInternet"));
+        final EditText input = new EditText(getBaseContext());
+        input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        input.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        input.setTextColor(Color.BLACK);
+        final AlertDialog.Builder alert = UAlertBox.alertInputOk(PayementActivity.this, getResources().getString(R.string.dialog_title_confirm), getResources().getString(R.string.dialog_confirm_pin), input);
+        alert.setPositiveButton(getResources().getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //confirmTransaction(input, token, paiement, PIN, sharedpreferences);
+                confirmTransactionKomyla(input, paiement, PIN, sharedpreferences);
+            }
+
+        });
+        alert.setNegativeButton(getResources().getString(R.string.dialog_cancel), null);
+        alert.show();
     }
 
     public void popUpPIN(final Bundle bundle)
@@ -261,6 +313,45 @@ public class PayementActivity extends ActionBarActivity {
         }
     }
 
+    public void confirmTransactionKomyla(EditText input, Intent paiement, String PIN, SharedPreferences sharedpreferences)
+    {
+        if (input.getText().toString().equals(PIN))
+        {
+            sharedpreferences.edit().putInt("eip.com.lizz.tentativePin", 0).apply();
+            Log.d("DEBUG MODE", "PAIEMENT INTERNET");
+            sendTransactionToAPIKomyla(sharedpreferences, paiement, unique_code);
+        }
+        else
+        {
+            USaveParams.tentativeCheck(PayementActivity.this, sharedpreferences);
+        }
+    }
+
+    private void sendTransactionToAPIKomyla(final SharedPreferences sharedpreferences, final Intent paiement, final String code) {
+        final ProgressDialog progress = ProgressDialog.show(PayementActivity.this, getResources().getString(R.string.pleasewait), getResources().getString(R.string.pleasewaitTransaction), true);
+        new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        SendTransactionToAPI mAuthTask = new SendTransactionToAPI(sharedpreferences.getString("eip.com.lizz._csrf", ""), getBaseContext(), code, "1");
+                        mAuthTask.setOnTaskFinishedEvent(new SendTransactionToAPI.OnTaskExecutionFinished() {
+
+                            @Override
+                            public void OnTaskFihishedEvent(HttpResponse httpResponse) {
+                                dataAPI(progress, httpResponse, paiement);
+                            }
+                        });
+                        mAuthTask.execute();
+                    }
+                });
+            }
+        }).start();
+    }
+
     private void sendTransactionToAPI(final String token, final SharedPreferences sharedpreferences, final Intent paiement) {
         final ProgressDialog progress = ProgressDialog.show(PayementActivity.this, getResources().getString(R.string.pleasewait), getResources().getString(R.string.pleasewaitTransaction), true);
         new Thread(new Runnable() {
@@ -294,11 +385,11 @@ public class PayementActivity extends ActionBarActivity {
             progress.dismiss();
             inputStream = httpResponse.getEntity().getContent();
             String jString =  UApi.convertStreamToString(inputStream);
-            JSONObject jObj = new JSONObject(jString);
+//            JSONObject jObj = new JSONObject(jString);
 
             int responseCode = httpResponse.getStatusLine().getStatusCode();
 
-            Log.d("RETOUR API", ">>>"+responseCode+"---");
+            Log.d("RETOUR API", ">>>"+responseCode+"---"+jString);
             startActivity(paiement);
             finish();
         } catch (IOException e) {
@@ -339,11 +430,11 @@ public class PayementActivity extends ActionBarActivity {
         if (jObj.has(getResources().getString(R.string.api_checkout_products)))
         {
             JSONArray jObj2 = new JSONArray(jObj.getString(getResources().getString(R.string.api_checkout_products)));
-            createPreviewTicket(jObj2, jObj);
+            //createPreviewTicket(jObj2, jObj);
         }
     }
 
-    public void createPreviewTicket(JSONArray jObj2, JSONObject jObj) throws JSONException {
+   /* public void createPreviewTicket(JSONArray jObj2, JSONObject jObj) throws JSONException {
         WebView ticket = (WebView) findViewById(R.id.ticket);
         String Sticket = "<html><body style='margin:0px; margin-left:1px;'><table style='width:100%;'><tbody>";
         Sticket += "<tr><td style='text-align:left;'><b>"+getResources().getString(R.string.ticket_designation)+"</b></td><td style='text-align:right;'><b>"+getResources().getString(R.string.ticket_prix)+"</b></td><td style='text-align:right;'><b>"+getResources().getString(R.string.ticket_total)+"</b></td></tr>" ;
@@ -405,7 +496,7 @@ public class PayementActivity extends ActionBarActivity {
             }
         });
         ticket.setLongClickable(false);
-    }
+    }*/
 
     private void showPaiementMethodDialog(final Button payementMethod)
     {
@@ -414,11 +505,30 @@ public class PayementActivity extends ActionBarActivity {
         choice[1] = "Paypal guillaume@lizz.com";
         choice[2] = "Chèque restaurant 10 euros";
         AlertDialog.Builder builder2 = new AlertDialog.Builder(PayementActivity.this);
-        builder2.setTitle("Séléctionner un moyen de paiement");
+        builder2.setTitle("Sélectionner un moyen de paiement");
         builder2.setItems(choice, new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int which) {
                 payementMethod.setText(choice[which]);
+            }
+        });
+        AlertDialog alert = builder2.create();
+        alert.setOwnerActivity(PayementActivity.this);
+        alert.show();
+    }
+
+    private void showAddressDialog(final Button address)
+    {
+        final CharSequence[] choice = new CharSequence[3];
+        choice[0] = "Domicile - Nantes";
+        choice[1] = "Bureau - Paris";
+        choice[2] = "Bureau - Nantes";
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(PayementActivity.this);
+        builder2.setTitle("Sélectionner une adresse");
+        builder2.setItems(choice, new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                address.setText(choice[which]);
             }
         });
         AlertDialog alert = builder2.create();

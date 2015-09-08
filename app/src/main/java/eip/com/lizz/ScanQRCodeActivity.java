@@ -119,8 +119,8 @@ public class ScanQRCodeActivity extends ActionBarActivity
 
     private Runnable doAutoFocus = new Runnable() {
         public void run() {
-            /*if (previewing)
-                mCamera.autoFocus(autoFocusCB);*/
+            if (previewing)
+                mCamera.autoFocus(autoFocusCB);
         }
     };
 
@@ -152,8 +152,8 @@ public class ScanQRCodeActivity extends ActionBarActivity
                 for (Symbol sym : syms) {
                         String contents = sym.getData();
                         if (contents != null) {
-                            if (contents.length() >= 20) {
-                                String urlLizzOrNot = contents.substring(0, 20);
+                            if (contents.length() >= 27) {
+                                String urlLizzOrNot = contents.substring(0, 27);
                                 if (urlLizzOrNot.equals(getResources().getString(R.string.urllizzcode))) {
                                     final boolean isInternet = UNetwork.checkInternetConnection(getBaseContext());
                                     final boolean isMobile = UNetwork.isMobileAvailable(getBaseContext());
@@ -176,7 +176,9 @@ public class ScanQRCodeActivity extends ActionBarActivity
                                             @Override
                                             public void run()
                                             {
-                                                GetTransactionFromAPI mAuthTask = new GetTransactionFromAPI(sharedpreferences.getString("eip.com.lizz._csrf", ""), getBaseContext(), unique_code);
+                                                analyzeQRCode(progress, unique_code);
+
+                                                /*GetTransactionFromAPI mAuthTask = new GetTransactionFromAPI(sharedpreferences.getString("eip.com.lizz._csrf", ""), getBaseContext(), unique_code);
                                                 mAuthTask.setOnTaskFinishedEvent(new GetTransactionFromAPI.OnTaskExecutionFinished() {
 
                                                     @Override
@@ -189,7 +191,7 @@ public class ScanQRCodeActivity extends ActionBarActivity
                                                         }).start();
                                                     }
                                                 });
-                                                mAuthTask.execute();
+                                                mAuthTask.execute();*/
                                             }
                                         }).start();
                                     }
@@ -233,10 +235,36 @@ public class ScanQRCodeActivity extends ActionBarActivity
         }
     };
 
+    private void analyzeQRCode(ProgressDialog progress, String uniqueCode)
+    {
+        Log.d("RETOUR API", ">>>" + uniqueCode);
+        String[] part_url = uniqueCode.split("/");
+        Log.d("RETOUR API", ">>>" + part_url[0]);
+        Log.d("RETOUR API", ">>>" + part_url[1]);
+        String[] infos = part_url[1].split("\\?");
+        String code = infos[0];
+        String data = infos[1];
+        if(part_url[0].equals("d"))
+        {
+            Log.d("RETOUR API", ">>> DIRECT >> "+ code + "--"+ data);
+            Intent payement = new Intent(getBaseContext(), PayementActivity.class);
+            payement.putExtra("unique_code", code);
+            payement.putExtra("data", data);
+            startActivity(payement);
+        }
+        else if(part_url[0].equals("p"))
+        {
+            Log.d("RETOUR API", ">>> PANIER");
+        }
+        progress.dismiss();
+    }
+
     private void dataAPI(ProgressDialog progress, HttpResponse httpResponse, String unique_code) {
         InputStream inputStream = null;
         try {
             progress.dismiss();
+            Log.d("RETOUR API", ">>>" + httpResponse);
+            Log.d("RETOUR API", ">>>" + unique_code);
             inputStream = httpResponse.getEntity().getContent();
             String jString =  UApi.convertStreamToString(inputStream);
             JSONObject jObj = new JSONObject(jString);
@@ -357,12 +385,12 @@ public class ScanQRCodeActivity extends ActionBarActivity
             }, 2000);
 
         }
-        //mCamera.autoFocus(autoFocusCB);
+        mCamera.autoFocus(autoFocusCB);
     }
 
     AutoFocusCallback autoFocusCB = new AutoFocusCallback() {
         public void onAutoFocus(boolean success, Camera camera) {
-           // autoFocusHandler.postDelayed(doAutoFocus, 1000);
+            autoFocusHandler.postDelayed(doAutoFocus, 1000);
         }
     };
 

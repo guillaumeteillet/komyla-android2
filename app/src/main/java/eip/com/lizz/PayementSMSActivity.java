@@ -124,11 +124,11 @@ public class PayementSMSActivity extends ActionBarActivity {
         if (jObj.has(getResources().getString(R.string.api_checkout_products)))
         {
             JSONArray jObj2 = new JSONArray(jObj.getString(getResources().getString(R.string.api_checkout_products)));
-            createPreviewTicket(jObj2, jObj);
+           // createPreviewTicket(jObj2, jObj);
         }
     }
 
-    public void createPreviewTicket(JSONArray jObj2, JSONObject jObj) throws JSONException {
+   /* public void createPreviewTicket(JSONArray jObj2, JSONObject jObj) throws JSONException {
         WebView ticket = (WebView) findViewById(R.id.ticket);
         String Sticket = "<html><body style='margin:0px; margin-left:1px;'><table style='width:100%;'><tbody>";
         Sticket += "<tr><td style='text-align:left;'><b>"+getResources().getString(R.string.ticket_designation)+"</b></td><td style='text-align:right;'><b>"+getResources().getString(R.string.ticket_prix)+"</b></td><td style='text-align:right;'><b>"+getResources().getString(R.string.ticket_total)+"</b></td></tr>" ;
@@ -190,7 +190,7 @@ public class PayementSMSActivity extends ActionBarActivity {
             }
         });
         ticket.setLongClickable(false);
-    }
+    } */
 
     private void showPaiementMethodDialog(final Button payementMethod)
     {

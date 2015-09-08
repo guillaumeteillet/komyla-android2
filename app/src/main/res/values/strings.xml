@@ -77,7 +77,7 @@
     <string name="url_api_login">http://private-anon-ca973bc2f-lizz.apiary-mock.com/user/</string>
     <string name="url_api_final">http://163.5.84.225:8000/</string>
     <string name="url_api_final_v1">http://163.5.84.225:8000/api/v1/</string>
-    <string name="urllizzcode">http://lizz.fr/code/</string>
+    <string name="urllizzcode">http://www.komyla.com/scan/</string>
 
     <string name="url_api_komyla_no_suffix">http://api.komyla.com:8000/</string>
     <string name="url_api_suffix">api/v1/</string>
@@ -87,6 +87,7 @@
     <string name="url_api_get_paymentMethods">wallet/getCards</string>
     <string name="url_api_user_update_password">user/updatePassword</string>
     <string name="url_api_user_transaction">transaction/secure</string>
+    <string name="url_api_user_pay">checkout/dopayement</string>
     <string name="url_api_user_get_transaction_from_cashregister">checkout/getTicket</string>
     <string name="url_api_user_session_ssofb">session/ssofacebook</string>
     <string name="url_api_user_session_ssogoogle">session/ssogoogle</string>
@@ -205,6 +206,8 @@
     <string name="passwordPoliticInvalid">Le nouveau mot de passe est invalide : 8 caractères minimum sont attendus avec 1 lettre et 1 chiffre minimum.</string>
     <string name="wrongOldPassword">Le nouveau mot de passe n\'a pas été enregistré car vous n\'avez pas saisi l\'ancien correctement</string>
     <string name="no_unique_code">Une erreur est survenue : Le code unique Lizz n\'a pas été détécté.</string>
+    <string name="no_type_qr_code">Une erreur est survenue : Le type de QR Code Komyla n\'a pas été détécté.</string>
+    <string name="no_data">Une erreur est survenue : Les informations sur ce produit sont corrompu.</string>
     <string name="error_serveur_return_payement">Une erreur est survenue : Nous n\'avons pas reçu la réponse du serveur Lizz.</string>
     <string name="error_camera_txt">Aucune appareil photo n\'a été détécté sur votre téléphone : Le scanner est inutilisable.</string>
     <string name="error_server_ok_but_fail">Le serveur d\'authentification Lizz est joignable mais la création de votre compte a échoué. Veuillez réessayer ultérieurement. </string>
