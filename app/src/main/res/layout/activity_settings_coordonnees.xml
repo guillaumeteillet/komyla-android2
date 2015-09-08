@@ -26,7 +26,7 @@
 
         <TextView
         android:layout_width="100dp"
-        android:layout_height="35dp"
+        android:layout_height="45dp"
         android:text="@string/labelyourname"
         android:id="@+id/yourname"
         android:gravity="center_vertical"
@@ -34,7 +34,7 @@
 
         <EditText
             android:layout_width="230dp"
-            android:layout_height="35dp"
+            android:layout_height="45dp"
             android:layout_toEndOf="@+id/yourname"
             android:layout_toRightOf="@+id/yourname"
             android:layout_marginStart="20dp"
@@ -50,7 +50,7 @@
 
         <TextView
             android:layout_width="100dp"
-            android:layout_height="35dp"
+            android:layout_height="45dp"
             android:text="@string/labelyouradress"
             android:layout_below="@id/yourname"
             android:id="@+id/youradress"
@@ -59,7 +59,7 @@
 
         <EditText
             android:layout_width="230dp"
-            android:layout_height="35dp"
+            android:layout_height="45dp"
             android:layout_toEndOf="@+id/youradress"
             android:layout_toRightOf="@+id/youradress"
             android:layout_below="@id/yournametxt"
@@ -73,7 +73,7 @@
 
         <TextView
             android:layout_width="100dp"
-            android:layout_height="35dp"
+            android:layout_height="45dp"
             android:text="@string/labelyourcomplement"
             android:layout_below="@id/youradress"
             android:id="@+id/yourcomplement"
@@ -82,7 +82,7 @@
 
         <EditText
             android:layout_width="230dp"
-            android:layout_height="35dp"
+            android:layout_height="45dp"
             android:layout_toEndOf="@+id/yourcomplement"
             android:layout_toRightOf="@+id/yourcomplement"
             android:layout_below="@id/youradresstxt"
@@ -96,7 +96,7 @@
 
         <TextView
             android:layout_width="100dp"
-            android:layout_height="35dp"
+            android:layout_height="45dp"
             android:text="@string/labelyourcp"
             android:layout_below="@id/yourcomplement"
             android:id="@+id/yourcp"
@@ -105,7 +105,7 @@
 
         <EditText
             android:layout_width="230dp"
-            android:layout_height="35dp"
+            android:layout_height="45dp"
             android:layout_toEndOf="@+id/yourcp"
             android:layout_toRightOf="@+id/yourcp"
             android:layout_below="@id/yourcomplementtxt"
@@ -120,7 +120,7 @@
 
         <TextView
             android:layout_width="100dp"
-            android:layout_height="35dp"
+            android:layout_height="45dp"
             android:text="@string/labelyourcity"
             android:layout_below="@id/yourcp"
             android:id="@+id/yourcity"
@@ -129,7 +129,7 @@
 
         <EditText
             android:layout_width="230dp"
-            android:layout_height="35dp"
+            android:layout_height="45dp"
             android:layout_toEndOf="@+id/yourcity"
             android:layout_toRightOf="@+id/yourcity"
             android:layout_below="@id/yourcptxt"
@@ -143,7 +143,7 @@
 
         <TextView
             android:layout_width="100dp"
-            android:layout_height="35dp"
+            android:layout_height="45dp"
             android:text="@string/labelyourcountry"
             android:layout_below="@id/yourcity"
             android:id="@+id/yourcountry"
@@ -152,7 +152,7 @@
 
         <EditText
             android:layout_width="230dp"
-            android:layout_height="35dp"
+            android:layout_height="45dp"
             android:layout_toEndOf="@+id/yourcountry"
             android:layout_toRightOf="@+id/yourcountry"
             android:layout_below="@id/yourcitytxt"
@@ -170,7 +170,7 @@
 
         <TextView
             android:layout_width="100dp"
-            android:layout_height="35dp"
+            android:layout_height="45dp"
             android:text="@string/labelyouremail"
             android:layout_below="@id/yourcountry"
             android:id="@+id/youremail"
@@ -179,7 +179,7 @@
 
         <EditText
             android:layout_width="230dp"
-            android:layout_height="35dp"
+            android:layout_height="45dp"
             android:layout_toEndOf="@+id/youremail"
             android:layout_toRightOf="@+id/youremail"
             android:layout_below="@id/yourcountrytxt"
@@ -187,11 +187,14 @@
             android:layout_marginLeft="20dp"
             android:id="@+id/youremailtxt"
             android:imeOptions="actionNext"
+            android:lines="1"
+            android:maxLines="1"
             android:editable="false"
             android:clickable="false"
             android:cursorVisible="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
+            android:scrollHorizontally="true"
             />
 
         <TextView
@@ -216,7 +219,7 @@
         <ListView
         android:id="@+id/list"
         android:layout_below="@id/labelyourphonesecurity"
-        android:layout_height="600dp"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent">
     </ListView>
 
