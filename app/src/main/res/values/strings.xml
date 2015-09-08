@@ -131,8 +131,8 @@
     <string name="confirm">Confirmation</string>
     <string name="warning">Avertissement</string>
     <string name="logout">Êtes-vous sûr de vouloir vous déconnecter ?</string>
-    <string name="connectwithlizzaccount">Se connecter avec un compte Lizz</string>
-    <string name="createnewlizzaccount">Créer un nouveau compte Lizz</string>
+    <string name="connectwithlizzaccount">Se connecter</string>
+    <string name="createnewlizzaccount">Créer un nouveau compte</string>
 
     <string name="title_activity_settings">Paramètres</string>
     <string name="title_activity_settings_payement_limit">Alerte de dépense</string>
