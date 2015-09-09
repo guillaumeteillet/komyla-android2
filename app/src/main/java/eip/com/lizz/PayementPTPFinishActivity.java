@@ -7,12 +7,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.UnsupportedEncodingException;
 
 import eip.com.lizz.Utils.UPhoneBook;
 
@@ -20,6 +25,8 @@ import eip.com.lizz.Utils.UPhoneBook;
  * Created by guillaume on 28/03/15.
  */
 public class PayementPTPFinishActivity extends ActionBarActivity {
+
+    String data = "";
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +40,7 @@ public class PayementPTPFinishActivity extends ActionBarActivity {
             Button backHome = (Button) findViewById(R.id.back);
             backHome.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Intent loggedUser = new Intent(getBaseContext(), HomeLizzActivity.class);
+                    Intent loggedUser = new Intent(getBaseContext(), MainMenuActivity.class);
                     loggedUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(loggedUser);
                 }
@@ -64,6 +71,33 @@ public class PayementPTPFinishActivity extends ActionBarActivity {
                 if (bundle.getString("somme") != null) {
                     String somme = bundle.getString("somme");
                     somme_label.setText(somme+" €");
+                }
+
+                if (bundle.getString("data") != null) {
+                    data = bundle.getString("data");
+                    Log.d("TEST", data);
+                    try {
+                        byte[] data_bytes = Base64.decode(data, Base64.DEFAULT);
+                        String url = new String(data_bytes, "UTF-8");
+                        Log.d(">>>>", url);
+                        String[] params = url.split("&");
+
+                        String[] nom = params[0].split("=");
+                        String[] somme = params[2].split("=");
+
+                        TextView shopName = (TextView) findViewById(R.id.name_destinataire);
+                        shopName.setText(nom[1]);
+
+                        TextView sommeTxt = (TextView) findViewById(R.id.somme);
+                        sommeTxt.setText(somme[1] + " €");
+
+
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(getBaseContext(), getResources().getString(R.string.no_data), Toast.LENGTH_LONG).show();
+                    finish();
                 }
             }
         }

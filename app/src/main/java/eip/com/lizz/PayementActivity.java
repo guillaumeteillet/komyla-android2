@@ -62,6 +62,7 @@ import eip.com.lizz.Utils.USaveParams;
 public class PayementActivity extends ActionBarActivity {
 
     String shopNameString = "", amount = "0", unique_code = "", data = "", type_qrcode = "";
+    String[] sommeTxt;
     double total = 0;
 
     @Override
@@ -92,6 +93,7 @@ public class PayementActivity extends ActionBarActivity {
                         String[] params = url.split("&");
 
                         String[] nom = params[0].split("=");
+                         sommeTxt = params[2].split("=");
 
                         TextView shopName = (TextView) findViewById(R.id.name_shop);
                         shopName.setText(nom[1]);
@@ -125,6 +127,7 @@ public class PayementActivity extends ActionBarActivity {
             });
 
             Button next = (Button) findViewById(R.id.payer);
+            next.setText("Payer " + sommeTxt[1] + " €");
             next.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 
@@ -389,7 +392,8 @@ public class PayementActivity extends ActionBarActivity {
 
             int responseCode = httpResponse.getStatusLine().getStatusCode();
 
-            Log.d("RETOUR API", ">>>"+responseCode+"---"+jString);
+            Log.d("RETOUR API", ">>>=====" + data+"----" + responseCode + "---" + jString);
+            paiement.putExtra("data", data);
             startActivity(paiement);
             finish();
         } catch (IOException e) {
@@ -405,7 +409,7 @@ public class PayementActivity extends ActionBarActivity {
         return "12";
     }
 
-    void dataAPI(String jObjString) throws JSONException {
+   /* void dataAPI(String jObjString) throws JSONException {
         JSONObject jObj = new JSONObject(jObjString);
         if(jObj.has(getResources().getString(R.string.api_checkout_picture)))
         {
@@ -432,7 +436,7 @@ public class PayementActivity extends ActionBarActivity {
             JSONArray jObj2 = new JSONArray(jObj.getString(getResources().getString(R.string.api_checkout_products)));
             //createPreviewTicket(jObj2, jObj);
         }
-    }
+    } */
 
    /* public void createPreviewTicket(JSONArray jObj2, JSONObject jObj) throws JSONException {
         WebView ticket = (WebView) findViewById(R.id.ticket);
