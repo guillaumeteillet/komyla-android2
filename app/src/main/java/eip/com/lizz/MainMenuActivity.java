@@ -17,6 +17,7 @@ import android.view.MenuItem;
 
 
 import eip.com.lizz.Fragments.CartFragment;
+import eip.com.lizz.Fragments.HistoryListFragment;
 import eip.com.lizz.Fragments.ParametersListFragment;
 import eip.com.lizz.Utils.UDownload;
 
@@ -177,7 +178,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 case 1:
                     return CartFragment.newInstance(context);
                 case 2:
-                    return ParametersListFragment.newInstance(context);
+                    return HistoryListFragment.newInstance(context);
             }
             return ParametersListFragment.newInstance(context);
         }
