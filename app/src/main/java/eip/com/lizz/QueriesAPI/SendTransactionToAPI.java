@@ -12,6 +12,7 @@ import org.apache.http.cookie.Cookie;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -72,9 +73,13 @@ public class SendTransactionToAPI extends AsyncTask<Void, Void, HttpResponse> {
             products.put("productId", mCode);
             products.put("nbr", mQuantity);
 
+            JSONArray productArray = new JSONArray();
+
+            productArray.put(products);
+
             JSONObject dataToSend = new JSONObject();
             dataToSend.put("_csrf", _tokenCSRF);
-            dataToSend.put("products", products);
+            dataToSend.put("products", productArray);
             dataToSend.put("cardInd", 1);
 
             json = dataToSend.toString();
