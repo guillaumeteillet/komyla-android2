@@ -44,11 +44,11 @@ public class TicketHistoryAdapter extends RecyclerView.Adapter<TicketHistoryAdap
         paymentMethodViewHolder.paymentMethod = mCarts.get(i);
         paymentMethodViewHolder.date.setText(mCarts.get(i).getCreatedAt());
         paymentMethodViewHolder.ticketAmount.setText(mCarts.get(i).getAmount().toString() + "€ ");
-        paymentMethodViewHolder.paymentMethodName.setText(mCarts.get(i).getShopName());
+        paymentMethodViewHolder.shopName.setText(mCarts.get(i).getShopName());
 
         String str = "";
         List<Product> products = mCarts.get(i).getProducts();
-        for (int y = 0; y < 3 && y < products.size(); ++y)
+        for (int y = 0; y < 2 && y < products.size(); ++y)
         {
             Product p = products.get(y);
             str += p.getQuantity() + "x " + p.getName() + "\t\t" + p.getPrice() + "€/u\n";
@@ -73,7 +73,7 @@ public class TicketHistoryAdapter extends RecyclerView.Adapter<TicketHistoryAdap
         public TextView ticketAmount;
         public TextView date;
         public TextView products;
-        public TextView paymentMethodName;
+        public TextView shopName;
         private Context context;
 
         public TicketHistoryViewHolder(Context context, View itemView) {
@@ -83,16 +83,13 @@ public class TicketHistoryAdapter extends RecyclerView.Adapter<TicketHistoryAdap
             ticketAmount = (TextView) itemView.findViewById(R.id.ticketAmount);
             date = (TextView) itemView.findViewById(R.id.date);
             products = (TextView) itemView.findViewById(R.id.products);
-            paymentMethodName = (TextView) itemView.findViewById(R.id.paymentMethodName);
-            paymentMethodName.setOnClickListener(this);
+            shopName = (TextView) itemView.findViewById(R.id.paymentMethodName);
+            shopName.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            //Toast.makeText(context, "L'id de la carte bleue est : " + this.paymentMethod.get_id(), Toast.LENGTH_SHORT).show();
-            //Intent intent = new Intent(context, AddEditPaymentMethodActivity.class);
-            //intent.putExtra("EXTRA_CREDIT_CARD", this.paymentMethod);
-            //context.startActivity(intent);
+            Toast.makeText(context, "L'id de la carte bleue est : ", Toast.LENGTH_SHORT).show();
         }
     }
 }

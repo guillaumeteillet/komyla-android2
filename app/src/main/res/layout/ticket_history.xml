@@ -47,7 +47,7 @@
             android:id="@+id/products"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:layout_centerInParent="true"
             />
 
@@ -55,9 +55,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="bottom|right"
+            android:textSize="12dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:text="Cliquez pour afficher les détails."/>
+            android:text="Cliquez pour afficher les détails "/>
 
     </RelativeLayout>
 
